@@ -1,0 +1,8 @@
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\bin\Debug\example1.exe
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\bin\Debug\example1.pdb
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\bin\Debug\iec61850dotnet.dll
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\bin\Debug\iec61850dotnet.pdb
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\obj\Debug\example1.csprojAssemblyReference.cache
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\obj\Debug\example1.csproj.CopyComplete
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\obj\Debug\example1.exe
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\example1\obj\Debug\example1.pdb

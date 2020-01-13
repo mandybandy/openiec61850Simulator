@@ -1,0 +1,4 @@
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\IEC61850forCSharp\bin\Debug\iec61850dotnet.dll
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\IEC61850forCSharp\bin\Debug\iec61850dotnet.pdb
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\IEC61850forCSharp\obj\Debug\iec61850dotnet.dll
+F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\IEC61850forCSharp\obj\Debug\iec61850dotnet.pdb
