@@ -52,16 +52,18 @@ import java.util.logging.Logger;
  */
 public class ConsoleClient {
 
-  private static String host="127.0.0.1";
-  private static int port=102;
 
   private static volatile ClientAssociation association;
   private static ServerModel serverModel;
 
     /**
      *
+     * @param host
+     * @param host
+     * @param port
+     * @param port
      */
-    public static void createclient() {
+    public static void createclient(String host, int port) {
 
     InetAddress address;
     try {

@@ -47,184 +47,164 @@ import com.beanit.openiec61850.internal.cli.ActionProcessor;
  */
 public class ConsoleServer {
 
-  private static final String WRITE_VALUE_KEY = "w";
-  private static final String WRITE_VALUE_KEY_DESCRIPTION = "write value to model node";
-
-  private static final int portServer = 102;
-
-  private static final String PRINT_SERVER_MODEL_KEY = "p";
-  private static final String PRINT_SERVER_MODEL_KEY_DESCRIPTION = "print server's model";
-
-
-  private static final ActionProcessor actionProcessor = new ActionProcessor(new ActionExecutor());
-  private static ServerModel serverModel;
-  private static ServerSap serverSap = null;
-
     /**
      *
+     * @param icdpath
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    private static ServerSap serverSap = null;
+    private static ServerModel serverModel;
 
-    List<ServerModel> serverModels = null;
-    try {
-      serverModels = SclParser.parse("F:\\diplomarbeit\\openiec61850Simulator\\guiclientproject\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files\\icd.icd");
-    } catch (SclParseException e) {
-      System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
-      return;
-    }
+    /**
+     *
+     * @param icdpath
+     * @param portServer
+     * @return
+     * @throws IOException
+     */
+    public static String createserver(String icdpath, int portServer) throws IOException {
 
-    serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
-    serverSap.setPort(102);
+        List<ServerModel> serverModels = null;
+        try {
+            serverModels = SclParser.parse(icdpath);
+            System.out.println("icd file passed parsing.");
 
-    Runtime.getRuntime()
-        .addShutdownHook(
-            new Thread() {
-              @Override
-              public void run() {
+        } catch (SclParseException e) {
+            System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
+            return "Error Parsing SCL/ICD file: "+e.getMessage();
+        }
+
+        serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
+        System.out.println("server started.");
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
                 if (serverSap != null) {
-                  serverSap.stop();
+                    serverSap.stop();
                 }
                 System.out.println("Server was stopped.");
-              }
-            });
+            }
+        });
 
-    serverModel = serverSap.getModelCopy();
-
-    serverSap.startListening(new EventListener());
-
-    actionProcessor.addAction(
-        new Action(PRINT_SERVER_MODEL_KEY, PRINT_SERVER_MODEL_KEY_DESCRIPTION));
-    actionProcessor.addAction(new Action(WRITE_VALUE_KEY, WRITE_VALUE_KEY_DESCRIPTION));
-
-    actionProcessor.start();
-  }
-
-  private static class EventListener implements ServerEventListener {
-
-    @Override
-    public void serverStoppedListening(ServerSap serverSap) {
-      System.out.println("The SAP stopped listening");
+        serverModel = serverSap.getModelCopy();
+        serverSap.startListening(new EventListener());
+        return "Server started";
     }
 
-    @Override
-    public List<ServiceError> write(List<BasicDataAttribute> bdas) {
-      for (BasicDataAttribute bda : bdas) {
-        System.out.println("got a write request: " + bda);
-      }
-      return null;
-    }
-  }
+    private static class EventListener implements ServerEventListener {
 
-  private static class ActionExecutor implements ActionListener {
-
-    @Override
-    public void actionCalled(String actionKey) throws ActionException {
-      try {
-        switch (actionKey) {
-          case PRINT_SERVER_MODEL_KEY:
-            System.out.println("** Printing model.");
-
-            System.out.println(serverModel);
-
-            break;
-          case WRITE_VALUE_KEY:
-            System.out.println("Enter reference to write (e.g. myld/MYLN0.do.da.bda): ");
-            String reference = actionProcessor.getReader().readLine();
-            System.out.println("Enter functional constraint of referenced node: ");
-            String fcString = actionProcessor.getReader().readLine();
-
-            Fc fc = Fc.fromString(fcString);
-            if (fc == null) {
-              System.out.println("Unknown functional constraint.");
-              return;
-            }
-
-            ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
-            if (modelNode == null) {
-              System.out.println(
-                  "A model node with the given reference and functional constraint could not be found.");
-              return;
-            }
-
-            if (!(modelNode instanceof BasicDataAttribute)) {
-              System.out.println("The given model node is not a basic data attribute.");
-              return;
-            }
-
-            BasicDataAttribute bda =
-                (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
-
-            System.out.println("Enter value to write: ");
-            String valueString = actionProcessor.getReader().readLine();
-
-            try {
-              setBdaValue(bda, valueString);
-            } catch (Exception e) {
-              System.out.println(
-                  "The console server does not support writing this type of basic data attribute.");
-              return;
-            }
-
-            List<BasicDataAttribute> bdas = new ArrayList<>();
-            bdas.add(bda);
-            serverSap.setValues(bdas);
-
-            System.out.println("Successfully wrote data.");
-            System.out.println(bda);
-
-            break;
-
-          default:
-            break;
+        @Override
+        public void serverStoppedListening(ServerSap serverSap) {
+            System.out.println("The SAP stopped listening");
         }
-      } catch (Exception e) {
-        throw new ActionException(e);
-      }
+
+        @Override
+        public List<ServiceError> write(List<BasicDataAttribute> bdas) {
+            bdas.forEach((bda) -> {
+                System.out.println("got a write request: " + bda);
+            });
+            return null;
+        }
+    }
+
+    /**
+     *
+     */
+    public void printServerModel() {
+        System.out.println("** Printing model.");
+
+        System.out.println(serverModel);
+    }
+
+    /**
+     *
+     * @param reference
+     * @param fcString
+     * @param valueString
+     */
+    public void writeValue(String reference, String fcString, String valueString) {
+        Fc fc = Fc.fromString(fcString);
+        if (fc == null) {
+            System.out.println("Unknown functional constraint.");
+            return;
+        }
+
+        ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
+        if (modelNode == null) {
+            System.out.println(
+                    "A model node with the given reference and functional constraint could not be found.");
+            return;
+        }
+
+        if (!(modelNode instanceof BasicDataAttribute)) {
+            System.out.println("The given model node is not a basic data attribute.");
+            return;
+        }
+
+        BasicDataAttribute bda
+                = (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
+
+        try {
+            setBdaValue(bda, valueString);
+        } catch (Exception e) {
+            System.out.println(
+                    "The console server does not support writing this type of basic data attribute.");
+            return;
+        }
+
+        List<BasicDataAttribute> bdas = new ArrayList<>();
+        bdas.add(bda);
+        serverSap.setValues(bdas);
+
+        System.out.println("Successfully wrote data.");
+        System.out.println(bda);
     }
 
     private void setBdaValue(BasicDataAttribute bda, String valueString) {
-      if (bda instanceof BdaFloat32) {
-        float value = Float.parseFloat(valueString);
-        ((BdaFloat32) bda).setFloat(value);
-      } else if (bda instanceof BdaFloat64) {
-        double value = Float.parseFloat(valueString);
-        ((BdaFloat64) bda).setDouble(value);
-      } else if (bda instanceof BdaInt8) {
-        byte value = Byte.parseByte(valueString);
-        ((BdaInt8) bda).setValue(value);
-      } else if (bda instanceof BdaInt8U) {
-        short value = Short.parseShort(valueString);
-        ((BdaInt8U) bda).setValue(value);
-      } else if (bda instanceof BdaInt16) {
-        short value = Short.parseShort(valueString);
-        ((BdaInt16) bda).setValue(value);
-      } else if (bda instanceof BdaInt16U) {
-        int value = Integer.parseInt(valueString);
-        ((BdaInt16U) bda).setValue(value);
-      } else if (bda instanceof BdaInt32) {
-        int value = Integer.parseInt(valueString);
-        ((BdaInt32) bda).setValue(value);
-      } else if (bda instanceof BdaInt32U) {
-        long value = Long.parseLong(valueString);
-        ((BdaInt32U) bda).setValue(value);
-      } else if (bda instanceof BdaInt64) {
-        long value = Long.parseLong(valueString);
-        ((BdaInt64) bda).setValue(value);
-      } else if (bda instanceof BdaBoolean) {
-        boolean value = Boolean.parseBoolean(valueString);
-        ((BdaBoolean) bda).setValue(value);
-      } else {
-        throw new IllegalArgumentException();
-      }
+        if (bda instanceof BdaFloat32) {
+            float value = Float.parseFloat(valueString);
+            ((BdaFloat32) bda).setFloat(value);
+        } else if (bda instanceof BdaFloat64) {
+            double value = Float.parseFloat(valueString);
+            ((BdaFloat64) bda).setDouble(value);
+        } else if (bda instanceof BdaInt8) {
+            byte value = Byte.parseByte(valueString);
+            ((BdaInt8) bda).setValue(value);
+        } else if (bda instanceof BdaInt8U) {
+            short value = Short.parseShort(valueString);
+            ((BdaInt8U) bda).setValue(value);
+        } else if (bda instanceof BdaInt16) {
+            short value = Short.parseShort(valueString);
+            ((BdaInt16) bda).setValue(value);
+        } else if (bda instanceof BdaInt16U) {
+            int value = Integer.parseInt(valueString);
+            ((BdaInt16U) bda).setValue(value);
+        } else if (bda instanceof BdaInt32) {
+            int value = Integer.parseInt(valueString);
+            ((BdaInt32) bda).setValue(value);
+        } else if (bda instanceof BdaInt32U) {
+            long value = Long.parseLong(valueString);
+            ((BdaInt32U) bda).setValue(value);
+        } else if (bda instanceof BdaInt64) {
+            long value = Long.parseLong(valueString);
+            ((BdaInt64) bda).setValue(value);
+        } else if (bda instanceof BdaBoolean) {
+            boolean value = Boolean.parseBoolean(valueString);
+            ((BdaBoolean) bda).setValue(value);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    @Override
-    public void quit() {
-      System.out.println("** Stopping server.");
-      serverSap.stop();
-      return;
+    /**
+     *
+     * @return
+     */
+    public String quit() {
+        System.out.println("** Stopping server.");
+        serverSap.stop();
+        return "shut down server";
     }
-  }
 }
