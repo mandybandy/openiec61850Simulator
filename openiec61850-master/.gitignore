@@ -1,0 +1,14 @@
+# Gradle
+.gradle/
+build/
+gradle.properties
+
+# IntelliJ IDEA
+.idea
+out/
+
+# Eclipse
+.settings/
+.project
+.classpath
+.metadata/

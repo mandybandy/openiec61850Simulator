@@ -1,7 +1,0 @@
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\bin\Debug\report_new_dataset.exe
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\bin\Debug\report_new_dataset.pdb
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\bin\Debug\iec61850dotnet.dll
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\bin\Debug\iec61850dotnet.pdb
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\obj\Debug\report_new_dataset.csproj.CopyComplete
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\obj\Debug\report_new_dataset.exe
-F:\onedrive htldata\OneDrive - HTL Weiz\Diplomarbeit\libiec61850-1.4.0\libiec61850-1.4.0\libiec61850-1.4.0\dotnet\report_new_dataset\obj\Debug\report_new_dataset.pdb
