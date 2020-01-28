@@ -11,6 +11,9 @@ package serverguiiec61850.files;
  */
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -30,78 +33,47 @@ import org.xml.sax.SAXException;
 
 public class ModifyXMLFile {
 
-	public static void main(String argv[]) {
+    public static void main(String argv[]) {
 
+        try {
+            String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(filepath);
 
-            try {
-                String filepath = System.getProperty("user.dir")+"\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-                Document doc = docBuilder.parse(filepath);
-                
-                Node startSclTag = doc.getElementsByTagName("SCL").item(0);
-                Node aktTag=startSclTag;  
-                while(true){
-                    
+            Node startSclTag = doc.getElementsByTagName("SCL").item(0);
+
+            NodeList IedList = doc.getElementsByTagName("IED");
+            for (int i = 0; i < IedList.getLength(); i++) {
+                System.out.println(IedList.item(i).getAttributes().getNamedItem("name"));
+                File file = new File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml");
+                String path = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml";
+                File tmpDir = new File(path);
+                boolean exists = tmpDir.exists();
+                if (exists) {
+                    Path deletePath = Paths.get(path);
+                    Files.delete(deletePath);
                 }
-                    
+
+                String filepathIed = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
+                Document iedxml = docBuilder.parse(filepathIed);
+                Node n = IedList.item(i);
+                file.createNewFile();
                 
+                Element scltag = iedxml.createElement("SCL");
+                iedxml.appendChild(scltag);
                 
-                
-                
-                /*
-                // Get the staff element , it may not working if tag has spaces, or
-                // whatever weird characters in front...it's better to use
-                // getElementsByTagName() to get it directly.
-                // Node staff = company.getFirstChild();
-                
-                // Get the staff element by tag name directly
-                Node staff = doc.getElementsByTagName("staff").item(0);
-                
-                // update staff attribute
-                NamedNodeMap attr = staff.getAttributes();
-                Node nodeAttr = attr.getNamedItem("id");
-                nodeAttr.setTextContent("2");
-                
-                // append a new node to staff
-                Element age = doc.createElement("age");
-                age.appendChild(doc.createTextNode("28"));
-                staff.appendChild(age);
-                
-                // loop the staff child node
-                NodeList list = staff.getChildNodes();
-                
-                for (int i = 0; i < list.getLength(); i++) {
-                
-                Node node = list.item(i);
-                
-                // get the salary element, and update the value
-                if ("salary".equals(node.getNodeName())) {
-                node.setTextContent("2000000");
-                }
-                
-                //remove firstname
-                if ("firstname".equals(node.getNodeName())) {
-                staff.removeChild(node);
-                }
-                
-                }
-                
-                // write the content into xml file
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File(filepath));
-                transformer.transform(source, result);
-                
-                System.out.println("Done");
-            */          } catch (SAXException ex) {
-                Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParserConfigurationException ex) {
-                Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
+                Node copyTo = iedxml.getFirstChild();
+                Node copyOfn = doc.importNode(n, true);
+                copyTo.appendChild(copyOfn);
             }
+        } catch (SAXException ex) {
+            Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-	}
+    }
 }

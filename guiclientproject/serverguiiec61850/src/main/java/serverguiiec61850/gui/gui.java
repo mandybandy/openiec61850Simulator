@@ -99,7 +99,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        getIedBTN.setText("getIED");
+        getIedBTN.setText("getallIEDs");
         getIedBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 getIedBTNActionPerformed(evt);

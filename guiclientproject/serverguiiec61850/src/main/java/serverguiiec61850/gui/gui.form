@@ -177,7 +177,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="getIedBTN">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="getIED"/>
+                        <Property name="text" type="java.lang.String" value="getallIEDs"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="getIedBTNActionPerformed"/>
