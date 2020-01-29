@@ -22,6 +22,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import static serverguiiec61850.server.ConsoleServer.createserver;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.xml.transform.TransformerConfigurationException;
 
 /**
  *
@@ -51,21 +55,19 @@ public class gui extends javax.swing.JFrame {
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel10 = new javax.swing.JPanel();
         iedPathTB = new javax.swing.JTextField();
-        getIedBTN = new javax.swing.JButton();
         icodersclLBL = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         startBTN = new javax.swing.JButton();
         portTB = new javax.swing.JTextField();
         ipTB = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTree3 = new javax.swing.JTree();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         connectedLBL = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -99,13 +101,6 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        getIedBTN.setText("getallIEDs");
-        getIedBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getIedBTNActionPerformed(evt);
-            }
-        });
-
         icodersclLBL.setText("ICD oder SCL file");
 
         startBTN.setText("start Server");
@@ -121,22 +116,20 @@ public class gui extends javax.swing.JFrame {
 
         jLabel1.setText("ip");
 
-        jScrollPane4.setViewportView(jTree3);
-
         jLabel5.setText("port");
 
         jLabel6.setText(":");
 
         connectedLBL.setText("not connected");
 
+        jButton2.setText("stop Server");
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(245, 245, 245)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,40 +142,36 @@ public class gui extends javax.swing.JFrame {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(startBTN)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(startBTN)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2))
                     .addComponent(connectedLBL))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(123, 123, 123)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(startBTN)
-                        .addGap(27, 27, 27)
-                        .addComponent(connectedLBL)))
-                .addContainerGap(170, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startBTN)
+                    .addComponent(jButton2))
+                .addGap(27, 27, 27)
+                .addComponent(connectedLBL)
+                .addContainerGap(369, Short.MAX_VALUE))
         );
-
-        jLabel7.setText("got ied");
-
-        jLabel8.setText("ied1");
 
         jButton1.setText("search");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -191,31 +180,34 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("ied0 selected(default)");
+
+        jButton4.setText("change");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(icodersclLBL)
                             .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(icodersclLBL)
-                                    .addGroup(jPanel10Layout.createSequentialGroup()
-                                        .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1))))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)))
+                                .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)))
                         .addGap(10, 10, 10))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(getIedBTN)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(196, 196, 196))
@@ -232,12 +224,10 @@ public class gui extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addComponent(getIedBTN)
-                .addGap(397, 397, 397)
+                .addGap(59, 59, 59)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel2)
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -462,33 +452,38 @@ public class gui extends javax.swing.JFrame {
 
             System.out.println("Der Pfad der Datei ist: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void getIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getIedBTNActionPerformed
-Path copySourcePath = Paths.get(iedPathTB.getText());
-Path copyTargetPath = Paths.get( System.getProperty("user.dir")+"\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd" );
-
-String path=System.getProperty("user.dir")+"\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
-File tmpDir = new File(path);
-boolean exists = tmpDir.exists();
-        if (exists) {
-            Path deletePath=Paths.get(path);
-    try {
-        Files.delete(deletePath);
-    } catch (IOException ex) {
-        Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
-        System.out.println("Theres a master yfile in files/icd");
-    }
-        }
             try {
-                Files.copy( copySourcePath, copyTargetPath );
+                Path copySourcePath = Paths.get(iedPathTB.getText());
+                Path copyTargetPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd");
+
+                String path = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
+                File tmpDir = new File(path);
+                boolean exists = tmpDir.exists();
+                if (exists) {
+                    Path deletePath = Paths.get(path);
+                    try {
+                        Files.delete(deletePath);
+                    } catch (IOException ex) {
+                        Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Theres a master file in files/icd");
+                    }
+                }
+                Files.copy(copySourcePath, copyTargetPath);
+                serverguiiec61850.files.ModifyXMLFile.splitIed();
             } catch (IOException ex) {
                 Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("error while opening file");
+            } catch (TransformerConfigurationException ex) {
+                Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("error while split icd/scl");
             }
-            
-    }//GEN-LAST:event_getIedBTNActionPerformed
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        SwingUtilities.invokeLater(new FileBrowser());
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,18 +523,18 @@ boolean exists = tmpDir.exists();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel connectTAB;
     private javax.swing.JLabel connectedLBL;
-    private javax.swing.JButton getIedBTN;
     private javax.swing.JLabel icodersclLBL;
     private javax.swing.JTextField iedPathTB;
     private javax.swing.JTextField ipTB;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -559,14 +554,99 @@ boolean exists = tmpDir.exists();
     private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
-    private javax.swing.JTree jTree3;
     private javax.swing.JTextField portTB;
     private javax.swing.JButton startBTN;
     // End of variables declaration//GEN-END:variables
+
+    public class FileBrowser implements Runnable {
+
+        private DefaultMutableTreeNode root;
+
+        private DefaultTreeModel treeModel;
+
+        private JTree tree;
+
+        @Override
+        public void run() {
+            JFrame frame = new JFrame("File Browser");
+
+            File fileRoot = new File("C:/");
+            root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+            treeModel = new DefaultTreeModel(root);
+
+            tree = new JTree(treeModel);
+            tree.setShowsRootHandles(true);
+            JScrollPane scrollPane = new JScrollPane(tree);
+
+            frame.add(scrollPane);
+            frame.setLocationByPlatform(true);
+            frame.setSize(640, 480);
+            frame.setVisible(true);
+
+            CreateChildNodes ccn
+                    = new CreateChildNodes(fileRoot, root);
+            new Thread(ccn).start();
+        }
+
+        public class CreateChildNodes implements Runnable {
+
+            private DefaultMutableTreeNode root;
+
+            private File fileRoot;
+
+            public CreateChildNodes(File fileRoot,
+                    DefaultMutableTreeNode root) {
+                this.fileRoot = fileRoot;
+                this.root = root;
+            }
+
+            @Override
+            public void run() {
+                createChildren(fileRoot, root);
+            }
+
+            private void createChildren(File fileRoot,
+                    DefaultMutableTreeNode node) {
+                File[] files = fileRoot.listFiles();
+                if (files == null) {
+                    return;
+                }
+
+                for (File file : files) {
+                    DefaultMutableTreeNode childNode
+                            = new DefaultMutableTreeNode(new FileNode(file));
+                    node.add(childNode);
+                    if (file.isDirectory()) {
+                        createChildren(file, childNode);
+                    }
+                }
+            }
+
+        }
+
+        public class FileNode {
+
+            private File file;
+
+            public FileNode(File file) {
+                this.file = file;
+            }
+
+            @Override
+            public String toString() {
+                String name = file.getName();
+                if (name.equals("")) {
+                    return file.getAbsolutePath();
+                } else {
+                    return name;
+                }
+            }
+        }
+
+    }
 }

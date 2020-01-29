@@ -6,7 +6,10 @@ serverguiiec61850\client\ConsoleClient$1.class
 serverguiiec61850\gui\gui.class
 serverguiiec61850\gui\gui$1.class
 serverguiiec61850\gui\gui$4.class
+serverguiiec61850\gui\gui$FileBrowser$CreateChildNodes.class
 serverguiiec61850\client\ConsoleClient.class
-serverguiiec61850\server\ConsoleServer$EventListener.class
+serverguiiec61850\gui\gui$FileBrowser$FileNode.class
 serverguiiec61850\gui\gui$5.class
+serverguiiec61850\gui\gui$FileBrowser.class
+serverguiiec61850\server\ConsoleServer$EventListener.class
 serverguiiec61850\server\ConsoleServer$1.class

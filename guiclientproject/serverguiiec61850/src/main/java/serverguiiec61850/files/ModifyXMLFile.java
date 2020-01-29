@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -33,7 +34,7 @@ import org.xml.sax.SAXException;
 
 public class ModifyXMLFile {
 
-    public static void main(String argv[]) {
+    public static void splitIed() throws TransformerConfigurationException {
 
         try {
             String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
@@ -41,7 +42,9 @@ public class ModifyXMLFile {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filepath);
 
-            Node startSclTag = doc.getElementsByTagName("SCL").item(0);
+            if (!doc.getElementsByTagName("SCL").item(0).hasChildNodes()) {
+                return;
+            }
 
             NodeList IedList = doc.getElementsByTagName("IED");
             for (int i = 0; i < IedList.getLength(); i++) {
@@ -54,24 +57,38 @@ public class ModifyXMLFile {
                     Path deletePath = Paths.get(path);
                     Files.delete(deletePath);
                 }
-
-                String filepathIed = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
-                Document iedxml = docBuilder.parse(filepathIed);
-                Node n = IedList.item(i);
                 file.createNewFile();
-                
-                Element scltag = iedxml.createElement("SCL");
-                iedxml.appendChild(scltag);
-                
-                Node copyTo = iedxml.getFirstChild();
-                Node copyOfn = doc.importNode(n, true);
-                copyTo.appendChild(copyOfn);
+
+                String filepathIed = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml";
+                Document iedxml = docBuilder.newDocument();
+
+                Element root = iedxml.createElement("SCL");
+                iedxml.appendChild(root);
+                for (int j = 0; j < IedList.getLength(); j++) {
+                    Node n = IedList.item(i);
+                    Node copyOfn = iedxml.importNode(n, true);
+                    root.appendChild(copyOfn);
+                }
+                NodeList datatypenode = doc.getElementsByTagName("DataTypeTemplates");
+                for (int k = 0; k < datatypenode.getLength(); k++) {
+                    Node m = datatypenode.item(k);
+                    Node copyOfm = iedxml.importNode(m, true);
+                    root.appendChild(copyOfm);
+                }
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                DOMSource domSource = new DOMSource(iedxml);
+                StreamResult streamResult = new StreamResult(new File(filepathIed));
+                transformer.transform(domSource, streamResult);
             }
         } catch (SAXException ex) {
             Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
             Logger.getLogger(ModifyXMLFile.class.getName()).log(Level.SEVERE, null, ex);
         }
 
