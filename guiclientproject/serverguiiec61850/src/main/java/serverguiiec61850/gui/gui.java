@@ -20,19 +20,21 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import static serverguiiec61850.server.ConsoleServer.createserver;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.transform.TransformerConfigurationException;
+import static serverguiiec61850.server.ConsoleServer.*;
+
 
 /**
  *
  * @author Philipp
  */
 public class gui extends javax.swing.JFrame {
-
+public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
     /**
      * Creates new form gui
      */
@@ -50,7 +52,7 @@ public class gui extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu3 = new javax.swing.JMenu();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        changeValuesTAB = new javax.swing.JTabbedPane();
         connectTAB = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel10 = new javax.swing.JPanel();
@@ -66,7 +68,7 @@ public class gui extends javax.swing.JFrame {
         connectedLBL = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        IedLBL = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -123,6 +125,11 @@ public class gui extends javax.swing.JFrame {
         connectedLBL.setText("not connected");
 
         jButton2.setText("stop Server");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -180,7 +187,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("ied0 selected(default)");
+        IedLBL.setText("no Ied selected");
 
         jButton4.setText("change");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +212,7 @@ public class gui extends javax.swing.JFrame {
                                 .addComponent(jButton1)))
                         .addGap(10, 10, 10))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(IedLBL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -226,7 +233,7 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGap(59, 59, 59)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(IedLBL)
                     .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -248,7 +255,7 @@ public class gui extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("connect", connectTAB);
+        changeValuesTAB.addTab("connect", connectTAB);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -261,7 +268,7 @@ public class gui extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab3", jPanel3);
+        changeValuesTAB.addTab("changeValues", jPanel3);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -274,7 +281,7 @@ public class gui extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab4", jPanel4);
+        changeValuesTAB.addTab("tab4", jPanel4);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -287,7 +294,7 @@ public class gui extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab5", jPanel5);
+        changeValuesTAB.addTab("history", jPanel5);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -300,7 +307,7 @@ public class gui extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("advanced", jPanel2);
+        changeValuesTAB.addTab("advanced", jPanel2);
 
         jSplitPane1.setDividerLocation(300);
 
@@ -400,7 +407,7 @@ public class gui extends javax.swing.JFrame {
             .addComponent(jSplitPane1)
         );
 
-        jTabbedPane1.addTab("simulateserver", jPanel6);
+        changeValuesTAB.addTab("simulateserver", jPanel6);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -414,11 +421,11 @@ public class gui extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(changeValuesTAB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(changeValuesTAB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -432,7 +439,7 @@ public class gui extends javax.swing.JFrame {
         //start button
         try {
 
-            connectedLBL.setText(createserver(iedPathTB.getText(), Integer.parseInt(portTB.getText())));
+            connectedLBL.setText(createserver(iedPath, Integer.parseInt(portTB.getText())));
         } catch (IOException ex) {
             Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("error while creating server");
@@ -444,6 +451,10 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("scl,icd,xml files (*.scl,*.icd,*.xml)", "scd","icd","xml");
+        chooser.setFileFilter(filter);
+        
         // Dialog zum Oeffnen von Dateien anzeigen
         int rueckgabeWert = chooser.showDialog(null, "Wählen Sie die SCD/ICD Datei");
 
@@ -482,8 +493,25 @@ public class gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        SwingUtilities.invokeLater(new FileBrowser());
+        // JFileChooser-Objekt erstellen
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\"));
+        // Dialog zum Oeffnen von Dateien anzeigen
+        int rueckgabeWert = chooser.showDialog(null, "Wählen Sie die IED");
+        String iedPathName = "no Ied selected";
+        if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
+
+            iedPath = chooser.getSelectedFile().getPath();
+            iedPathName = chooser.getSelectedFile().getName();
+        }
+
+        IedLBL.setText(iedPathName);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        quit();
+        connectedLBL.setText("server stopped");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -521,6 +549,8 @@ public class gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel IedLBL;
+    private javax.swing.JTabbedPane changeValuesTAB;
     private javax.swing.JPanel connectTAB;
     private javax.swing.JLabel connectedLBL;
     private javax.swing.JLabel icodersclLBL;
@@ -531,7 +561,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -556,7 +585,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JTextField portTB;

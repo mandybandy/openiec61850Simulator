@@ -52,9 +52,8 @@ import java.util.logging.Logger;
  */
 public class ConsoleClient {
 
-
-  private static volatile ClientAssociation association;
-  private static ServerModel serverModel;
+    private static volatile ClientAssociation association;
+    private static ServerModel serverModel;
 
     /**
      *
@@ -63,173 +62,173 @@ public class ConsoleClient {
      * @param port
      * @param port
      */
-    public static void createclient(String host, int port) {
+    public void createclient(String host, int port) {
 
-    InetAddress address;
-    try {
-      address = InetAddress.getByName(host);
-    } catch (UnknownHostException e) {
-      System.out.println("Unknown host: " + host);
-      return;
+        InetAddress address;
+        try {
+            address = InetAddress.getByName(host);
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host: " + host);
+            return;
+        }
+
+        ClientSap clientSap = new ClientSap();
+
+        try {
+            association = clientSap.associate(address, port, null, null);
+        } catch (IOException e) {
+            System.out.println("Unable to connect to remote host.");
+            return;
+        }
+
+        Runtime.getRuntime()
+                .addShutdownHook(
+                        new Thread() {
+                    @Override
+                    public void run() {
+                        association.close();
+                    }
+                });
+
+        System.out.println("successfully connected");
+
+        if (false) {//datei hinzufügen
+            System.out.println("reading model from file...");
+
+            try {
+                serverModel = SclParser.parse("ibimseinspfad").get(0);
+            } catch (SclParseException e1) {
+                System.out.println("Error parsing SCL file: " + e1.getMessage());
+                return;
+            }
+
+            association.setServerModel(serverModel);
+
+            System.out.println("successfully read model");
+
+        } else {
+
+            try {
+                serverModel = association.retrieveModel();
+            } catch (ServiceError e) {
+                System.out.println("Service error: " + e.getMessage());
+                return;
+            } catch (IOException e) {
+                System.out.println("Fatal error: " + e.getMessage());
+                return;
+            }
+
+            System.out.println("successfully read model");
+        }
     }
-
-    ClientSap clientSap = new ClientSap();
-
-    try {
-      association = clientSap.associate(address, port, null, null);
-    } catch (IOException e) {
-      System.out.println("Unable to connect to remote host.");
-      return;
-    }
-
-    Runtime.getRuntime()
-        .addShutdownHook(
-            new Thread() {
-              @Override
-              public void run() {
-                association.close();
-              }
-            });
-
-    System.out.println("successfully connected");
-
-    if (false) {//datei hinzufügen
-      System.out.println("reading model from file...");
-
-      try {
-        serverModel = SclParser.parse("ibimseinspfad").get(0);
-      } catch (SclParseException e1) {
-        System.out.println("Error parsing SCL file: " + e1.getMessage());
-        return;
-      }
-
-      association.setServerModel(serverModel);
-
-      System.out.println("successfully read model");
-
-    } else {
-
-      try {
-        serverModel = association.retrieveModel();
-      } catch (ServiceError e) {
-        System.out.println("Service error: " + e.getMessage());
-        return;
-      } catch (IOException e) {
-        System.out.println("Fatal error: " + e.getMessage());
-        return;
-      }
-
-      System.out.println("successfully read model");
-    }
-  }
 
     /**
      *
      * @param report
      */
     public void newReport(Report report) {
-      System.out.println("\n----------------");
-      System.out.println("Received report: ");
-      System.err.println(report);
-      System.out.println("------------------");
+        System.out.println("\n----------------");
+        System.out.println("Received report: ");
+        System.err.println(report);
+        System.out.println("------------------");
     }
-    
+
     /**
      *
      */
-    public void printservermodel(){
-            System.out.println(serverModel);
+    public void printservermodel() {
+        System.out.println(serverModel);
     }
 
     /**
      *
      * @throws IOException
      */
-    public void readalldata() throws IOException{
-            System.out.print("Reading all data...");
-            try {
-              association.getAllDataValues();
-            } catch (ServiceError e) {
-              System.err.println("Service error: " + e.getMessage());
-            }
-            System.out.println("done");
+    public void readalldata() throws IOException {
+        System.out.print("Reading all data...");
+        try {
+            association.getAllDataValues();
+        } catch (ServiceError e) {
+            System.err.println("Service error: " + e.getMessage());
+        }
+        System.out.println("done");
     }
-    
+
     /**
      *
      * @param reference
      * @param fcString
      */
-    public void getdata(String reference, String fcString){
-              if (serverModel == null) {
-                System.out.println("You have to retrieve the model before reading data.");
-                return;
-              }
+    public void getdata(String reference, String fcString) {
+        if (serverModel == null) {
+            System.out.println("You have to retrieve the model before reading data.");
+            return;
+        }
 
-              FcModelNode fcModelNode = askForFcModelNode(reference,fcString);
+        FcModelNode fcModelNode = askForFcModelNode(reference, fcString);
 
-              System.out.println("Sending GetDataValues request...");
+        System.out.println("Sending GetDataValues request...");
 
-              try {
-                association.getDataValues(fcModelNode);
-              } catch (ServiceError e) {
-                System.out.println("Service error: " + e.getMessage());
-                return;
-              } catch (IOException e) {
-                System.out.println("Fatal error: " + e.getMessage());
-                return;
-              }
+        try {
+            association.getDataValues(fcModelNode);
+        } catch (ServiceError e) {
+            System.out.println("Service error: " + e.getMessage());
+            return;
+        } catch (IOException e) {
+            System.out.println("Fatal error: " + e.getMessage());
+            return;
+        }
 
-              System.out.println("Successfully read data.");
-              System.out.println(fcModelNode);
-            }
-    
+        System.out.println("Successfully read data.");
+        System.out.println(fcModelNode);
+    }
+
     /**
      *
      * @param reference
      * @param fcString
      * @param numberOfEntriesString
      */
-    public void createdataset(String reference, String fcString,String numberOfEntriesString){
-      try {
-          int numDataSetEntries = Integer.parseInt(numberOfEntriesString);
-          
-          List<FcModelNode> dataSetMembers = new ArrayList<>();
-          for (int i = 0; i < numDataSetEntries; i++) {
-              dataSetMembers.add(askForFcModelNode(reference, fcString));
-          }
-          
-          DataSet dataSet = new DataSet(reference, dataSetMembers);
-          System.out.print("Creating data set..");
-          association.createDataSet(dataSet);
-          System.out.println("done");
-      } catch (ServiceError ex) {
-          Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-          Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-      }
+    public void createdataset(String reference, String fcString, String numberOfEntriesString) {
+        try {
+            int numDataSetEntries = Integer.parseInt(numberOfEntriesString);
+
+            List<FcModelNode> dataSetMembers = new ArrayList<>();
+            for (int i = 0; i < numDataSetEntries; i++) {
+                dataSetMembers.add(askForFcModelNode(reference, fcString));
+            }
+
+            DataSet dataSet = new DataSet(reference, dataSetMembers);
+            System.out.print("Creating data set..");
+            association.createDataSet(dataSet);
+            System.out.println("done");
+        } catch (ServiceError ex) {
+            Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     /**
      *
      * @param reference
      */
-    public void deletedataset(String reference){
-              DataSet dataSet = serverModel.getDataSet(reference);
-              if (dataSet == null) {
-                //gibs nd
-              }
-              System.out.print("Deleting data set..");
-      try {
-          association.deleteDataSet(dataSet);
-      } catch (ServiceError ex) {
-          Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-          Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-      }
-              System.out.println("done");
+    public void deletedataset(String reference) {
+        DataSet dataSet = serverModel.getDataSet(reference);
+        if (dataSet == null) {
+            //gibs nd
+        }
+        System.out.print("Deleting data set..");
+        try {
+            association.deleteDataSet(dataSet);
+        } catch (ServiceError ex) {
+            Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("done");
     }
-          
+
     /**
      *
      * @param reference
@@ -238,130 +237,127 @@ public class ConsoleClient {
      * @param triggerOptionsString
      * @param integrityPeriodString
      */
-    public void report(String reference, int rcbAction, String dataSetReference,String triggerOptionsString,String integrityPeriodString){
-              Urcb urcb = serverModel.getUrcb(reference);
-              if (urcb == null) {
-                Brcb brcb = serverModel.getBrcb(reference);
-                if (brcb != null) {
-                    try {
-                        throw new ActionException(
-                                "Though buffered reporting is supported by the library it is not yet supported by the console application.");
-                    } catch (ActionException ex) {
-                        Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-              }
-
-              while (true) {
+    public void report(String reference, int rcbAction, String dataSetReference, String triggerOptionsString, String integrityPeriodString) {
+        Urcb urcb = serverModel.getUrcb(reference);
+        if (urcb == null) {
+            Brcb brcb = serverModel.getBrcb(reference);
+            if (brcb != null) {
                 try {
-                    association.getRcbValues(urcb);
-                    System.out.println();
-                    System.out.println(urcb);
-                    System.out.println();
-                    System.out.println("What do you want to configure?");
-                    System.out.println("1 - reserve");
-                    System.out.println("2 - cancel reservation");
-                    System.out.println("3 - enable");
-                    System.out.println("4 - disable");
-                    System.out.println("5 - set data set");
-                    System.out.println("6 - set trigger options");
-                    System.out.println("7 - set integrity period");
-                    System.out.println("8 - send general interrogation");
-                    System.out.println("0 - quit");
-                    try {
-                        switch (rcbAction) {
-                            case 0:
-                                return;
-                            case 1:
-                                System.out.print("Reserving RCB..");
-                                association.reserveUrcb(urcb);
-                                System.out.println("done");
-                                break;
-                            case 2:
-                                System.out.print("Canceling RCB reservation..");
-                                association.cancelUrcbReservation(urcb);
-                                System.out.println("done");
-                                break;
-                            case 3:
-                                System.out.print("Enabling reporting..");
-                                association.enableReporting(urcb);
-                                System.out.println("done");
-                                break;
-                            case 4:
-                                System.out.print("Disabling reporting..");
-                                association.disableReporting(urcb);
-                                System.out.println("done");
-                                break;
-                            case 5:
-                            {
-                                urcb.getDatSet().setValue(dataSetReference);
-                                List<ServiceError> serviceErrors = null;
-                                try {
-                                    serviceErrors = association.setRcbValues(
-                                            urcb, false, true, false, false, false, false, false, false);
-                                } catch (IOException ex) {
-                                    Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                if (null != serviceErrors.get(0)) {
-                                    throw serviceErrors.get(0);
-                                }
-                                System.out.println("done");
-                                break;
-                            }
-                            
-                            case 6:
-                            {
-                                String[] triggerOptionsStrings = triggerOptionsString.split(",");
-                                BdaTriggerConditions triggerOptions = urcb.getTrgOps();
-                                triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
-                                triggerOptions.setDataUpdate(Boolean.parseBoolean(triggerOptionsStrings[1]));
-                                triggerOptions.setQualityChange(Boolean.parseBoolean(triggerOptionsStrings[2]));
-                                triggerOptions.setIntegrity(Boolean.parseBoolean(triggerOptionsStrings[3]));
-                                triggerOptions.setGeneralInterrogation(Boolean.parseBoolean(triggerOptionsStrings[4]));
-                                List<ServiceError> serviceErrors =
-                                        association.setRcbValues(
-                                                urcb, false, false, false, false, true, false, false, false);
-                                if (serviceErrors.get(0) != null) {
-                                    throw serviceErrors.get(0);
-                                }
-                                System.out.println("done");
-                                break;
-                            }
-                            case 7:
-                            {
-                                urcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
-                                List<ServiceError> serviceErrors =
-                                        association.setRcbValues(
-                                                urcb, false, false, false, false, false, true, false, false);
-                                if (serviceErrors.get(0) != null) {
-                                    throw serviceErrors.get(0);
-                                }
-                                System.out.println("done");
-                                break;
-                            }
-                            case 8:
-                                System.out.print("Sending GI..");
-                                association.startGi(urcb);
-                                System.out.println("done");
-                                break;
-                            default:
-                                System.err.println("Unknown option.");
-                                break;
-                        }
-                    } catch (ServiceError e) {
-                        System.err.println("Service error: " + e.getMessage());
-                    } catch (NumberFormatException e) {
-                        System.err.println("Cannot parse number: " + e.getMessage());
-                    } catch (IOException ex) {
-                        Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } catch (ServiceError ex) {
-                      Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                      Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new ActionException(
+                            "Though buffered reporting is supported by the library it is not yet supported by the console application.");
+                } catch (ActionException ex) {
+                    Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              }
             }
+        }
+
+        while (true) {
+            try {
+                association.getRcbValues(urcb);
+                System.out.println();
+                System.out.println(urcb);
+                System.out.println();
+                System.out.println("What do you want to configure?");
+                System.out.println("1 - reserve");
+                System.out.println("2 - cancel reservation");
+                System.out.println("3 - enable");
+                System.out.println("4 - disable");
+                System.out.println("5 - set data set");
+                System.out.println("6 - set trigger options");
+                System.out.println("7 - set integrity period");
+                System.out.println("8 - send general interrogation");
+                System.out.println("0 - quit");
+                try {
+                    switch (rcbAction) {
+                        case 0:
+                            return;
+                        case 1:
+                            System.out.print("Reserving RCB..");
+                            association.reserveUrcb(urcb);
+                            System.out.println("done");
+                            break;
+                        case 2:
+                            System.out.print("Canceling RCB reservation..");
+                            association.cancelUrcbReservation(urcb);
+                            System.out.println("done");
+                            break;
+                        case 3:
+                            System.out.print("Enabling reporting..");
+                            association.enableReporting(urcb);
+                            System.out.println("done");
+                            break;
+                        case 4:
+                            System.out.print("Disabling reporting..");
+                            association.disableReporting(urcb);
+                            System.out.println("done");
+                            break;
+                        case 5: {
+                            urcb.getDatSet().setValue(dataSetReference);
+                            List<ServiceError> serviceErrors = null;
+                            try {
+                                serviceErrors = association.setRcbValues(
+                                        urcb, false, true, false, false, false, false, false, false);
+                            } catch (IOException ex) {
+                                Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if (null != serviceErrors.get(0)) {
+                                throw serviceErrors.get(0);
+                            }
+                            System.out.println("done");
+                            break;
+                        }
+
+                        case 6: {
+                            String[] triggerOptionsStrings = triggerOptionsString.split(",");
+                            BdaTriggerConditions triggerOptions = urcb.getTrgOps();
+                            triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
+                            triggerOptions.setDataUpdate(Boolean.parseBoolean(triggerOptionsStrings[1]));
+                            triggerOptions.setQualityChange(Boolean.parseBoolean(triggerOptionsStrings[2]));
+                            triggerOptions.setIntegrity(Boolean.parseBoolean(triggerOptionsStrings[3]));
+                            triggerOptions.setGeneralInterrogation(Boolean.parseBoolean(triggerOptionsStrings[4]));
+                            List<ServiceError> serviceErrors
+                                    = association.setRcbValues(
+                                            urcb, false, false, false, false, true, false, false, false);
+                            if (serviceErrors.get(0) != null) {
+                                throw serviceErrors.get(0);
+                            }
+                            System.out.println("done");
+                            break;
+                        }
+                        case 7: {
+                            urcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
+                            List<ServiceError> serviceErrors
+                                    = association.setRcbValues(
+                                            urcb, false, false, false, false, false, true, false, false);
+                            if (serviceErrors.get(0) != null) {
+                                throw serviceErrors.get(0);
+                            }
+                            System.out.println("done");
+                            break;
+                        }
+                        case 8:
+                            System.out.print("Sending GI..");
+                            association.startGi(urcb);
+                            System.out.println("done");
+                            break;
+                        default:
+                            System.err.println("Unknown option.");
+                            break;
+                    }
+                } catch (ServiceError e) {
+                    System.err.println("Service error: " + e.getMessage());
+                } catch (NumberFormatException e) {
+                    System.err.println("Cannot parse number: " + e.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (ServiceError ex) {
+                Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ConsoleClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     /**
      *
@@ -370,27 +366,27 @@ public class ConsoleClient {
      * @return
      */
     public FcModelNode askForFcModelNode(String reference, String fcString) {
-      Fc fc = Fc.fromString(fcString);
+        Fc fc = Fc.fromString(fcString);
 
-      ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
-      if (modelNode == null) {
-        System.err.println("modelNode not found");
-      }
+        ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
+        if (modelNode == null) {
+            System.err.println("modelNode not found");
+        }
 
-      if (!(modelNode instanceof FcModelNode)) {
-           System.err.println("The given model node is not a functionally constraint model node.");
-      }
+        if (!(modelNode instanceof FcModelNode)) {
+            System.err.println("The given model node is not a functionally constraint model node.");
+        }
 
-      FcModelNode fcModelNode = (FcModelNode) modelNode;
-      return fcModelNode;
+        FcModelNode fcModelNode = (FcModelNode) modelNode;
+        return fcModelNode;
     }
 
     /**
      *
      */
     public void quit() {
-      System.out.println("** Closing connection.");
-      association.close();
-      return;
+        System.out.println("** Closing connection.");
+        association.close();
+        return;
     }
-  }
+}

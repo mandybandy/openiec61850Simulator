@@ -11,5 +11,6 @@ serverguiiec61850\client\ConsoleClient.class
 serverguiiec61850\gui\gui$FileBrowser$FileNode.class
 serverguiiec61850\gui\gui$5.class
 serverguiiec61850\gui\gui$FileBrowser.class
+serverguiiec61850\gui\gui$6.class
 serverguiiec61850\server\ConsoleServer$EventListener.class
 serverguiiec61850\server\ConsoleServer$1.class

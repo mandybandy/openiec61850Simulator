@@ -202,7 +202,7 @@ public class ConsoleServer {
      *
      * @return
      */
-    public String quit() {
+    public static String quit() {
         System.out.println("** Stopping server.");
         serverSap.stop();
         return "shut down server";
