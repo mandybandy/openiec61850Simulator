@@ -32,8 +32,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ *
+ * @author Philipp
+ */
 public class ModifyXMLFile {
 
+    /**
+     *
+     * @throws TransformerConfigurationException
+     */
     public static void splitIed() throws TransformerConfigurationException {
 
         try {

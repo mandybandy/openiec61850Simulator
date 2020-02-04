@@ -43,13 +43,11 @@ import java.util.logging.Logger;
 public class ConsoleClient {
 
     private static volatile ClientAssociation association;
-    public static ServerModel serverModel;
+    private static ServerModel serverModel;
 
     /**
      *
      * @param host
-     * @param host
-     * @param port
      * @param port
      */
     public static void createclient(String host, int port) {
@@ -374,7 +372,7 @@ public class ConsoleClient {
     /**
      *
      */
-    public void quit() {
+    public static void quit() {
         System.out.println("** Closing connection.");
         association.close();
         return;

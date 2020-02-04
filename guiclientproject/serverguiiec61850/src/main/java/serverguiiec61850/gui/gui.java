@@ -5,52 +5,18 @@
  */
 package serverguiiec61850.gui;
 
-import com.beanit.openiec61850.ClientAssociation;
-import com.beanit.openiec61850.ClientSap;
-import com.beanit.openiec61850.ServerModel;
-import com.beanit.openiec61850.ServiceError;
-import com.beanit.openiec61850.clientgui.BasicDataBind;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import static java.lang.System.in;
-import static java.lang.System.out;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.transform.TransformerConfigurationException;
 import static serverguiiec61850.server.ConsoleServer.*;
-import static serverguiiec61850.client.ConsoleClient.*;
-import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
-import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
-import com.beanit.openiec61850.clientgui.DataTreeNode;
-import com.beanit.openiec61850.clientgui.SettingsFrame;
-import com.beanit.openiec61850.clientgui.util.Counter;
-import java.awt.Component;
-import static java.awt.Component.TOP_ALIGNMENT;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.event.TreeSelectionEvent;
+import static serverguiiec61850.gui.ClientGui.*;
 
 /**
  *
@@ -58,12 +24,16 @@ import javax.swing.event.TreeSelectionEvent;
  */
 public class gui extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public String iedPath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
 
     /**
      * Creates new form gui
      */
     public gui() {
+        super("IEC61850 Simulator");
         initComponents();
     }
 
@@ -76,7 +46,6 @@ public class gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu3 = new javax.swing.JMenu();
         changeValuesTAB = new javax.swing.JTabbedPane();
         connectTAB = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
@@ -96,12 +65,9 @@ public class gui extends javax.swing.JFrame {
         IedLBL = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        detailsPanel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ServerModelTREE = new JTree(new DefaultMutableTreeNode("No server connected"));
+        jPanel1 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -122,8 +88,6 @@ public class gui extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-
-        jMenu3.setText("jMenu3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,8 +114,13 @@ public class gui extends javax.swing.JFrame {
         });
 
         portTB.setText("102");
+        portTB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portTBActionPerformed(evt);
+            }
+        });
 
-        ipTB.setText("127.168.000.001");
+        ipTB.setText("127.0.0.1");
 
         jLabel1.setText("ip");
 
@@ -294,64 +263,58 @@ public class gui extends javax.swing.JFrame {
 
         changeValuesTAB.addTab("connect", connectTAB);
 
-        jScrollPane3.setViewportView(ServerModelTREE);
-
-        javax.swing.GroupLayout detailsPanelLayout = new javax.swing.GroupLayout(detailsPanel);
-        detailsPanel.setLayout(detailsPanelLayout);
-        detailsPanelLayout.setHorizontalGroup(
-            detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-        );
-        detailsPanelLayout.setVerticalGroup(
-            detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-        );
-
-        jButton5.setText("Read");
+        jButton5.setText("changevalues");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
-        jButton6.setText("write");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addComponent(jButton5))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton5)
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+
+        jButton6.setText("stop");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
 
-        jTextField1.setText("jTextField1");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(detailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(jButton5)
-                .addGap(184, 184, 184)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(350, 350, 350)
                 .addComponent(jButton6)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton5)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(11, 11, 11)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton6))))
-                    .addComponent(detailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(101, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(jButton6)))
+                .addContainerGap(427, Short.MAX_VALUE))
         );
 
         changeValuesTAB.addTab("changeValues", jPanel3);
@@ -602,13 +565,19 @@ public class gui extends javax.swing.JFrame {
     private void changeValuesTABKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_changeValuesTABKeyReleased
     }//GEN-LAST:event_changeValuesTABKeyReleased
 
+    private void portTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portTBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_portTBActionPerformed
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        valueChanged
+        ClientGui clientGui = new ClientGui();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        write();
+        this.setVisible(false);
+        this.dispose();
+        new gui().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
@@ -648,14 +617,12 @@ public class gui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IedLBL;
-    private javax.swing.JTree ServerModelTREE;
-    private javax.swing.JTabbedPane changeValuesTAB;
-    private javax.swing.JPanel connectTAB;
+    public static javax.swing.JTabbedPane changeValuesTAB;
+    public static javax.swing.JPanel connectTAB;
     private javax.swing.JLabel connectedLBL;
-    private javax.swing.JPanel detailsPanel;
     private javax.swing.JLabel icodersclLBL;
     private javax.swing.JTextField iedPathTB;
-    private javax.swing.JTextField ipTB;
+    public static javax.swing.JTextField ipTB;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -668,12 +635,12 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel1;
+    public static javax.swing.JPanel jPanel10;
+    public static javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    public static javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -685,185 +652,11 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JSplitPane jSplitPane2;
+    public static javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
-    private javax.swing.JTextField portTB;
+    public static javax.swing.JTextField portTB;
     private javax.swing.JButton startBTN;
     // End of variables declaration//GEN-END:variables
-
-    /**
-     *
-     * @author Philipp
-     */
-    private final GridBagLayout detailsLayout = new GridBagLayout();
-
-    private final SettingsFrame settingsFrame = new SettingsFrame();
-
-    public ClientAssociation association;
-
-    private DataTreeNode selectedNode;
-
-    public void buildTree() {
-        try {
-            InetAddress address=InetAddress.getByName("127.0.0.1");
-            ClientSap clientSap = new ClientSap();
-            
-            serverguiiec61850.client.ConsoleClient.createclient("127.0.0.1", 102);
-            ServerModelParser parser = new ServerModelParser(serverModel);
-            ServerModelTREE.setModel(new DefaultTreeModel(parser.getModelTree()));
-            
-            association = clientSap.associate(address, 102, null, null);
-            
-            serverModel = association.retrieveModel();
-            association.getAllDataValues();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ServiceError ex) {
-            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void reload() {
-        if (selectedNode.readable()) {
-            try {
-                selectedNode.reset(association);
-            } catch (ServiceError e) {
-                System.out.println("ServiceError on reading" + e.getMessage());
-                return;
-            } catch (IOException e) {
-                System.out.println("IOException on reading" + e.getMessage());
-                return;
-            }
-        }
-    }
-
-    private void write() {
-        if (selectedNode.writable()) {
-            try {
-                selectedNode.writeValues(association);
-            } catch (ServiceError e) {
-                System.out.println("ServiceError on writing" + e.getMessage());
-                return;
-            } catch (IOException e) {
-                System.out.println("IOException on writing" + e.getMessage());
-                return;
-            }
-        }
-    }
-
-    public void valueChanged(TreeSelectionEvent e) {
-        detailsPanel.removeAll();
-        detailsPanel.repaint();
-        if (e.getNewLeadSelectionPath() != null) {
-            selectedNode = (DataTreeNode) e.getNewLeadSelectionPath().getLastPathComponent();
-            if (selectedNode.readable()) {
-                showDataDetails(selectedNode, new Counter());
-
-                JPanel filler = new JPanel();
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.fill = GridBagConstraints.BOTH;
-                gbc.gridx = 0;
-                gbc.gridy = GridBagConstraints.RELATIVE;
-                gbc.gridwidth = 3;
-                gbc.gridheight = 1;
-                gbc.weightx = 0;
-                gbc.weighty = 1;
-                detailsLayout.setConstraints(filler, gbc);
-                detailsPanel.add(filler);
-
-                JButton button = new JButton("Reload values");
-                button.setActionCommand("reload");
-                gbc = new GridBagConstraints();
-                gbc.fill = GridBagConstraints.NONE;
-                gbc.gridx = 0;
-                gbc.gridy = GridBagConstraints.RELATIVE;
-                gbc.gridwidth = 2;
-                gbc.gridheight = 1;
-                gbc.weightx = 0;
-                gbc.weighty = 0;
-                gbc.anchor = GridBagConstraints.SOUTHWEST;
-                gbc.insets = new Insets(0, 5, 5, 0);
-                detailsLayout.setConstraints(button, gbc);
-                detailsPanel.add(button);
-
-                if (selectedNode.writable()) {
-                    button = new JButton("Write values");
-                    button.setActionCommand("write");
-                    gbc = new GridBagConstraints();
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.gridx = 2;
-                    gbc.gridy = GridBagConstraints.RELATIVE;
-                    gbc.gridwidth = 1;
-                    gbc.gridheight = 1;
-                    gbc.weightx = 0;
-                    gbc.weighty = 0;
-                    gbc.anchor = GridBagConstraints.SOUTHEAST;
-                    gbc.insets = new Insets(0, 0, 5, 5);
-                    detailsLayout.setConstraints(button, gbc);
-                    detailsPanel.add(button);
-                }
-            }
-        } else {
-            selectedNode = null;
-        }
-
-    }
-
-    private void showDataDetails(DataTreeNode node, String pre, Counter y) {
-        if (node.getData() != null) {
-            BasicDataBind<?> data = node.getData();
-            JLabel nameLabel = data.getNameLabel();
-            nameLabel.setText(pre + ": ");
-            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
-            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
-            y.increment();
-        } else {
-            for (int i = 0; i < node.getChildCount(); i++) {
-                y.increment();
-                DataObjectTreeNode childNode = (DataObjectTreeNode) node.getChildAt(i);
-                showDataDetails(childNode, pre + "." + childNode.toString(), y);
-                detailsPanel.add(new JSeparator());
-                addDetailsComponent(new JSeparator(), 0, y.getValue(), 3, 1, 1, 0);
-            }
-        }
-    }
-
-    private void addDetailsComponent(Component c, int x, int y, int width, int height, double weightx, double weighty) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = x;
-        gbc.gridy = y;
-        gbc.gridwidth = width;
-        gbc.gridheight = height;
-        gbc.weightx = weightx;
-        gbc.weighty = weighty;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        detailsLayout.setConstraints(c, gbc);
-        detailsPanel.add(c);
-    }
-
-    private void showDataDetails(DataTreeNode node, Counter y) {
-        if (node.getData() != null) {
-            BasicDataBind<?> data = node.getData();
-            JLabel nameLabel = data.getNameLabel();
-            nameLabel.setText(nameLabel.getText() + ": ");
-            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
-            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
-            y.increment();
-        } else {
-            for (int i = 0; i < node.getChildCount(); i++) {
-                y.increment();
-                DataObjectTreeNode childNode = (DataObjectTreeNode) node.getChildAt(i);
-                showDataDetails(childNode, childNode.toString(), y);
-            }
-        }
-    }
-
 }
