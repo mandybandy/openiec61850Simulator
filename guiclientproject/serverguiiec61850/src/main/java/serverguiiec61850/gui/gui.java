@@ -5,6 +5,11 @@
  */
 package serverguiiec61850.gui;
 
+import com.beanit.openiec61850.ClientAssociation;
+import com.beanit.openiec61850.ClientSap;
+import com.beanit.openiec61850.ServerModel;
+import com.beanit.openiec61850.ServiceError;
+import com.beanit.openiec61850.clientgui.BasicDataBind;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,14 +32,34 @@ import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.transform.TransformerConfigurationException;
 import static serverguiiec61850.server.ConsoleServer.*;
-
+import static serverguiiec61850.client.ConsoleClient.*;
+import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
+import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
+import com.beanit.openiec61850.clientgui.DataTreeNode;
+import com.beanit.openiec61850.clientgui.SettingsFrame;
+import com.beanit.openiec61850.clientgui.util.Counter;
+import java.awt.Component;
+import static java.awt.Component.TOP_ALIGNMENT;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.event.TreeSelectionEvent;
 
 /**
  *
  * @author Philipp
  */
 public class gui extends javax.swing.JFrame {
-public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
+
+    public String iedPath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.icd";
+
     /**
      * Creates new form gui
      */
@@ -71,6 +96,12 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
         IedLBL = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        detailsPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ServerModelTREE = new JTree(new DefaultMutableTreeNode("No server connected"));
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -95,6 +126,12 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
         jMenu3.setText("jMenu3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        changeValuesTAB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                changeValuesTABKeyReleased(evt);
+            }
+        });
 
         iedPathTB.setText("F:\\diplomarbeit\\project\\openiec61850Simulator\\guiclientproject\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files\\icd.icd");
         iedPathTB.addActionListener(new java.awt.event.ActionListener() {
@@ -257,15 +294,64 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
 
         changeValuesTAB.addTab("connect", connectTAB);
 
+        jScrollPane3.setViewportView(ServerModelTREE);
+
+        javax.swing.GroupLayout detailsPanelLayout = new javax.swing.GroupLayout(detailsPanel);
+        detailsPanel.setLayout(detailsPanelLayout);
+        detailsPanelLayout.setHorizontalGroup(
+            detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+        );
+        detailsPanelLayout.setVerticalGroup(
+            detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+        );
+
+        jButton5.setText("Read");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("write");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1068, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(detailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(jButton5)
+                .addGap(184, 184, 184)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 617, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton5)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(11, 11, 11)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton6))))
+                    .addComponent(detailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         changeValuesTAB.addTab("changeValues", jPanel3);
@@ -452,9 +538,9 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("scl,icd,xml files (*.scl,*.icd,*.xml)", "scd","icd","xml");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("scl,icd,xml files (*.scl,*.icd,*.xml)", "scd", "icd", "xml");
         chooser.setFileFilter(filter);
-        
+
         // Dialog zum Oeffnen von Dateien anzeigen
         int rueckgabeWert = chooser.showDialog(null, "Wählen Sie die SCD/ICD Datei");
 
@@ -513,6 +599,18 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
         connectedLBL.setText("server stopped");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void changeValuesTABKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_changeValuesTABKeyReleased
+    }//GEN-LAST:event_changeValuesTABKeyReleased
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        valueChanged
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        write();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -550,9 +648,11 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IedLBL;
+    private javax.swing.JTree ServerModelTREE;
     private javax.swing.JTabbedPane changeValuesTAB;
     private javax.swing.JPanel connectTAB;
     private javax.swing.JLabel connectedLBL;
+    private javax.swing.JPanel detailsPanel;
     private javax.swing.JLabel icodersclLBL;
     private javax.swing.JTextField iedPathTB;
     private javax.swing.JTextField ipTB;
@@ -560,6 +660,8 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -583,98 +685,185 @@ public String iedPath=System.getProperty("user.dir") + "\\src\\main\\java\\serve
     private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
     private javax.swing.JTextField portTB;
     private javax.swing.JButton startBTN;
     // End of variables declaration//GEN-END:variables
 
-    public class FileBrowser implements Runnable {
+    /**
+     *
+     * @author Philipp
+     */
+    private final GridBagLayout detailsLayout = new GridBagLayout();
 
-        private DefaultMutableTreeNode root;
+    private final SettingsFrame settingsFrame = new SettingsFrame();
 
-        private DefaultTreeModel treeModel;
+    public ClientAssociation association;
 
-        private JTree tree;
+    private DataTreeNode selectedNode;
 
-        @Override
-        public void run() {
-            JFrame frame = new JFrame("File Browser");
-
-            File fileRoot = new File("C:/");
-            root = new DefaultMutableTreeNode(new FileNode(fileRoot));
-            treeModel = new DefaultTreeModel(root);
-
-            tree = new JTree(treeModel);
-            tree.setShowsRootHandles(true);
-            JScrollPane scrollPane = new JScrollPane(tree);
-
-            frame.add(scrollPane);
-            frame.setLocationByPlatform(true);
-            frame.setSize(640, 480);
-            frame.setVisible(true);
-
-            CreateChildNodes ccn
-                    = new CreateChildNodes(fileRoot, root);
-            new Thread(ccn).start();
+    public void buildTree() {
+        try {
+            InetAddress address=InetAddress.getByName("127.0.0.1");
+            ClientSap clientSap = new ClientSap();
+            
+            serverguiiec61850.client.ConsoleClient.createclient("127.0.0.1", 102);
+            ServerModelParser parser = new ServerModelParser(serverModel);
+            ServerModelTREE.setModel(new DefaultTreeModel(parser.getModelTree()));
+            
+            association = clientSap.associate(address, 102, null, null);
+            
+            serverModel = association.retrieveModel();
+            association.getAllDataValues();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ServiceError ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        public class CreateChildNodes implements Runnable {
-
-            private DefaultMutableTreeNode root;
-
-            private File fileRoot;
-
-            public CreateChildNodes(File fileRoot,
-                    DefaultMutableTreeNode root) {
-                this.fileRoot = fileRoot;
-                this.root = root;
+    private void reload() {
+        if (selectedNode.readable()) {
+            try {
+                selectedNode.reset(association);
+            } catch (ServiceError e) {
+                System.out.println("ServiceError on reading" + e.getMessage());
+                return;
+            } catch (IOException e) {
+                System.out.println("IOException on reading" + e.getMessage());
+                return;
             }
-
-            @Override
-            public void run() {
-                createChildren(fileRoot, root);
-            }
-
-            private void createChildren(File fileRoot,
-                    DefaultMutableTreeNode node) {
-                File[] files = fileRoot.listFiles();
-                if (files == null) {
-                    return;
-                }
-
-                for (File file : files) {
-                    DefaultMutableTreeNode childNode
-                            = new DefaultMutableTreeNode(new FileNode(file));
-                    node.add(childNode);
-                    if (file.isDirectory()) {
-                        createChildren(file, childNode);
-                    }
-                }
-            }
-
         }
+    }
 
-        public class FileNode {
-
-            private File file;
-
-            public FileNode(File file) {
-                this.file = file;
+    private void write() {
+        if (selectedNode.writable()) {
+            try {
+                selectedNode.writeValues(association);
+            } catch (ServiceError e) {
+                System.out.println("ServiceError on writing" + e.getMessage());
+                return;
+            } catch (IOException e) {
+                System.out.println("IOException on writing" + e.getMessage());
+                return;
             }
+        }
+    }
 
-            @Override
-            public String toString() {
-                String name = file.getName();
-                if (name.equals("")) {
-                    return file.getAbsolutePath();
-                } else {
-                    return name;
+    public void valueChanged(TreeSelectionEvent e) {
+        detailsPanel.removeAll();
+        detailsPanel.repaint();
+        if (e.getNewLeadSelectionPath() != null) {
+            selectedNode = (DataTreeNode) e.getNewLeadSelectionPath().getLastPathComponent();
+            if (selectedNode.readable()) {
+                showDataDetails(selectedNode, new Counter());
+
+                JPanel filler = new JPanel();
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.gridx = 0;
+                gbc.gridy = GridBagConstraints.RELATIVE;
+                gbc.gridwidth = 3;
+                gbc.gridheight = 1;
+                gbc.weightx = 0;
+                gbc.weighty = 1;
+                detailsLayout.setConstraints(filler, gbc);
+                detailsPanel.add(filler);
+
+                JButton button = new JButton("Reload values");
+                button.setActionCommand("reload");
+                gbc = new GridBagConstraints();
+                gbc.fill = GridBagConstraints.NONE;
+                gbc.gridx = 0;
+                gbc.gridy = GridBagConstraints.RELATIVE;
+                gbc.gridwidth = 2;
+                gbc.gridheight = 1;
+                gbc.weightx = 0;
+                gbc.weighty = 0;
+                gbc.anchor = GridBagConstraints.SOUTHWEST;
+                gbc.insets = new Insets(0, 5, 5, 0);
+                detailsLayout.setConstraints(button, gbc);
+                detailsPanel.add(button);
+
+                if (selectedNode.writable()) {
+                    button = new JButton("Write values");
+                    button.setActionCommand("write");
+                    gbc = new GridBagConstraints();
+                    gbc.fill = GridBagConstraints.NONE;
+                    gbc.gridx = 2;
+                    gbc.gridy = GridBagConstraints.RELATIVE;
+                    gbc.gridwidth = 1;
+                    gbc.gridheight = 1;
+                    gbc.weightx = 0;
+                    gbc.weighty = 0;
+                    gbc.anchor = GridBagConstraints.SOUTHEAST;
+                    gbc.insets = new Insets(0, 0, 5, 5);
+                    detailsLayout.setConstraints(button, gbc);
+                    detailsPanel.add(button);
                 }
             }
+        } else {
+            selectedNode = null;
         }
 
     }
+
+    private void showDataDetails(DataTreeNode node, String pre, Counter y) {
+        if (node.getData() != null) {
+            BasicDataBind<?> data = node.getData();
+            JLabel nameLabel = data.getNameLabel();
+            nameLabel.setText(pre + ": ");
+            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
+            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
+            y.increment();
+        } else {
+            for (int i = 0; i < node.getChildCount(); i++) {
+                y.increment();
+                DataObjectTreeNode childNode = (DataObjectTreeNode) node.getChildAt(i);
+                showDataDetails(childNode, pre + "." + childNode.toString(), y);
+                detailsPanel.add(new JSeparator());
+                addDetailsComponent(new JSeparator(), 0, y.getValue(), 3, 1, 1, 0);
+            }
+        }
+    }
+
+    private void addDetailsComponent(Component c, int x, int y, int width, int height, double weightx, double weighty) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = width;
+        gbc.gridheight = height;
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(3, 3, 3, 3);
+        detailsLayout.setConstraints(c, gbc);
+        detailsPanel.add(c);
+    }
+
+    private void showDataDetails(DataTreeNode node, Counter y) {
+        if (node.getData() != null) {
+            BasicDataBind<?> data = node.getData();
+            JLabel nameLabel = data.getNameLabel();
+            nameLabel.setText(nameLabel.getText() + ": ");
+            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
+            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
+            y.increment();
+        } else {
+            for (int i = 0; i < node.getChildCount(); i++) {
+                y.increment();
+                DataObjectTreeNode childNode = (DataObjectTreeNode) node.getChildAt(i);
+                showDataDetails(childNode, childNode.toString(), y);
+            }
+        }
+    }
+
 }

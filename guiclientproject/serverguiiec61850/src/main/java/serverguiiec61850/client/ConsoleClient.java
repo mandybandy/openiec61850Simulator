@@ -16,7 +16,6 @@ package serverguiiec61850.client;
 import com.beanit.openiec61850.BdaTriggerConditions;
 import com.beanit.openiec61850.Brcb;
 import com.beanit.openiec61850.ClientAssociation;
-import com.beanit.openiec61850.ClientEventListener;
 import com.beanit.openiec61850.ClientSap;
 import com.beanit.openiec61850.DataSet;
 import com.beanit.openiec61850.Fc;
@@ -28,16 +27,7 @@ import com.beanit.openiec61850.SclParser;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.Urcb;
-import com.beanit.openiec61850.internal.cli.Action;
 import com.beanit.openiec61850.internal.cli.ActionException;
-import com.beanit.openiec61850.internal.cli.ActionListener;
-import com.beanit.openiec61850.internal.cli.ActionProcessor;
-import com.beanit.openiec61850.internal.cli.CliParameter;
-import com.beanit.openiec61850.internal.cli.CliParameterBuilder;
-import com.beanit.openiec61850.internal.cli.CliParseException;
-import com.beanit.openiec61850.internal.cli.CliParser;
-import com.beanit.openiec61850.internal.cli.IntCliParameter;
-import com.beanit.openiec61850.internal.cli.StringCliParameter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -53,7 +43,7 @@ import java.util.logging.Logger;
 public class ConsoleClient {
 
     private static volatile ClientAssociation association;
-    private static ServerModel serverModel;
+    public static ServerModel serverModel;
 
     /**
      *
@@ -62,7 +52,7 @@ public class ConsoleClient {
      * @param port
      * @param port
      */
-    public void createclient(String host, int port) {
+    public static void createclient(String host, int port) {
 
         InetAddress address;
         try {
