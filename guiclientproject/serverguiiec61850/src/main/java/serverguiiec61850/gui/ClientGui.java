@@ -21,6 +21,7 @@ import com.beanit.openiec61850.clientgui.BasicDataBind;
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
 import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
 import com.beanit.openiec61850.clientgui.DataTreeNode;
+import com.beanit.openiec61850.clientgui.ServerModelParser;
 import com.beanit.openiec61850.clientgui.SettingsFrame;
 import com.beanit.openiec61850.clientgui.util.Counter;
 import java.awt.Component;
@@ -372,7 +373,7 @@ public final class ClientGui extends JFrame implements ActionListener, TreeSelec
     }
 
     private void exit() {
-     setVisible(false);
-     dispose();
+        setVisible(false);
+        dispose();
     }
 }
