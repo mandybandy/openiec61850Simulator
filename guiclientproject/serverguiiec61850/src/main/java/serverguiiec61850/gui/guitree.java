@@ -54,12 +54,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import serverguiiec61850.Client;
 
 /**
  *
  * @author Philipp
  */
-public final class ClientGui extends JFrame implements ActionListener, TreeSelectionListener {
+public final class guitree extends JFrame implements ActionListener, TreeSelectionListener {
 
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
@@ -75,7 +76,7 @@ public final class ClientGui extends JFrame implements ActionListener, TreeSelec
     /**
      *
      */
-    public ClientGui() {
+    public guitree() {
         super("Werte ändern");
 
         addWindowListener(new WindowAdapter() {
@@ -89,16 +90,16 @@ public final class ClientGui extends JFrame implements ActionListener, TreeSelec
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        GridBagLayout gbl = new GridBagLayout();
+        GridBagLayout gbl = new GridBagLayout(); 
         setLayout(gbl);
 
         JPanel topPanel = new JPanel();
@@ -287,7 +288,7 @@ public final class ClientGui extends JFrame implements ActionListener, TreeSelec
 
             validate();
         } catch (UnknownHostException ex) {
-            Logger.getLogger(ClientGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
