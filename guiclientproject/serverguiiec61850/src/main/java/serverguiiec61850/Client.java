@@ -352,7 +352,7 @@ public class Client {
      */
     public static String quit() {
         System.out.println("** Closing connection");
-        //association.close();
+        association.close();
         return "Server stopped";
     }
 }

@@ -66,19 +66,20 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
-    private static volatile ClientAssociation association;
+    // public static volatile ClientAssociation association;
     private static ServerModel serverModel;
 
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
     private DataTreeNode selectedNode;
-
+    
     /**
      *
      */
     public guitree() {
         super("Werte ändern");
 
+        
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 exit();
@@ -263,20 +264,21 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
             clientSap.setTSelLocal(settingsFrame.getTselLocal());
             clientSap.setTSelRemote(settingsFrame.getTselRemote());
 
+            /*
             try {
                 association = clientSap.associate(address, remotePort, null, null);
             } catch (IOException e) {
                 System.out.println("Error connecting to server: " + e.getMessage());
                 return;
-            }
+            }*/
 
             ServerModel serverModell;
             try {
-                serverModell = association.retrieveModel();
-                association.getAllDataValues();
+                serverModell = serverguiiec61850.Client.association.retrieveModel();
+                serverguiiec61850.Client.association.getAllDataValues();
             } catch (ServiceError e) {
                 System.out.println("Service Error requesting model." + e.getMessage());
-                association.close();
+                // serverguiiec61850.Client.association.close();
                 return;
             } catch (IOException e) {
                 System.out.println("Fatal IOException requesting model." + e.getMessage());
@@ -295,7 +297,7 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     private void reload() {
         if (selectedNode.readable()) {
             try {
-                selectedNode.reset(association);
+                selectedNode.reset(Client.association);
             } catch (ServiceError e) {
                 System.out.println("ServiceError on reading" + e.getMessage());
                 return;
@@ -310,7 +312,7 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     private void write() {
         if (selectedNode.writable()) {
             try {
-                selectedNode.writeValues(association);
+                selectedNode.writeValues(Client.association);
             } catch (ServiceError e) {
                 System.out.println("ServiceError on writing" + e.getMessage());
                 return;
