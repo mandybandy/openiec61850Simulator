@@ -42,6 +42,9 @@ import java.util.logging.Logger;
  */
 public class Client {
 
+    /**
+     *
+     */
     public static volatile ClientAssociation association;
     private static ServerModel serverModel;
 
@@ -50,7 +53,7 @@ public class Client {
      * @param host
      * @param port
      */
-    public static void createclient(String host, int port) {
+    public Client(String host, int port) {
 
         InetAddress address;
         try {
@@ -70,11 +73,11 @@ public class Client {
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
-                    @Override
-                    public void run() {
-                        association.close();
-                    }
-                });
+            @Override
+            public void run() {
+                association.close();
+            }
+        });
 
         System.out.println("successfully connected");
 
@@ -92,6 +95,7 @@ public class Client {
         System.out.println("successfully read model");
 
     }
+
 
     /**
      *
@@ -349,6 +353,7 @@ public class Client {
 
     /**
      *
+     * @return
      */
     public static String quit() {
         System.out.println("** Closing connection");

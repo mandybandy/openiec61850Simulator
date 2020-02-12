@@ -39,7 +39,6 @@ import com.beanit.openiec61850.ServiceError;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Philipp
@@ -54,30 +53,34 @@ public class Server {
      */
     private static ServerSap serverSap = null;
     private static ServerModel serverModel;
+    public String error;
 
     /**
      *
      * @param icdpath
      * @param portServer
      * @return
-     * @throws IOException
      */
-    public static String createserver(String icdpath, int portServer) {
+    public Server(String icdpath, int portServer) {
+        this.error = "no error";
 
         try {
-            
+
             List<ServerModel> serverModels = null;
             try {
                 serverModels = SclParser.parse(icdpath);
                 System.out.println("icd file passed parsing.");
-                
+
             } catch (SclParseException e) {
                 System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
-                return "Error Parsing SCL/ICD file: "+e.getMessage();
+                System.out.println(e.getCause().getClass().getCanonicalName());
+                if (e.getCause().getClass().getCanonicalName()=="java.io.FileNotFoundException") {
+                    error="file not found";
+                }
             }
-            
+
             serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
-            
+
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
                 public void run() {
@@ -87,14 +90,14 @@ public class Server {
                     System.out.println("Server was stopped.");
                 }
             });
-            
+
             serverModel = serverSap.getModelCopy();
             serverSap.startListening(new EventListener());
             System.out.println("server started.");
-            return "Server started";
+            //return "Server started";
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            return "error";
+            //return "server already running";
         }
     }
 
@@ -129,7 +132,7 @@ public class Server {
      * @param fcString
      * @param valueString
      */
-    public void writeValue(String reference, String fcString, String valueString) {
+    public static void writeValue(String reference, String fcString, String valueString) {
         Fc fc = Fc.fromString(fcString);
         if (fc == null) {
             System.out.println("Unknown functional constraint.");
@@ -167,7 +170,7 @@ public class Server {
         System.out.println(bda);
     }
 
-    private void setBdaValue(BasicDataAttribute bda, String valueString) {
+    private static void setBdaValue(BasicDataAttribute bda, String valueString) {
         if (bda instanceof BdaFloat32) {
             float value = Float.parseFloat(valueString);
             ((BdaFloat32) bda).setFloat(value);
@@ -205,11 +208,9 @@ public class Server {
 
     /**
      *
-     * @return
      */
-    public static String quit() {
+    public static void quit() {
         System.out.println("** Stopping server.");
         serverSap.stop();
-        return "shut down server";
     }
 }

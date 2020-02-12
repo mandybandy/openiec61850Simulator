@@ -13,6 +13,9 @@ import java.util.Collections;
  */
 public class NetworkUtil {
 
+    /**
+     *
+     */
     public void printAllOwnerMacs() {
         InetAddress[] ias;
         try {
@@ -26,6 +29,10 @@ public class NetworkUtil {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOwnerHostName() {
         try {
             return InetAddress.getLocalHost().getHostName();
@@ -35,6 +42,10 @@ public class NetworkUtil {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOwnerNetworkDeviceName() {
         try {
             NetworkInterface ni = NetworkInterface.getByInetAddress(InetAddress
@@ -49,6 +60,10 @@ public class NetworkUtil {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOwnerMac() {
         try {
             NetworkInterface ni = NetworkInterface.getByInetAddress(InetAddress
@@ -71,6 +86,10 @@ public class NetworkUtil {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOwnerIp() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
@@ -80,6 +99,10 @@ public class NetworkUtil {
         return null;
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         NetworkUtil nu = new NetworkUtil();
         //nu.printAllOwnerMacs();

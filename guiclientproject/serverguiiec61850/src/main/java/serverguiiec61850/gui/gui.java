@@ -6,6 +6,7 @@
 package serverguiiec61850.gui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.transform.TransformerConfigurationException;
 import serverguiiec61850.Client;
-import static serverguiiec61850.Server.createserver;
-import static serverguiiec61850.Client.quit;
+import serverguiiec61850.Server;
 
 /**
  *
@@ -36,6 +36,7 @@ public class gui extends javax.swing.JFrame {
     public gui() {
         super("IEC61850 Simulator");
         initComponents();
+        stopBTN.setEnabled(false);
     }
 
     /**
@@ -49,7 +50,6 @@ public class gui extends javax.swing.JFrame {
 
         changeValuesTAB = new javax.swing.JTabbedPane();
         connectTAB = new javax.swing.JPanel();
-        jSplitPane2 = new javax.swing.JSplitPane();
         jPanel10 = new javax.swing.JPanel();
         iedPathTB = new javax.swing.JTextField();
         icodersclLBL = new javax.swing.JLabel();
@@ -61,14 +61,13 @@ public class gui extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         connectedLBL = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        stopBTN = new javax.swing.JButton();
+        changeSclBTN = new javax.swing.JButton();
         IedLBL = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        changeIedBTN = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        changeValuesBTN = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -100,11 +99,6 @@ public class gui extends javax.swing.JFrame {
         });
 
         iedPathTB.setText("F:\\diplomarbeit\\project\\openiec61850Simulator\\guiclientproject\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files\\icd.icd");
-        iedPathTB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iedPathTBActionPerformed(evt);
-            }
-        });
 
         icodersclLBL.setText("ICD oder SCL file");
 
@@ -116,11 +110,6 @@ public class gui extends javax.swing.JFrame {
         });
 
         portTB.setText("102");
-        portTB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                portTBActionPerformed(evt);
-            }
-        });
 
         ipTB.setText("127.0.0.1");
 
@@ -132,10 +121,10 @@ public class gui extends javax.swing.JFrame {
 
         jLabel6.setText(":");
 
-        jButton2.setText("stop Server");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        stopBTN.setText("stop Server");
+        stopBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                stopBTNActionPerformed(evt);
             }
         });
 
@@ -160,14 +149,14 @@ public class gui extends javax.swing.JFrame {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(startBTN)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
+                        .addComponent(stopBTN))
                     .addComponent(connectedLBL))
                 .addGap(124, 124, 124))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -182,25 +171,25 @@ public class gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startBTN)
-                    .addComponent(jButton2))
+                    .addComponent(stopBTN))
                 .addGap(27, 27, 27)
                 .addComponent(connectedLBL)
                 .addContainerGap(121, Short.MAX_VALUE))
         );
 
-        jButton1.setText("search");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        changeSclBTN.setText("select file");
+        changeSclBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                changeSclBTNActionPerformed(evt);
             }
         });
 
         IedLBL.setText("no Ied selected");
 
-        jButton4.setText("change");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        changeIedBTN.setText("change");
+        changeIedBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                changeIedBTNActionPerformed(evt);
             }
         });
 
@@ -214,23 +203,23 @@ public class gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(icodersclLBL)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1)))
-                        .addGap(678, 678, 678))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel4)
                         .addGap(82, 82, 82)
                         .addComponent(IedLBL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(changeIedBTN)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(icodersclLBL)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(changeSclBTN)
+                        .addGap(82, 82, 82))))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -240,50 +229,43 @@ public class gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(changeSclBTN))
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(IedLBL)
-                            .addComponent(jButton4)
+                            .addComponent(changeIedBTN)
                             .addComponent(jLabel4)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(75, 75, 75)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
-
-        jSplitPane2.setLeftComponent(jPanel10);
 
         javax.swing.GroupLayout connectTABLayout = new javax.swing.GroupLayout(connectTAB);
         connectTAB.setLayout(connectTABLayout);
         connectTABLayout.setHorizontalGroup(
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectTABLayout.createSequentialGroup()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1079, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         connectTABLayout.setVerticalGroup(
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectTABLayout.createSequentialGroup()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         changeValuesTAB.addTab("connect", connectTAB);
 
-        jButton6.setText("stop");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        changeValuesBTN.setText("changevalues");
+        changeValuesBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("changevalues");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                changeValuesBTNActionPerformed(evt);
             }
         });
 
@@ -293,12 +275,10 @@ public class gui extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                .addComponent(changeValuesBTN)
                 .addGap(109, 109, 109)
                 .addComponent(jLabel2)
-                .addContainerGap(850, Short.MAX_VALUE))
+                .addContainerGap(871, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,13 +286,11 @@ public class gui extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6))
+                        .addComponent(changeValuesBTN))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel2)))
-                .addContainerGap(549, Short.MAX_VALUE))
+                .addContainerGap(579, Short.MAX_VALUE))
         );
 
         changeValuesTAB.addTab("changeValues", jPanel3);
@@ -328,7 +306,7 @@ public class gui extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +330,7 @@ public class gui extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
@@ -453,7 +431,7 @@ public class gui extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1107, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +446,7 @@ public class gui extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(changeValuesTAB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(changeValuesTAB, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,34 +459,27 @@ public class gui extends javax.swing.JFrame {
     private void changeValuesTABKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_changeValuesTABKeyReleased
     }//GEN-LAST:event_changeValuesTABKeyReleased
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        guitree clientGui = new guitree();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
+        guitree changevalues = new guitree();
+    }//GEN-LAST:event_changeValuesBTNActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        this.setVisible(false);
-        this.dispose();
-        new gui().setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void changeIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeIedBTNActionPerformed
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\"));
-            // Dialog zum Oeffnen von Dateien anzeigen
-            int rueckgabeWert = chooser.showDialog(null, "Wählen Sie die IED");
-            String iedPathName = "no Ied selected";
-            if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
+        // Dialog zum Oeffnen von Dateien anzeigen
+        int rueckgabeWert = chooser.showDialog(null, "Wählen Sie die IED");
+        String iedPathName = "no Ied selected";
+        if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
 
-                iedPath = chooser.getSelectedFile().getPath();
-                iedPathName = chooser.getSelectedFile().getName();
-            }
+            iedPath = chooser.getSelectedFile().getPath();
+            iedPathName = chooser.getSelectedFile().getName();
+        }
 
-            IedLBL.setText(iedPathName);
-    }//GEN-LAST:event_jButton4ActionPerformed
+        IedLBL.setText(iedPathName);
+    }//GEN-LAST:event_changeIedBTNActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void changeSclBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSclBTNActionPerformed
 
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
@@ -551,29 +522,37 @@ public class gui extends javax.swing.JFrame {
                 System.out.println("error while split icd/scl");
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_changeSclBTNActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       //ToDo: changesvalues schließen
-        String new_text = quit();
-       connectedLBL.setText(new_text);
-       
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void portTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portTBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_portTBActionPerformed
+    private void stopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBTNActionPerformed
+        //stop button in connect
+        try {
+            Client.quit();
+            Server.quit();
+            startBTN.setEnabled(true);
+            stopBTN.setEnabled(false);
+            connectedLBL.setText("server stopped");
+        } catch (Exception e) {
+            connectedLBL.setText("an error ocurred, while closing");
+        }
+    }//GEN-LAST:event_stopBTNActionPerformed
 
     private void startBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBTNActionPerformed
-        //start button
-        //reateclient();
-        connectedLBL.setText(createserver(iedPath, Integer.parseInt(portTB.getText())));
-        Client.createclient("127.0.0.1", 102); // FIXXME hardcoded port ToDo
+        //start button in connect
+        try {
+            Server server = new Server(iedPath, Integer.parseInt(portTB.getText()));
+            Client client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()));
+
+            //btn hide machen
+            startBTN.setEnabled(false);
+            stopBTN.setEnabled(true);
+
+            connectedLBL.setText("server started");
+        } catch (Exception e) {
+            ToDo get error
+            client.            
+        }
     }//GEN-LAST:event_startBTNActionPerformed
-
-    private void iedPathTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iedPathTBActionPerformed
-
-    }//GEN-LAST:event_iedPathTBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -584,18 +563,16 @@ public class gui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IedLBL;
+    private javax.swing.JButton changeIedBTN;
+    private javax.swing.JButton changeSclBTN;
+    private javax.swing.JButton changeValuesBTN;
     public static javax.swing.JTabbedPane changeValuesTAB;
-    public static javax.swing.JPanel connectTAB;
+    private javax.swing.JPanel connectTAB;
     private javax.swing.JLabel connectedLBL;
     private javax.swing.JLabel icodersclLBL;
     private javax.swing.JTextField iedPathTB;
     public static javax.swing.JTextField ipTB;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -605,8 +582,8 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
-    public static javax.swing.JPanel jPanel10;
-    public static javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     public static javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -619,12 +596,12 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
-    public static javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     public static javax.swing.JTextField portTB;
     private javax.swing.JButton startBTN;
+    private javax.swing.JButton stopBTN;
     // End of variables declaration//GEN-END:variables
 }
