@@ -549,8 +549,7 @@ public class gui extends javax.swing.JFrame {
 
             connectedLBL.setText("server started");
         } catch (Exception e) {
-            ToDo get error
-            client.            
+            //toto get error         
         }
     }//GEN-LAST:event_startBTNActionPerformed
 
