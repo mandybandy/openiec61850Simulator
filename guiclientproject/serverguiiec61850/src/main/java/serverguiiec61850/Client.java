@@ -56,6 +56,7 @@ public class Client {
     public Client(String host, int port) {
 
         InetAddress address;
+        Exception er;
         try {
             address = InetAddress.getByName(host);
         } catch (UnknownHostException e) {
@@ -87,6 +88,7 @@ public class Client {
             serverModel = SclParser.parse(serverguiiec61850.gui.gui.iedPath).get(0);
         } catch (SclParseException e1) {
             System.out.println("Error parsing SCL file: " + e1.getMessage());
+            er=e1;
             return;
         }
 
@@ -101,11 +103,8 @@ public class Client {
      *
      * @param report
      */
-    public void newReport(Report report) {
-        System.out.println("\n----------------");
-        System.out.println("Received report: ");
-        System.err.println(report);
-        System.out.println("------------------");
+    public Report newReport(Report report) {
+        return report;
     }
 
     /**
@@ -267,8 +266,7 @@ public class Client {
                         urcb.getDatSet().setValue(dataSetReference);
                         List<ServiceError> serviceErrors = null;
                         try {
-                            serviceErrors = association.setRcbValues(
-                                    urcb, false, true, false, false, false, false, false, false);
+                            serviceErrors = association.setRcbValues(urcb, false, true, false, false, false, false, false, false);
                         } catch (IOException ex) {
                             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                         }
