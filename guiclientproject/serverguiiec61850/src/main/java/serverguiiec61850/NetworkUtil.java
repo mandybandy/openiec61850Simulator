@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 
 /**
  *
@@ -33,24 +33,24 @@ public class NetworkUtil {
 
     /**
      *
-     * @param args
      * @return
      */
-    public static DefaultListModel getNetDevice() {
+    public static List getNetDevice() {
+                   
         try {
+            ArrayList<String> netDevs = new ArrayList<>();
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-            DefaultListModel netDevices = new DefaultListModel();
             for (NetworkInterface netint : Collections.list(nets)) {
                 Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
                 Collections.list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((Consumer<? super InetAddress>) (inetAddress) -> {
                     System.out.println("Display name:" + netint.getDisplayName());
                     System.out.println("Name: " + netint.getName());
                     System.out.println("InetAddress: " + inetAddress);
-                    String netdevice = ("Display name:" + netint.getDisplayName() + "   " + "Name: " + netint.getName() + "   " + "InetAddress: " + inetAddress);
-                    netDevices.addElement(netdevice);
+                    String netdevice = ("display name:" + netint.getDisplayName() + "\n" + "name: " + netint.getName() + "\n" + "address: " + inetAddress+ "\n");
+                    netDevs.add(netdevice);
                 });
             }
-            return netDevices;
+            return netDevs;
         } catch (SocketException ex) {
             Logger.getLogger(NetworkUtil.class.getName()).log(Level.SEVERE, null, ex);
         }

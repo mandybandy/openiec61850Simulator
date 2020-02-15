@@ -27,7 +27,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -45,7 +44,7 @@ public class ModifyXMLFile {
     public static void splitIed() throws TransformerConfigurationException {
 
         try {
-            String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\master.xml";
+            String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\everyIed.xml";
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filepath);
@@ -56,9 +55,10 @@ public class ModifyXMLFile {
 
             NodeList IedList = doc.getElementsByTagName("IED");
             for (int i = 0; i < IedList.getLength(); i++) {
-                System.out.println(IedList.item(i).getAttributes().getNamedItem("name"));
-                File file = new File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml");
-                String path = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml";
+                System.out.println(IedList.item(i).getAttributes().getNamedItem("name")+ "   "+Integer.toString(i+1) +".IED");
+                System.out.println(IedList.item(i).getAttributes().getNamedItem("name").getTextContent());
+                String path=(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\"+IedList.item(i).getAttributes().getNamedItem("name").getTextContent()+".xml");
+                File file = new File( path);
                 File tmpDir = new File(path);
                 boolean exists = tmpDir.exists();
                 if (exists) {
@@ -67,7 +67,6 @@ public class ModifyXMLFile {
                 }
                 file.createNewFile();
 
-                String filepathIed = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\ied" + String.valueOf(i) + ".xml";
                 Document iedxml = docBuilder.newDocument();
 
                 Element root = iedxml.createElement("SCL");
@@ -87,7 +86,7 @@ public class ModifyXMLFile {
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 DOMSource domSource = new DOMSource(iedxml);
-                StreamResult streamResult = new StreamResult(new File(filepathIed));
+                StreamResult streamResult = new StreamResult(new File(path));
                 transformer.transform(domSource, streamResult);
             }
         } catch (SAXException ex) {

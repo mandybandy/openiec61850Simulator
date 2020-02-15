@@ -21,6 +21,7 @@ import com.beanit.openiec61850.DataSet;
 import com.beanit.openiec61850.Fc;
 import com.beanit.openiec61850.FcModelNode;
 import com.beanit.openiec61850.ModelNode;
+import com.beanit.openiec61850.Rcb;
 import com.beanit.openiec61850.Report;
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.SclParser;
@@ -88,7 +89,7 @@ public class Client {
             serverModel = SclParser.parse(serverguiiec61850.gui.gui.iedPath).get(0);
         } catch (SclParseException e1) {
             System.out.println("Error parsing SCL file: " + e1.getMessage());
-            er=e1;
+            er = e1;
             return;
         }
 
@@ -98,12 +99,12 @@ public class Client {
 
     }
 
-
     /**
      *
      * @param report
+     * @return
      */
-    public Report newReport(Report report) {
+    public static Report newReport(Report report) {
         return report;
     }
 
@@ -118,7 +119,7 @@ public class Client {
      *
      * @throws IOException
      */
-    public void readalldata() throws IOException {
+    public static void readalldata() throws IOException {
         System.out.print("Reading all data...");
         try {
             association.getAllDataValues();
@@ -133,7 +134,7 @@ public class Client {
      * @param reference
      * @param fcString
      */
-    public void getdata(String reference, String fcString) {
+    public static void getdata(String reference, String fcString) {
         if (serverModel == null) {
             System.out.println("You have to retrieve the model before reading data.");
             return;
@@ -163,7 +164,7 @@ public class Client {
      * @param fcString
      * @param numberOfEntriesString
      */
-    public void createdataset(String reference, String fcString, String numberOfEntriesString) {
+    public static void createdataset(String reference, String fcString, String numberOfEntriesString) {
         try {
             int numDataSetEntries = Integer.parseInt(numberOfEntriesString);
 
@@ -187,7 +188,7 @@ public class Client {
      *
      * @param reference
      */
-    public void deletedataset(String reference) {
+    public static void deletedataset(String reference) {
         DataSet dataSet = serverModel.getDataSet(reference);
         if (dataSet == null) {
             //gibs nd
@@ -204,127 +205,188 @@ public class Client {
     /**
      *
      * @param reference
-     * @param rcbAction
-     * @param dataSetReference
-     * @param triggerOptionsString
-     * @param integrityPeriodString
+     * @return 
      */
-    public void report(String reference, int rcbAction, String dataSetReference, String triggerOptionsString, String integrityPeriodString) {
+    public static Urcb getUrcb(String reference) {
+
         Urcb urcb = serverModel.getUrcb(reference);
-        if (urcb == null) {
-            Brcb brcb = serverModel.getBrcb(reference);
-            if (brcb != null) {
-                try {
-                    throw new ActionException(
-                            "Though buffered reporting is supported by the library it is not yet supported by the console application.");
-                } catch (ActionException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-
-        try {
-            association.getRcbValues(urcb);
-            System.out.println();
-            System.out.println(urcb);
-            System.out.println();
-            System.out.println("What do you want to configure?");
-            System.out.println("1 - reserve");
-            System.out.println("2 - cancel reservation");
-            System.out.println("3 - enable");
-            System.out.println("4 - disable");
-            System.out.println("5 - set data set");
-            System.out.println("6 - set trigger options");
-            System.out.println("7 - set integrity period");
-            System.out.println("8 - send general interrogation");
-            System.out.println("0 - quit");
+        if (urcb != null) {
             try {
-                switch (rcbAction) {
-                    case 0:
-                        return;
-                    case 1:
-                        System.out.print("Reserving RCB..");
-                        association.reserveUrcb(urcb);
-                        System.out.println("done");
-                        break;
-                    case 2:
-                        System.out.print("Canceling RCB reservation..");
-                        association.cancelUrcbReservation(urcb);
-                        System.out.println("done");
-                        break;
-                    case 3:
-                        System.out.print("Enabling reporting..");
-                        association.enableReporting(urcb);
-                        System.out.println("done");
-                        break;
-                    case 4:
-                        System.out.print("Disabling reporting..");
-                        association.disableReporting(urcb);
-                        System.out.println("done");
-                        break;
-                    case 5: {
-                        urcb.getDatSet().setValue(dataSetReference);
-                        List<ServiceError> serviceErrors = null;
-                        try {
-                            serviceErrors = association.setRcbValues(urcb, false, true, false, false, false, false, false, false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        if (null != serviceErrors.get(0)) {
-                            throw serviceErrors.get(0);
-                        }
-                        System.out.println("done");
-                        break;
-                    }
-
-                    case 6: {
-                        String[] triggerOptionsStrings = triggerOptionsString.split(",");
-                        BdaTriggerConditions triggerOptions = urcb.getTrgOps();
-                        triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
-                        triggerOptions.setDataUpdate(Boolean.parseBoolean(triggerOptionsStrings[1]));
-                        triggerOptions.setQualityChange(Boolean.parseBoolean(triggerOptionsStrings[2]));
-                        triggerOptions.setIntegrity(Boolean.parseBoolean(triggerOptionsStrings[3]));
-                        triggerOptions.setGeneralInterrogation(Boolean.parseBoolean(triggerOptionsStrings[4]));
-                        List<ServiceError> serviceErrors
-                                = association.setRcbValues(
-                                        urcb, false, false, false, false, true, false, false, false);
-                        if (serviceErrors.get(0) != null) {
-                            throw serviceErrors.get(0);
-                        }
-                        System.out.println("done");
-                        break;
-                    }
-                    case 7: {
-                        urcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
-                        List<ServiceError> serviceErrors
-                                = association.setRcbValues(
-                                        urcb, false, false, false, false, false, true, false, false);
-                        if (serviceErrors.get(0) != null) {
-                            throw serviceErrors.get(0);
-                        }
-                        System.out.println("done");
-                        break;
-                    }
-                    case 8:
-                        System.out.print("Sending GI..");
-                        association.startGi(urcb);
-                        System.out.println("done");
-                        break;
-                    default:
-                        System.err.println("Unknown option.");
-                        break;
-                }
-            } catch (ServiceError e) {
-                System.err.println("Service error: " + e.getMessage());
-            } catch (NumberFormatException e) {
-                System.err.println("Cannot parse number: " + e.getMessage());
+                association.getRcbValues(urcb);
+                return urcb;
+            } catch (ServiceError ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ServiceError | IOException ex) {
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param reference
+     * @return
+     */
+    public static Brcb getBrcb(String reference) {
+
+        Brcb brcb = serverModel.getBrcb(reference);
+        if (brcb != null) {
+            try {
+                association.getRcbValues(brcb);
+                return brcb;
+            } catch (ServiceError ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param reference
+     * @return
+     */
+    public static Rcb getRcb(String reference) {
+        Brcb brcb = serverModel.getBrcb(reference);
+        Urcb urcb = serverModel.getUrcb(reference);
+        if (urcb != null) {
+            Rcb rcb = serverModel.getUrcb(reference);
+            return rcb;
+        } else if (brcb != null) {
+            Rcb rcb = serverModel.getBrcb(reference);
+            return rcb;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param reference
+     * @param time
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void reserveReport(String reference, short time) throws ServiceError, IOException {
+        System.out.print("Reserving RCB..");
+        if (getUrcb(reference) != null) {
+            association.reserveUrcb(getUrcb(reference));
+        } else if (getBrcb(reference) != null) {
+            association.reserveBrcb(getBrcb(reference), time);
+        }
+    }
+
+    /**
+     *
+     * @param reference
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void cancelReservation(String reference) throws ServiceError, IOException {
+        System.out.print("Canceling RCB reservation..");
+        association.cancelUrcbReservation(getUrcb(reference));
+        System.out.println("done");
+    }
+
+    /**
+     *
+     * @param reference
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void enableReport(String reference) throws ServiceError, IOException {
+        System.out.print("Enabling reporting..");
+        association.enableReporting(getRcb(reference));
+        System.out.println("done");
+    }
+
+    /**
+     *
+     * @param reference
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void disableReport(String reference) throws ServiceError, IOException {
+        System.out.print("Disabling reporting..");
+        association.disableReporting(getRcb(reference));
+        System.out.println("done");
+    }
+
+    /**
+     *
+     * @param reference
+     * @param dataSetReference
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void setTriggerReport(String reference, String datasetValue) throws ServiceError, IOException {
+        getRcb(reference).getDatSet().setValue(datasetValue);
+        List<ServiceError> serviceErrors = null;
+        try {
+            serviceErrors = association.setRcbValues(getRcb(reference), false, true, false, false, false, false, false, false);
+        } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (null != serviceErrors.get(0)) {
+            throw serviceErrors.get(0);
+        }
+        System.out.println("done");
+    }
 
+    /**
+     *
+     * @param reference
+     * @param triggerOptionsString
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void setDatasetReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
+        String[] triggerOptionsStrings = triggerOptionsString.split(",");
+        BdaTriggerConditions triggerOptions = getRcb(reference).getTrgOps();
+        triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
+        triggerOptions.setDataUpdate(Boolean.parseBoolean(triggerOptionsStrings[1]));
+        triggerOptions.setQualityChange(Boolean.parseBoolean(triggerOptionsStrings[2]));
+        triggerOptions.setIntegrity(Boolean.parseBoolean(triggerOptionsStrings[3]));
+        triggerOptions.setGeneralInterrogation(Boolean.parseBoolean(triggerOptionsStrings[4]));
+        List<ServiceError> serviceErrors= association.setRcbValues(getRcb(reference), false, false, false, false, true, false, false, false);
+        if (serviceErrors.get(0) != null) {
+            throw serviceErrors.get(0);
+        }
+        System.out.println("done");
+    }
+
+    /**
+     *
+     * @param reference
+     * @param integrityPeriodString
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void setIntegrityReport(String reference, String integrityPeriodString) throws ServiceError, IOException {
+        getRcb(reference).getIntgPd().setValue(Long.parseLong(integrityPeriodString));
+        List<ServiceError> serviceErrors = association.setRcbValues(getRcb(reference), false, false, false, false, false, true, false, false);
+        if (serviceErrors.get(0) != null) {
+            throw serviceErrors.get(0);
+        }
+        System.out.println("done");
+    }
+
+    /**
+     *
+     * @param reference
+     * @throws ServiceError
+     * @throws IOException
+     */
+    public static void sendGeneralInterrogationReport(String reference) throws ServiceError, IOException {
+        System.out.print("Sending GI..");
+        try {
+            association.startGi(getRcb(reference));
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("done");
     }
 
     /**
@@ -333,7 +395,7 @@ public class Client {
      * @param fcString
      * @return
      */
-    public FcModelNode askForFcModelNode(String reference, String fcString) {
+    public static FcModelNode askForFcModelNode(String reference, String fcString) {
         Fc fc = Fc.fromString(fcString);
 
         ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));

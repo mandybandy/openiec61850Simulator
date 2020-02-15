@@ -51,19 +51,23 @@ public class Server {
      * @param args
      * @throws IOException
      */
-    private static ServerSap serverSap = null;
-    private static ServerModel serverModel;
+    private static ServerSap serverSap;
+    private  ServerModel serverModel;
+
+    /**
+     *
+     */
     public String error;
 
     /**
      *
      * @param icdpath
      * @param portServer
-     * @return
      */
     public Server(String icdpath, int portServer) {
         this.error = "no error";
-
+        this.serverSap=null;
+        
         try {
 
             List<ServerModel> serverModels = null;
@@ -74,7 +78,7 @@ public class Server {
             } catch (SclParseException e) {
                 System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
                 System.out.println(e.getCause().getClass().getCanonicalName());
-                if (e.getCause().getClass().getCanonicalName()=="java.io.FileNotFoundException") {
+                if ("java.io.FileNotFoundException".equals(e.getCause().getClass().getCanonicalName())) {
                     error="file not found";
                 }
             }
@@ -91,7 +95,7 @@ public class Server {
                 }
             });
 
-            serverModel = serverSap.getModelCopy();
+            this.serverModel = serverSap.getModelCopy();
             serverSap.startListening(new EventListener());
             System.out.println("server started.");
             //return "Server started";
@@ -99,9 +103,10 @@ public class Server {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             //return "server already running";
         }
+        
     }
 
-    private static class EventListener implements ServerEventListener {
+    private class EventListener implements ServerEventListener {
 
         @Override
         public void serverStoppedListening(ServerSap serverSap) {
@@ -117,14 +122,7 @@ public class Server {
         }
     }
 
-    /**
-     *
-     */
-    public void printServerModel() {
-        System.out.println("** Printing model.");
 
-        System.out.println(serverModel);
-    }
 
     /**
      *
@@ -132,14 +130,14 @@ public class Server {
      * @param fcString
      * @param valueString
      */
-    public static void writeValue(String reference, String fcString, String valueString) {
+    public void writeValue(String reference, String fcString, String valueString) {
         Fc fc = Fc.fromString(fcString);
         if (fc == null) {
             System.out.println("Unknown functional constraint.");
             return;
         }
 
-        ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
+        ModelNode modelNode = this.serverModel.findModelNode(reference, Fc.fromString(fcString));
         if (modelNode == null) {
             System.out.println(
                     "A model node with the given reference and functional constraint could not be found.");
@@ -151,8 +149,7 @@ public class Server {
             return;
         }
 
-        BasicDataAttribute bda
-                = (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
+        BasicDataAttribute bda= (BasicDataAttribute) this.serverModel.findModelNode(reference, Fc.fromString(fcString));
 
         try {
             setBdaValue(bda, valueString);
@@ -164,13 +161,13 @@ public class Server {
 
         List<BasicDataAttribute> bdas = new ArrayList<>();
         bdas.add(bda);
-        serverSap.setValues(bdas);
+        this.serverSap.setValues(bdas);
 
         System.out.println("Successfully wrote data.");
         System.out.println(bda);
     }
 
-    private static void setBdaValue(BasicDataAttribute bda, String valueString) {
+    private void setBdaValue(BasicDataAttribute bda, String valueString) {
         if (bda instanceof BdaFloat32) {
             float value = Float.parseFloat(valueString);
             ((BdaFloat32) bda).setFloat(value);
