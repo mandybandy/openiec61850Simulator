@@ -1,16 +1,3 @@
-/*
- * Copyright 2011 The OpenIEC61850 Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package serverguiiec61850;
 
 import java.io.IOException;
@@ -51,12 +38,8 @@ public class Server {
      * @param args
      * @throws IOException
      */
-    private static ServerSap serverSap;
+    private ServerSap serverSap;
     private  ServerModel serverModel;
-
-    /**
-     *
-     */
     public String error;
 
     /**
@@ -65,8 +48,8 @@ public class Server {
      * @param portServer
      */
     public Server(String icdpath, int portServer) {
-        this.error = "no error";
-        this.serverSap=null;
+        error = "no error";
+        serverSap=null;
         
         try {
 
@@ -95,7 +78,7 @@ public class Server {
                 }
             });
 
-            this.serverModel = serverSap.getModelCopy();
+            serverModel = serverSap.getModelCopy();
             serverSap.startListening(new EventListener());
             System.out.println("server started.");
             //return "Server started";
@@ -137,7 +120,7 @@ public class Server {
             return;
         }
 
-        ModelNode modelNode = this.serverModel.findModelNode(reference, Fc.fromString(fcString));
+        ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
         if (modelNode == null) {
             System.out.println(
                     "A model node with the given reference and functional constraint could not be found.");
@@ -149,7 +132,7 @@ public class Server {
             return;
         }
 
-        BasicDataAttribute bda= (BasicDataAttribute) this.serverModel.findModelNode(reference, Fc.fromString(fcString));
+        BasicDataAttribute bda= (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
 
         try {
             setBdaValue(bda, valueString);
@@ -161,7 +144,7 @@ public class Server {
 
         List<BasicDataAttribute> bdas = new ArrayList<>();
         bdas.add(bda);
-        this.serverSap.setValues(bdas);
+        serverSap.setValues(bdas);
 
         System.out.println("Successfully wrote data.");
         System.out.println(bda);
@@ -206,7 +189,7 @@ public class Server {
     /**
      *
      */
-    public static void quit() {
+    public void quit() {
         System.out.println("** Stopping server.");
         serverSap.stop();
     }

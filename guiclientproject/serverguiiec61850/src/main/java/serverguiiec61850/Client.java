@@ -1,16 +1,3 @@
-/*
- * Copyright 2011 The OpenIEC61850 Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package serverguiiec61850;
 
 import com.beanit.openiec61850.BdaTriggerConditions;
@@ -28,7 +15,6 @@ import com.beanit.openiec61850.SclParser;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.Urcb;
-import com.beanit.openiec61850.internal.cli.ActionException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -47,7 +33,7 @@ public class Client {
      *
      */
     public static volatile ClientAssociation association;
-    private static ServerModel serverModel;
+    public static ServerModel serverModel;
 
     /**
      *
@@ -104,7 +90,7 @@ public class Client {
      * @param report
      * @return
      */
-    public static Report newReport(Report report) {
+    public Report newReport(Report report) {
         return report;
     }
 
@@ -119,7 +105,7 @@ public class Client {
      *
      * @throws IOException
      */
-    public static void readalldata() throws IOException {
+    public void readalldata() throws IOException {
         System.out.print("Reading all data...");
         try {
             association.getAllDataValues();
@@ -134,7 +120,7 @@ public class Client {
      * @param reference
      * @param fcString
      */
-    public static void getdata(String reference, String fcString) {
+    public void getdata(String reference, String fcString) {
         if (serverModel == null) {
             System.out.println("You have to retrieve the model before reading data.");
             return;
@@ -164,7 +150,7 @@ public class Client {
      * @param fcString
      * @param numberOfEntriesString
      */
-    public static void createdataset(String reference, String fcString, String numberOfEntriesString) {
+    public void createdataset(String reference, String fcString, String numberOfEntriesString) {
         try {
             int numDataSetEntries = Integer.parseInt(numberOfEntriesString);
 
@@ -188,7 +174,7 @@ public class Client {
      *
      * @param reference
      */
-    public static void deletedataset(String reference) {
+    public void deletedataset(String reference) {
         DataSet dataSet = serverModel.getDataSet(reference);
         if (dataSet == null) {
             //gibs nd
@@ -207,7 +193,7 @@ public class Client {
      * @param reference
      * @return 
      */
-    public static Urcb getUrcb(String reference) {
+    public Urcb getUrcb(String reference) {
 
         Urcb urcb = serverModel.getUrcb(reference);
         if (urcb != null) {
@@ -228,7 +214,7 @@ public class Client {
      * @param reference
      * @return
      */
-    public static Brcb getBrcb(String reference) {
+    public Brcb getBrcb(String reference) {
 
         Brcb brcb = serverModel.getBrcb(reference);
         if (brcb != null) {
@@ -249,7 +235,7 @@ public class Client {
      * @param reference
      * @return
      */
-    public static Rcb getRcb(String reference) {
+    public Rcb getRcb(String reference) {
         Brcb brcb = serverModel.getBrcb(reference);
         Urcb urcb = serverModel.getUrcb(reference);
         if (urcb != null) {
@@ -269,7 +255,7 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void reserveReport(String reference, short time) throws ServiceError, IOException {
+    public void reserveReport(String reference, short time) throws ServiceError, IOException {
         System.out.print("Reserving RCB..");
         if (getUrcb(reference) != null) {
             association.reserveUrcb(getUrcb(reference));
@@ -284,7 +270,7 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void cancelReservation(String reference) throws ServiceError, IOException {
+    public void cancelReservation(String reference) throws ServiceError, IOException {
         System.out.print("Canceling RCB reservation..");
         association.cancelUrcbReservation(getUrcb(reference));
         System.out.println("done");
@@ -296,7 +282,7 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void enableReport(String reference) throws ServiceError, IOException {
+    public void enableReport(String reference) throws ServiceError, IOException {
         System.out.print("Enabling reporting..");
         association.enableReporting(getRcb(reference));
         System.out.println("done");
@@ -308,7 +294,7 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void disableReport(String reference) throws ServiceError, IOException {
+    public void disableReport(String reference) throws ServiceError, IOException {
         System.out.print("Disabling reporting..");
         association.disableReporting(getRcb(reference));
         System.out.println("done");
@@ -317,11 +303,11 @@ public class Client {
     /**
      *
      * @param reference
-     * @param dataSetReference
+     * @param datasetValue
      * @throws ServiceError
      * @throws IOException
      */
-    public static void setTriggerReport(String reference, String datasetValue) throws ServiceError, IOException {
+    public void setTriggerReport(String reference, String datasetValue) throws ServiceError, IOException {
         getRcb(reference).getDatSet().setValue(datasetValue);
         List<ServiceError> serviceErrors = null;
         try {
@@ -342,7 +328,7 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void setDatasetReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
+    public void setDatasetReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
         String[] triggerOptionsStrings = triggerOptionsString.split(",");
         BdaTriggerConditions triggerOptions = getRcb(reference).getTrgOps();
         triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
@@ -364,13 +350,14 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void setIntegrityReport(String reference, String integrityPeriodString) throws ServiceError, IOException {
+    public void setIntegrityReport(String reference, String integrityPeriodString) throws ServiceError, IOException {
+        try{
         getRcb(reference).getIntgPd().setValue(Long.parseLong(integrityPeriodString));
         List<ServiceError> serviceErrors = association.setRcbValues(getRcb(reference), false, false, false, false, false, true, false, false);
-        if (serviceErrors.get(0) != null) {
-            throw serviceErrors.get(0);
-        }
         System.out.println("done");
+        }catch(NumberFormatException e){
+            System.out.println("can not convert text to number");
+        }
     }
 
     /**
@@ -379,14 +366,14 @@ public class Client {
      * @throws ServiceError
      * @throws IOException
      */
-    public static void sendGeneralInterrogationReport(String reference) throws ServiceError, IOException {
+    public void sendGeneralInterrogationReport(String reference) throws ServiceError, IOException {
         System.out.print("Sending GI..");
         try {
             association.startGi(getRcb(reference));
+            System.out.println("done");
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("done");
+        }      
     }
 
     /**
@@ -395,7 +382,7 @@ public class Client {
      * @param fcString
      * @return
      */
-    public static FcModelNode askForFcModelNode(String reference, String fcString) {
+    public FcModelNode askForFcModelNode(String reference, String fcString) {
         Fc fc = Fc.fromString(fcString);
 
         ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
@@ -415,7 +402,7 @@ public class Client {
      *
      * @return
      */
-    public static String quit() {
+    public String quit() {
         System.out.println("** Closing connection");
         association.close();
         return "Server stopped";

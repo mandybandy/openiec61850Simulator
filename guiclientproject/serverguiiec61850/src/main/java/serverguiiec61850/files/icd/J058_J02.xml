@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><SCL><IED configVersion="V07.80.17" desc="Höfer" manufacturer="SIEMENS" name="J058_J02" type="7SA82">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><SCL xmlns="http://www.iec.ch/61850/2003/SCL" xmlns:IEC_60870_5_104="http://www.iec.ch/61850-80-1/2007/SCL" xmlns:scl="http://www.iec.ch/61850/2003/SCL" xmlns:siebase="http://www.siemens.com/energy/2009/09/siprotec5/SieBase" xmlns:siedig="http://www.siemens.com/energy/2011/11/Siedig" xmlns:siesle2="http://www.siemens.com/energy/2009/09/siprotec5/SieSLE2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iec.ch/61850/2003/SCL SCL.xsd"><IED configVersion="V07.80.17" desc="Höfer" manufacturer="SIEMENS" name="J058_J02" type="7SA82">
 		<Private type="Siemens-MasterId">1470ff40-0620-4dfb-9cc2-c553c1d2e034</Private>
 		<Private type="Siemens-s7ManagerName">Höfer</Private>
 		<Private type="Siemens-ICD-Language">de-DE</Private>
@@ -19870,4 +19870,33 @@
 			<EnumVal ord="1">-3I0</EnumVal>
 			<EnumVal ord="2">3I0</EnumVal>
 		</EnumType>
-	</DataTypeTemplates></SCL>
+	</DataTypeTemplates><Communication>
+		<SubNetwork name="Subnet" type="8-MMS">
+			<Private type="Siemens-Start-Address">192.168.58.1</Private>
+			<BitRate multiplier="M" unit="b/s">100</BitRate>
+			<ConnectedAP apName="E" iedName="J058_J01">
+				<Address>
+					<P type="IP" xsi:type="tP_IP">192.168.5.220</P>
+					<P type="IP-SUBNET" xsi:type="tP_IP-SUBNET">255.255.255.0</P>
+					<P type="OSI-AP-Title">1,3,9999,23</P>
+					<P type="OSI-AE-Qualifier">23</P>
+					<P type="OSI-PSEL">00000001</P>
+					<P type="OSI-SSEL">0001</P>
+					<P type="OSI-TSEL">0001</P>
+					<P type="IP-GATEWAY" xsi:type="tP_IP-GATEWAY">192.168.5.10</P>
+				</Address>
+			</ConnectedAP>
+			<ConnectedAP apName="E" iedName="J058_J02">
+				<Address>
+					<P type="IP" xsi:type="tP_IP">192.168.5.221</P>
+					<P type="IP-SUBNET" xsi:type="tP_IP-SUBNET">255.255.255.0</P>
+					<P type="OSI-AP-Title">1,3,9999,23</P>
+					<P type="OSI-AE-Qualifier">23</P>
+					<P type="OSI-PSEL">00000001</P>
+					<P type="OSI-SSEL">0001</P>
+					<P type="OSI-TSEL">0001</P>
+					<P type="IP-GATEWAY" xsi:type="tP_IP-GATEWAY">192.168.5.10</P>
+				</Address>
+			</ConnectedAP>
+		</SubNetwork>
+	</Communication></SCL>

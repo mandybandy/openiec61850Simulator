@@ -1,21 +1,6 @@
-/*
- * Copyright 2011 The OpenIEC61850 Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package serverguiiec61850.gui;
 
-import com.beanit.openiec61850.ClientAssociation;
 import com.beanit.openiec61850.ClientSap;
-import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.clientgui.BasicDataBind;
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
@@ -55,6 +40,7 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import serverguiiec61850.Client;
+import static serverguiiec61850.Client.serverModel;
 
 /**
  *
@@ -67,7 +53,7 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
     // public static volatile ClientAssociation association;
-    private static ServerModel serverModel;
+    //private static ServerModel serverModel;
 
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
@@ -76,7 +62,7 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     /**
      *
      */
-    public guitree() {
+    public guitree() throws UnknownHostException {
         super("Werte ändern");
 
         
@@ -243,8 +229,8 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
     /**
      *
      */
-    public void connect() {
-        try {
+    public void connect() throws UnknownHostException {
+        
             ClientSap clientSap = new ClientSap();
 
             InetAddress address = null;
@@ -272,10 +258,8 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
                 return;
             }*/
 
-            ServerModel serverModell;
             try {
-                serverModell = serverguiiec61850.Client.association.retrieveModel();
-                serverguiiec61850.Client.association.getAllDataValues();
+                Client.association.getAllDataValues();
             } catch (ServiceError e) {
                 System.out.println("Service Error requesting model." + e.getMessage());
                 // serverguiiec61850.Client.association.close();
@@ -285,13 +269,11 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
                 return;
             }
 
-            ServerModelParser parser = new ServerModelParser(serverModell);
+            ServerModelParser parser = new ServerModelParser(serverModel);
             tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
             validate();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         
     }
 
     private void reload() {
