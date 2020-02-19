@@ -40,7 +40,7 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import serverguiiec61850.Client;
-import static serverguiiec61850.Client.serverModel;
+import serverguiiec61850.Server;
 
 /**
  *
@@ -48,24 +48,23 @@ import static serverguiiec61850.Client.serverModel;
  */
 public final class guitree extends JFrame implements ActionListener, TreeSelectionListener {
 
+    private Server server;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
-    // public static volatile ClientAssociation association;
-    //private static ServerModel serverModel;
 
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
     private DataTreeNode selectedNode;
-    
+
     /**
      *
+     * @throws java.net.UnknownHostException
      */
     public guitree() throws UnknownHostException {
         super("Werte ändern");
 
-        
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 exit();
@@ -74,19 +73,7 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
 
         Properties lastConnection = new Properties();
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        GridBagLayout gbl = new GridBagLayout(); 
+        GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
 
         JPanel topPanel = new JPanel();
@@ -228,52 +215,39 @@ public final class guitree extends JFrame implements ActionListener, TreeSelecti
 
     /**
      *
+     * @throws java.net.UnknownHostException
      */
     public void connect() throws UnknownHostException {
-        
-            ClientSap clientSap = new ClientSap();
 
-            InetAddress address = null;
-            address = InetAddress.getByName(gui.ipTB.getText());
+        ClientSap clientSap = new ClientSap();
 
-            int remotePort = 102;
-            try {
-                remotePort = Integer.parseInt(gui.portTB.getText());
-                if (remotePort < 1 || remotePort > 0xFFFF) {
-                    throw new NumberFormatException("port must be in range [1, 65535]");
-                }
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                return;
-            }
+        InetAddress address = null;
+        address = InetAddress.getByName(gui.ipTB.getText());
 
-            clientSap.setTSelLocal(settingsFrame.getTselLocal());
-            clientSap.setTSelRemote(settingsFrame.getTselRemote());
+        int remotePort = Integer.parseInt(gui.portTB.getText());
+        if (remotePort < 1 || remotePort > 0xFFFF) {
+            throw new NumberFormatException("port must be in range [1, 65535]");
+        }
 
-            /*
-            try {
-                association = clientSap.associate(address, remotePort, null, null);
-            } catch (IOException e) {
-                System.out.println("Error connecting to server: " + e.getMessage());
-                return;
-            }*/
+        clientSap.setTSelLocal(settingsFrame.getTselLocal());
+        clientSap.setTSelRemote(settingsFrame.getTselRemote());
 
-            try {
-                Client.association.getAllDataValues();
-            } catch (ServiceError e) {
-                System.out.println("Service Error requesting model." + e.getMessage());
-                // serverguiiec61850.Client.association.close();
-                return;
-            } catch (IOException e) {
-                System.out.println("Fatal IOException requesting model." + e.getMessage());
-                return;
-            }
+        try {
+            Client.association.getAllDataValues();
+        } catch (ServiceError e) {
+            System.out.println("Service Error requesting model." + e.getMessage());
+            // serverguiiec61850.Client.association.close();
+            return;
+        } catch (IOException e) {
+            System.out.println("Fatal IOException requesting model." + e.getMessage());
+            return;
+        }
 
-            ServerModelParser parser = new ServerModelParser(serverModel);
-            tree.setModel(new DefaultTreeModel(parser.getModelTree()));
+        ServerModelParser parser = new ServerModelParser(server.serverModel);
+        tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
-            validate();
-         
+        validate();
+
     }
 
     private void reload() {

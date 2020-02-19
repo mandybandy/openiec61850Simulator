@@ -23,8 +23,6 @@ import com.beanit.openiec61850.ServerEventListener;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServerSap;
 import com.beanit.openiec61850.ServiceError;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,54 +37,45 @@ public class Server {
      * @throws IOException
      */
     private ServerSap serverSap;
-    private  ServerModel serverModel;
-    public String error;
+    public static ServerModel serverModel;
+
+    /**
+     *
+     */
+
 
     /**
      *
      * @param icdpath
      * @param portServer
+     * @throws java.io.IOException
+     * @throws com.beanit.openiec61850.SclParseException
      */
-    public Server(String icdpath, int portServer) {
-        error = "no error";
-        serverSap=null;
-        
-        try {
+    public Server(String icdpath, int portServer) throws IOException, SclParseException {
+        serverSap = null;
 
-            List<ServerModel> serverModels = null;
-            try {
-                serverModels = SclParser.parse(icdpath);
-                System.out.println("icd file passed parsing.");
+        List<ServerModel> serverModels = null;
 
-            } catch (SclParseException e) {
-                System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
-                System.out.println(e.getCause().getClass().getCanonicalName());
-                if ("java.io.FileNotFoundException".equals(e.getCause().getClass().getCanonicalName())) {
-                    error="file not found";
+        serverModels = SclParser.parse(icdpath);
+        System.out.println("icd file passed parsing.");
+
+        serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                if (serverSap != null) {
+                    serverSap.stop();
                 }
+                System.out.println("Server was stopped.");
             }
+        });
 
-            serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
+        serverModel = serverSap.getModelCopy();
+        serverSap.startListening(new EventListener());
+        System.out.println("server started.");
+        //return "Server started";
 
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    if (serverSap != null) {
-                        serverSap.stop();
-                    }
-                    System.out.println("Server was stopped.");
-                }
-            });
-
-            serverModel = serverSap.getModelCopy();
-            serverSap.startListening(new EventListener());
-            System.out.println("server started.");
-            //return "Server started";
-        } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            //return "server already running";
-        }
-        
     }
 
     private class EventListener implements ServerEventListener {
@@ -104,8 +93,6 @@ public class Server {
             return null;
         }
     }
-
-
 
     /**
      *
@@ -132,15 +119,9 @@ public class Server {
             return;
         }
 
-        BasicDataAttribute bda= (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
+        BasicDataAttribute bda = (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
 
-        try {
-            setBdaValue(bda, valueString);
-        } catch (Exception e) {
-            System.out.println(
-                    "The console server does not support writing this type of basic data attribute.");
-            return;
-        }
+        setBdaValue(bda, valueString);
 
         List<BasicDataAttribute> bdas = new ArrayList<>();
         bdas.add(bda);

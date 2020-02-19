@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,38 +19,31 @@ public class NetworkUtil {
     /**
      *
      * @return
+     * @throws java.net.UnknownHostException
      */
-    public String getOwnerHostName() {
-        try {
-            return InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-        }
-        return null;
+    public String getOwnerHostName() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostName();
     }
 
     /**
      *
      * @return
+     * @throws java.net.SocketException
      */
-    public static List getNetDevice() {
-                   
-        try {
-            ArrayList<String> netDevs = new ArrayList<>();
-            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-            for (NetworkInterface netint : Collections.list(nets)) {
-                Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-                Collections.list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((Consumer<? super InetAddress>) (inetAddress) -> {
-                    System.out.println("Display name:" + netint.getDisplayName());
-                    System.out.println("Name: " + netint.getName());
-                    System.out.println("InetAddress: " + inetAddress);
-                    String netdevice = ("display name:" + netint.getDisplayName() + "\n" + "name: " + netint.getName() + "\n" + "address: " + inetAddress+ "\n");
-                    netDevs.add(netdevice);
-                });
-            }
-            return netDevs;
-        } catch (SocketException ex) {
-            Logger.getLogger(NetworkUtil.class.getName()).log(Level.SEVERE, null, ex);
+    public static List getNetDevice() throws SocketException {
+
+        ArrayList<String> netDevs = new ArrayList<>();
+        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+        for (NetworkInterface netint : Collections.list(nets)) {
+            Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+            Collections.list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((Consumer<? super InetAddress>) (inetAddress) -> {
+                System.out.println("Display name:" + netint.getDisplayName());
+                System.out.println("Name: " + netint.getName());
+                System.out.println("InetAddress: " + inetAddress);
+                String netdevice = ("display name:" + netint.getDisplayName() + "\n" + "name: " + netint.getName() + "\n" + "address: " + inetAddress + "\n");
+                netDevs.add(netdevice);
+            });
         }
-        return null;
+        return netDevs;
     }
 }
