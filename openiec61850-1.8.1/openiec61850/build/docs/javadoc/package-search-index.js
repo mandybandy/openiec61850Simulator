@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.beanit.josistack"},{"l":"com.beanit.jositransport"},{"l":"com.beanit.openiec61850"},{"l":"com.beanit.openiec61850.clientgui"},{"l":"com.beanit.openiec61850.clientgui.databind"},{"l":"com.beanit.openiec61850.clientgui.util"}]

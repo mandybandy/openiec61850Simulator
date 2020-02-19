@@ -1,4 +1,0 @@
-Bundle-SymbolicName=com.beanit.openiec61850
-Bundle-Name=OpenIEC61850
-Import-Package=com.beanit.jasn1.*,javax.net,*;resolution\:\=optional
--exportcontents=\!*.internal.*,*
