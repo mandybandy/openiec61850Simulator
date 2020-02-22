@@ -35,6 +35,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
@@ -45,7 +46,7 @@ import serverguiiec61850.network.Server;
 public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
 
     private Server server;
-    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("NO SERVER CONNECTED")));
+    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
@@ -58,8 +59,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      * @throws java.net.UnknownHostException
      */
     public GuiTree() throws UnknownHostException {
-        super(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("WERTE ÄNDERN"));
-
+        super("Werte ändern");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\iconSelecter.png");
+        this.setIconImage(img.getImage());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 exit();
@@ -135,9 +137,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RELOAD").equalsIgnoreCase(arg0.getActionCommand())) {
+        if ("reload".equalsIgnoreCase(arg0.getActionCommand())) {
             reload();
-        } else if (java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("WRITE").equalsIgnoreCase(arg0.getActionCommand())) {
+        } else if ("write".equalsIgnoreCase(arg0.getActionCommand())) {
             write();
         }
     }
@@ -167,9 +169,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 detailsLayout.setConstraints(filler, gbc);
                 detailsPanel.add(filler);
 
-                JButton button = new JButton(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RELOAD VALUES"));
+                JButton button = new JButton("Reload values");
                 button.addActionListener(this);
-                button.setActionCommand(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RELOAD"));
+                button.setActionCommand("reload");
                 gbc = new GridBagConstraints();
                 gbc.fill = GridBagConstraints.NONE;
                 gbc.gridx = 0;
@@ -184,9 +186,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 detailsPanel.add(button);
 
                 if (selectedNode.writable()) {
-                    button = new JButton(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("WRITE VALUES"));
+                    button = new JButton("Write values");
                     button.addActionListener(this);
-                    button.setActionCommand(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("WRITE"));
+                    button.setActionCommand("write");
                     gbc = new GridBagConstraints();
                     gbc.fill = GridBagConstraints.NONE;
                     gbc.gridx = 2;

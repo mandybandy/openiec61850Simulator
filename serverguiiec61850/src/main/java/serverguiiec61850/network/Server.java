@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.beanit.openiec61850.BasicDataAttribute;
 import com.beanit.openiec61850.BdaBoolean;
+import com.beanit.openiec61850.BdaCheck;
 import com.beanit.openiec61850.BdaFloat32;
 import com.beanit.openiec61850.BdaFloat64;
 import com.beanit.openiec61850.BdaInt16;
@@ -140,43 +141,58 @@ public class Server {
 
         LOGGER_SERVER.info("Successfully wrote data.");
         System.out.println(bda);
-        LOGGER_SERVER.info(bda.getName());
+        LOGGER_SERVER.info(bda.toString());
     }
 
     private void setBdaValue(BasicDataAttribute bda, String valueString) {
         if (bda instanceof BdaFloat32) {
             float value = Float.parseFloat(valueString);
             ((BdaFloat32) bda).setFloat(value);
+            LOGGER_SERVER.debug("BdaFloat32");
         } else if (bda instanceof BdaVisibleString) {
             String value = (valueString);
             ((BdaVisibleString) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaVisibleString");
         } else if (bda instanceof BdaFloat64) {
             double value = Float.parseFloat(valueString);
             ((BdaFloat64) bda).setDouble(value);
+            LOGGER_SERVER.debug("BdaFloat64");
         } else if (bda instanceof BdaInt8) {
             byte value = Byte.parseByte(valueString);
             ((BdaInt8) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt8");
         } else if (bda instanceof BdaInt8U) {
             short value = Short.parseShort(valueString);
             ((BdaInt8U) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt8U");
         } else if (bda instanceof BdaInt16) {
             short value = Short.parseShort(valueString);
             ((BdaInt16) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt16");
         } else if (bda instanceof BdaInt16U) {
             int value = Integer.parseInt(valueString);
             ((BdaInt16U) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt16U");
         } else if (bda instanceof BdaInt32) {
             int value = Integer.parseInt(valueString);
             ((BdaInt32) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt32");
         } else if (bda instanceof BdaInt32U) {
             long value = Long.parseLong(valueString);
             ((BdaInt32U) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt32U");
         } else if (bda instanceof BdaInt64) {
             long value = Long.parseLong(valueString);
             ((BdaInt64) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaInt64");
         } else if (bda instanceof BdaBoolean) {
             boolean value = Boolean.parseBoolean(valueString);
             ((BdaBoolean) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaFloat32");
+        } else if (bda instanceof BdaCheck) {
+            boolean value = Boolean.parseBoolean(valueString);
+            ((BdaBoolean) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaFloat32");
         } else {
             LOGGER_SERVER.info("datatypes are not the same");
             throw new IllegalArgumentException();

@@ -139,21 +139,21 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         List<String> fcList = Arrays.asList(fcs);
         if (selectedNode.writable()) {
 
-            for (int i = 0; i < fcList.size(); i++) {
-                if (fcList.get(i) == null ? RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString() == null : fcList.get(i).equals(RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString())) {
-                    validate();
-                    Gui.reference = selectedNode.getNode().getReference().toString();
-                    Gui.fc = selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
+            for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
+                // if (RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString().equals(fcList.get(fcCount))) {
+                validate();
+                Gui.reference = selectedNode.getNode().getReference().toString();
+                Gui.fc = selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
 
-                    Gui.referenceTB.setText(reference);
-                    Gui.createDatasetRefTB.setText(reference);
-                    Gui.createDatasetFcCB.setSelectedItem(fc);
-                    Gui.simulateRampReferenceTB.setText(reference);
-                    Gui.simulateRampFcCB.setSelectedItem(fc);
-                    Gui.simulatePulsReferenceTB.setText(reference);
-                    Gui.simulatePulsFcCB.setSelectedItem(fc);
-                    exit();
-                }
+                Gui.referenceTB.setText(reference);
+                Gui.createDatasetRefTB.setText(reference);
+                Gui.createDatasetFcCB.setSelectedItem(fc);
+                Gui.simulateRampReferenceTB.setText(reference);
+                Gui.simulateRampFcCB.setSelectedItem(fc);
+                Gui.simulatePulsReferenceTB.setText(reference);
+                Gui.simulatePulsFcCB.setSelectedItem(fc);
+                exit();
+                //}
             }
 
         }

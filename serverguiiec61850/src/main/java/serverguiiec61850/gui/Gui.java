@@ -16,7 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
-import serverguiiec61850.network.NetworkUtil;
 import serverguiiec61850.network.Server;
 import static serverguiiec61850.files.ModifyXmlFile.getIp;
 import javax.swing.ImageIcon;
@@ -33,7 +32,7 @@ import serverguiiec61850.network.NetworkUtil;
  * @author Philipp Mandl
  */
 public class Gui extends javax.swing.JFrame {
-    
+
     public static final Logger LOGGER_GUI = LoggerFactory.getLogger(Gui.class);
 
     /**
@@ -50,7 +49,7 @@ public class Gui extends javax.swing.JFrame {
      * Server functional constraint
      */
     public static String fc;
-    
+
     private Server server;
     private Client client;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -224,7 +223,8 @@ public class Gui extends javax.swing.JFrame {
 
         icodersclLBL.setText("ICD oder SCL file");
 
-        IedLBL.setText("latest ied");
+        IedLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        IedLBL.setText("select IED");
 
         changeIedBTN.setText("change");
         changeIedBTN.addActionListener(new java.awt.event.ActionListener() {
@@ -364,16 +364,16 @@ public class Gui extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(selectedIedLBL)
-                        .addGap(82, 82, 82)
-                        .addComponent(IedLBL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(44, 44, 44)
+                        .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(changeIedBTN))
                     .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(selectFileBTN)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(networkPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -386,7 +386,7 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(selectFileBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(59, 59, 59)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IedLBL)
+                    .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changeIedBTN)
                     .addComponent(selectedIedLBL))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1373,7 +1373,7 @@ public class Gui extends javax.swing.JFrame {
             iedPath = chooser.getSelectedFile().getPath();
             iedPathName = chooser.getSelectedFile().getName();
         }
-        
+
         netInfosTA.setText(null);
         try {
             iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
@@ -1395,15 +1395,15 @@ public class Gui extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
-        
+
         int rueckgabeWert = chooser.showDialog(null, "select a SCD/ICD file");
-        
+
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             System.out.println("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
         }
-        
+
         File dir = new File(iedPath).getParentFile();
         if (dir.isDirectory()) {
             String[] entries = dir.list();
@@ -1412,7 +1412,7 @@ public class Gui extends javax.swing.JFrame {
                 aktFile.delete();
             }
         }
-        
+
         try {
             splitIed(iedPathTB.getText());
         } catch (TransformerException ex) {
@@ -1434,7 +1434,7 @@ public class Gui extends javax.swing.JFrame {
         try {
             client.quit();
             server.quit();
-            
+
             startBTN.setEnabled(true);
             stopBTN.setEnabled(false);
             main.setEnabledAt(1, false);
@@ -1464,10 +1464,10 @@ public class Gui extends javax.swing.JFrame {
             //btn hide machen
             startBTN.setEnabled(false);
             stopBTN.setEnabled(true);
-            
+
             main.setEnabledAt(1, true);
             main.setEnabledAt(2, true);
-            
+
             connectedLBL.setText("server started");
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
@@ -1479,7 +1479,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("", ex);
         }
     }//GEN-LAST:event_startBTNActionPerformed
-    
+
     private void setAllRbsFalse() {
         reserveReportRB.setSelected(false);
         cancelReservationRB.setSelected(false);
@@ -1490,7 +1490,7 @@ public class Gui extends javax.swing.JFrame {
         setIntegrityReportRB.setSelected(false);
         sendGeneralInterrogationReportRB.setSelected(false);
     }
-    
+
     private void setAllReportPnlsFalse() {
         IntegrityReportPNL.setVisible(false);
         valueReportPNL.setVisible(false);
@@ -1498,7 +1498,7 @@ public class Gui extends javax.swing.JFrame {
         reserveTimeReportPNL.setVisible(false);
         referenceReportPNL.setVisible(false);
     }
-    
+
     private void setAllDatasetPnlsFalse() {
         referenceDatasetPNL.setVisible(false);
         fcDatasetPNL.setVisible(false);
@@ -1553,7 +1553,7 @@ public class Gui extends javax.swing.JFrame {
         String value = valueTB.getText();
         String triggerOptionsString = triggerOptionsTB.getText();
         String integrityPeriod = integrityPeriodTB.getText();
-        
+
         short time;
         try {
             time = Short.parseShort(reserveTimeTB.getText());
@@ -1562,7 +1562,7 @@ public class Gui extends javax.swing.JFrame {
             time = 0;
             LOGGER_GUI.error("a non number entered in report", e);
         }
-        
+
         try {
             if (reserveReportRB.isSelected()) {
                 LOGGER_GUI.info(client.reserveReport(reference, time));
@@ -1638,10 +1638,10 @@ public class Gui extends javax.swing.JFrame {
             steps = 0;
             LOGGER_GUI.error("a non number entered in ramp simulator", e);
         }
-        
+
         for (int i = 0; i < steps; i++) {
             try {
-                server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps)));
+                server.writeValue(referenceRamp, fcString, String.valueOf((from + ((to - from) / steps)) * (i + 1)));
                 LOGGER_GUI.info("ramp simulator: \n");
                 Thread.sleep(time / steps);
             } catch (InterruptedException ex) {
@@ -1665,10 +1665,10 @@ public class Gui extends javax.swing.JFrame {
             offTime = 0;
             onTime = 0;
         }
-        
+
         simulatePulsStartBTN.setEnabled(false);
         simulatePulsStopBTN.setEnabled(true);
-        
+
         LOGGER_GUI.info("started pulse simulator\n");
         try {
             server.writeValue(referencePuls, fcString, max);
@@ -1688,7 +1688,7 @@ public class Gui extends javax.swing.JFrame {
         executorService.shutdown();
         LOGGER_GUI.info("stoped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
-    
+
     private void selectReference(java.awt.event.ActionEvent evt) {
         try {
             RefSelect select = new RefSelect();
@@ -1718,9 +1718,9 @@ public class Gui extends javax.swing.JFrame {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Specify a file to save");
-        
+
         int rueckgabeWert = chooser.showSaveDialog(null);
-        
+
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
@@ -1734,9 +1734,9 @@ public class Gui extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_saveCsvBTNActionPerformed
-    
+
     private void createNetDeviceList() {
-        
+
         try {
             netDevicesTA.setText(null);
             netDevicesTA.setEditable(false);
@@ -1744,9 +1744,9 @@ public class Gui extends javax.swing.JFrame {
         } catch (SocketException ex) {
             LOGGER_GUI.error("socket error", ex);
         }
-        
+
     }
-    
+
     private void createNetInfoList(String iedName) {
         try {
             netInfosTA.setEditable(false);
