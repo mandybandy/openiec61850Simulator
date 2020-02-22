@@ -62,7 +62,12 @@ public class Server {
     public Server(String sclPath, int portServer) throws IOException, SclParseException {
         serverSap = null;
 
-        List<ServerModel> serverModels = SclParser.parse(sclPath);
+        List<ServerModel> serverModels = null;
+        try {
+            serverModels = SclParser.parse(sclPath);
+        } catch (SclParseException e) {
+            LOGGER_SERVER.error("file failed parsing.");
+        }
         LOGGER_SERVER.info("file passed parsing.");
 
         serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);

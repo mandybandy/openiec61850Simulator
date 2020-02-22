@@ -355,6 +355,9 @@
                             <Property name="rows" type="int" value="5"/>
                             <Property name="text" type="java.lang.String" value="found no devices"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>

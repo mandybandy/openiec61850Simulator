@@ -49,7 +49,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      */
     public static DataObjectTreeNode lastNode;
     private Server server;
-    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("NO SERVER CONNECTED")));
+    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
@@ -60,7 +60,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * @throws java.net.UnknownHostException
      */
     public RefSelect() throws UnknownHostException {
-        super(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SELECT DATANODE"));
+        super("select datanode");
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
@@ -102,7 +102,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         treeScrollPaneConstraint.insets = new Insets(5, 5, 5, 5);
         gbl.setConstraints(treeScrollPane, treeScrollPaneConstraint);
         add(treeScrollPane);
-        JButton confirm = new JButton(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CONFIRM"));
+        JButton confirm = new JButton("confirm");
         add(confirm);
         confirm.addActionListener(this::confirmBTNpressed);
 
@@ -135,7 +135,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * @param evt
      */
     public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
-        String[] fcs = {java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("ST"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("MX"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SP"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SV"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CF"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DC"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SG"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SE"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SR"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("OR"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("BL"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("EX"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CO"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("US"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("MS"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RP"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("BR"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("LG"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("ALL"), java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("NONE")};
+        String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
         if (selectedNode.writable()) {
 

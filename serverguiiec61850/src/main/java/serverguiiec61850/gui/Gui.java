@@ -7,20 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
-import static serverguiiec61850.network.NetworkUtil.getNetDevice;
+import serverguiiec61850.network.NetworkUtil;
 import serverguiiec61850.network.Server;
 import static serverguiiec61850.files.ModifyXmlFile.getIp;
 import javax.swing.ImageIcon;
@@ -30,13 +26,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serverguiiec61850.files.ModifyXmlFile;
 import static serverguiiec61850.files.ModifyXmlFile.splitIed;
+import serverguiiec61850.network.NetworkUtil;
 
 /**
  *
  * @author Philipp Mandl
  */
 public class Gui extends javax.swing.JFrame {
-
+    
     public static final Logger LOGGER_GUI = LoggerFactory.getLogger(Gui.class);
 
     /**
@@ -53,7 +50,7 @@ public class Gui extends javax.swing.JFrame {
      * Server functional constraint
      */
     public static String fc;
-
+    
     private Server server;
     private Client client;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -1376,7 +1373,7 @@ public class Gui extends javax.swing.JFrame {
             iedPath = chooser.getSelectedFile().getPath();
             iedPathName = chooser.getSelectedFile().getName();
         }
-
+        
         netInfosTA.setText(null);
         try {
             iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
@@ -1398,15 +1395,15 @@ public class Gui extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
-
+        
         int rueckgabeWert = chooser.showDialog(null, "select a SCD/ICD file");
-
+        
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             System.out.println("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
         }
-
+        
         File dir = new File(iedPath).getParentFile();
         if (dir.isDirectory()) {
             String[] entries = dir.list();
@@ -1415,7 +1412,7 @@ public class Gui extends javax.swing.JFrame {
                 aktFile.delete();
             }
         }
-
+        
         try {
             splitIed(iedPathTB.getText());
         } catch (TransformerException ex) {
@@ -1437,7 +1434,7 @@ public class Gui extends javax.swing.JFrame {
         try {
             client.quit();
             server.quit();
-
+            
             startBTN.setEnabled(true);
             stopBTN.setEnabled(false);
             main.setEnabledAt(1, false);
@@ -1467,10 +1464,10 @@ public class Gui extends javax.swing.JFrame {
             //btn hide machen
             startBTN.setEnabled(false);
             stopBTN.setEnabled(true);
-
+            
             main.setEnabledAt(1, true);
             main.setEnabledAt(2, true);
-
+            
             connectedLBL.setText("server started");
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
@@ -1482,7 +1479,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("", ex);
         }
     }//GEN-LAST:event_startBTNActionPerformed
-
+    
     private void setAllRbsFalse() {
         reserveReportRB.setSelected(false);
         cancelReservationRB.setSelected(false);
@@ -1493,7 +1490,7 @@ public class Gui extends javax.swing.JFrame {
         setIntegrityReportRB.setSelected(false);
         sendGeneralInterrogationReportRB.setSelected(false);
     }
-
+    
     private void setAllReportPnlsFalse() {
         IntegrityReportPNL.setVisible(false);
         valueReportPNL.setVisible(false);
@@ -1501,7 +1498,7 @@ public class Gui extends javax.swing.JFrame {
         reserveTimeReportPNL.setVisible(false);
         referenceReportPNL.setVisible(false);
     }
-
+    
     private void setAllDatasetPnlsFalse() {
         referenceDatasetPNL.setVisible(false);
         fcDatasetPNL.setVisible(false);
@@ -1556,7 +1553,7 @@ public class Gui extends javax.swing.JFrame {
         String value = valueTB.getText();
         String triggerOptionsString = triggerOptionsTB.getText();
         String integrityPeriod = integrityPeriodTB.getText();
-
+        
         short time;
         try {
             time = Short.parseShort(reserveTimeTB.getText());
@@ -1565,7 +1562,7 @@ public class Gui extends javax.swing.JFrame {
             time = 0;
             LOGGER_GUI.error("a non number entered in report", e);
         }
-
+        
         try {
             if (reserveReportRB.isSelected()) {
                 LOGGER_GUI.info(client.reserveReport(reference, time));
@@ -1641,7 +1638,7 @@ public class Gui extends javax.swing.JFrame {
             steps = 0;
             LOGGER_GUI.error("a non number entered in ramp simulator", e);
         }
-
+        
         for (int i = 0; i < steps; i++) {
             try {
                 server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps)));
@@ -1668,10 +1665,10 @@ public class Gui extends javax.swing.JFrame {
             offTime = 0;
             onTime = 0;
         }
-
+        
         simulatePulsStartBTN.setEnabled(false);
         simulatePulsStopBTN.setEnabled(true);
-
+        
         LOGGER_GUI.info("started pulse simulator\n");
         try {
             server.writeValue(referencePuls, fcString, max);
@@ -1691,7 +1688,7 @@ public class Gui extends javax.swing.JFrame {
         executorService.shutdown();
         LOGGER_GUI.info("stoped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
-
+    
     private void selectReference(java.awt.event.ActionEvent evt) {
         try {
             RefSelect select = new RefSelect();
@@ -1721,9 +1718,9 @@ public class Gui extends javax.swing.JFrame {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Specify a file to save");
-
+        
         int rueckgabeWert = chooser.showSaveDialog(null);
-
+        
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
@@ -1737,21 +1734,19 @@ public class Gui extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_saveCsvBTNActionPerformed
-
+    
     private void createNetDeviceList() {
-
+        
         try {
             netDevicesTA.setText(null);
             netDevicesTA.setEditable(false);
-            for (int i = 0; i < getNetDevice().size(); i++) {
-                LOGGER_GUI.info(getNetDevice().get(i).toString());
-                netDevicesTA.append(getNetDevice().get(i).toString());
-            }
+            NetworkUtil.getNetDevice();
         } catch (SocketException ex) {
             LOGGER_GUI.error("socket error", ex);
         }
+        
     }
-
+    
     private void createNetInfoList(String iedName) {
         try {
             netInfosTA.setEditable(false);
@@ -1847,7 +1842,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel logTAB;
     public static javax.swing.JTabbedPane main;
     public static javax.swing.JTextArea masterLogTA;
-    private javax.swing.JTextArea netDevicesTA;
+    public static javax.swing.JTextArea netDevicesTA;
     private javax.swing.JTextArea netInfosTA;
     public static javax.swing.JPanel networkPNL;
     private javax.swing.JPanel numberOfEntriesDatasetPNL;

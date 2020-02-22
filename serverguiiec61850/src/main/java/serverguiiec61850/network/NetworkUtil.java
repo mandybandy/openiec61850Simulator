@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.function.Consumer;
+import serverguiiec61850.gui.Gui;
+import static serverguiiec61850.gui.Gui.LOGGER_GUI;
 
 /**
  *
@@ -28,7 +30,7 @@ public class NetworkUtil {
      *
      * @return @throws java.net.SocketException
      */
-    public static List getNetDevice() throws SocketException {
+    public static void getNetDevice() throws SocketException {
 
         ArrayList<String> netDevs = new ArrayList<>();
         Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
@@ -42,6 +44,9 @@ public class NetworkUtil {
                 netDevs.add(netdevice);
             });
         });
-        return netDevs;
+        for (int i = 0; i < netDevs.size(); i++) {
+            LOGGER_GUI.info(netDevs.get(i));
+            Gui.netDevicesTA.append(netDevs.get(i));
+        }
     }
 }

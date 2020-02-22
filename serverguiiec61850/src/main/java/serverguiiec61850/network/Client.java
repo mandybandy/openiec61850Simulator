@@ -61,11 +61,12 @@ public class Client {
                 association.close();
             }
         });
-        LOGGER_CLIENT.info(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SUCCESSFULLY CONNECTED"));
-        LOGGER_CLIENT.info(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("READING MODEL FROM FILE..."));
+        LOGGER_CLIENT.info("successfully connected");
+
+        LOGGER_CLIENT.info("reading model from file...");
         server.serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
         association.setServerModel(server.serverModel);
-        LOGGER_CLIENT.debug(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SUCCESSFULLY READ MODEL"));
+        LOGGER_CLIENT.debug("successfully read model");
     }
 
     /**
@@ -90,9 +91,9 @@ public class Client {
      * @throws com.beanit.openiec61850.ServiceError
      */
     public void readalldata() throws IOException, ServiceError {
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("READING ALL DATA..."));
+        System.out.print("Reading all data...");
         association.getAllDataValues();
-        System.out.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DONE"));
+        System.out.println("done");
     }
 
     /**
@@ -104,15 +105,15 @@ public class Client {
      */
     public void getdata(String reference, String fcString) throws ServiceError, IOException {
         if (server.serverModel == null) {
-            System.out.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("YOU HAVE TO RETRIEVE THE MODEL BEFORE READING DATA."));
+            System.out.println("You have to retrieve the model before reading data.");
             return;
         }
 
         FcModelNode fcModelNode = askForFcModelNode(reference, fcString);
 
-        System.out.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SENDING GETDATAVALUES REQUEST..."));
+        System.out.println("Sending GetDataValues request...");
         association.getDataValues(fcModelNode);
-        System.out.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SUCCESSFULLY READ DATA."));
+        System.out.println("Successfully read data.");
         System.out.println(fcModelNode);
     }
 
@@ -134,13 +135,13 @@ public class Client {
         }
         for (int i = 0; i < dataSetMembers.size(); i++) {
             if (dataSetMembers.get(i) == null) {
-                return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("A MEMBER IS NOT DEFINED");
+                return "a member is not defined";
             }
         }
         DataSet dataSet = new DataSet(reference, dataSetMembers);
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CREATING DATA SET.."));
+        System.out.print("Creating data set..");
         association.createDataSet(dataSet);
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CREATED DATASET");
+        return "created dataset";
     }
 
     /**
@@ -154,12 +155,12 @@ public class Client {
         DataSet dataSet = server.serverModel.getDataSet(reference);
         if (dataSet == null) {
             //gibs nd
-            return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DATASET NOT FOUND ERROR WHILE DELETING DATASET");
+            return "dataset not found error while deleting dataset";
         }
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DELETING DATA SET.."));
+        System.out.print("Deleting data set..");
         association.deleteDataSet(dataSet);
 
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DELETED DATASET");
+        return "deleted dataset";
     }
 
     /**
@@ -223,15 +224,15 @@ public class Client {
      * @throws IOException
      */
     public String reserveReport(String reference, short time) throws ServiceError, IOException {
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RESERVING RCB.."));
+        System.out.print("Reserving RCB..");
         if (getUrcb(reference) != null) {
             association.reserveUrcb(getUrcb(reference));
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RESERVED UNBUFFERED REPORT: {0}"), new Object[] {reference});
+            return "reserved unbuffered report: " + reference;
         } else if (getBrcb(reference) != null) {
             association.reserveBrcb(getBrcb(reference), time);
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("RESERVED BUFFERED REPORT: {0}"), new Object[] {reference});
+            return "reserved buffered report: " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE RESERVING REPORT");
+        return "report not found, error while reserving report";
     }
 
     /**
@@ -242,13 +243,13 @@ public class Client {
      * @throws IOException
      */
     public String cancelReservation(String reference) throws ServiceError, IOException {
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CANCELING RCB RESERVATION.."));
+        System.out.print("Canceling RCB reservation..");
         Urcb urcb = getUrcb(reference);
         if (urcb != null) {
             association.cancelUrcbReservation(urcb);
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("CANCELD RESERVATION: {0}"), new Object[] {reference});
+            return "canceld reservation: " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE CANCELLING RESERVATION");
+        return "report not found, error while cancelling reservation";
     }
 
     /**
@@ -261,11 +262,11 @@ public class Client {
     public String enableReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
-            System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("ENABLING REPORTING.."));
+            System.out.print("Enabling reporting..");
             association.enableReporting(getRcb(reference));
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT ENABLED: {0}"), new Object[] {reference});
+            return "report enabled: " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE ENABLING REPORT");
+        return "report not found, error while enabling report";
     }
 
     /**
@@ -278,11 +279,11 @@ public class Client {
     public String disableReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
-            System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DISABLING REPORTING.."));
+            System.out.print("Disabling reporting..");
             association.disableReporting(getRcb(reference));
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT DISABLED: {0}"), new Object[] {reference});
+            return "report disabled: " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE DISABLING REPORT");
+        return "report not found, error while disabling report";
     }
 
     /**
@@ -299,9 +300,9 @@ public class Client {
             rcb.getDatSet().setValue(datasetValue);
             List<ServiceError> serviceErrors = null;
             serviceErrors = association.setRcbValues(rcb, false, true, false, false, false, false, false, false);
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("VALUE {0} SET ON: {1}"), new Object[] {datasetValue, reference});
+            return "value " + datasetValue + " set on: " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE SETTING TRIGGER");
+        return "report not found, error while setting trigger";
     }
 
     /**
@@ -315,7 +316,7 @@ public class Client {
     public String setDatasetReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
-            String[] triggerOptionsStrings = triggerOptionsString.split(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString(","));
+            String[] triggerOptionsStrings = triggerOptionsString.split(",");
             BdaTriggerConditions triggerOptions = rcb.getTrgOps();
             triggerOptions.setDataChange(Boolean.parseBoolean(triggerOptionsStrings[0]));
             triggerOptions.setDataUpdate(Boolean.parseBoolean(triggerOptionsStrings[1]));
@@ -326,9 +327,9 @@ public class Client {
             if (serviceErrors.get(0) != null) {
                 throw serviceErrors.get(0);
             }
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("DATASET TRIGGER {0} SET ON {1}"), new Object[] {triggerOptionsString, reference});
+            return "dataset trigger " + triggerOptionsString + " set on " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE SETTING DATASET");
+        return "report not found, error while setting Dataset";
     }
 
     /**
@@ -345,9 +346,9 @@ public class Client {
         if (rcb != null) {
             rcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
             List<ServiceError> serviceErrors = association.setRcbValues(rcb, false, false, false, false, false, true, false, false);
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("INTEGRITY {0} SET ON {1}"), new Object[] {integrityPeriodString, reference});
+            return "integrity " + integrityPeriodString + " set on " + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE CHANGING INTEGRITY");
+        return "report not found, error while changing integrity";
     }
 
     /**
@@ -359,12 +360,12 @@ public class Client {
      */
     public String sendGeneralInterrogationReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
-        System.out.print(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SENDING GI.."));
+        System.out.print("Sending GI..");
         if (rcb != null) {
             association.startGi(rcb);
-            return java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("GENERAL INTERROGATION SENT ON{0}"), new Object[] {reference});
+            return "general interrogation sent on" + reference;
         }
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("REPORT NOT FOUND, ERROR WHILE SENDING GI");
+        return "report not found, error while sending GI";
     }
 
     /**
@@ -378,11 +379,11 @@ public class Client {
 
         ModelNode modelNode = server.serverModel.findModelNode(reference, Fc.fromString(fcString));
         if (modelNode == null) {
-            System.err.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("MODELNODE NOT FOUND"));
+            System.err.println("modelNode not found");
         }
 
         if (!(modelNode instanceof FcModelNode)) {
-            System.err.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("THE GIVEN MODEL NODE IS NOT A FUNCTIONALLY CONSTRAINT MODEL NODE."));
+            System.err.println("The given model node is not a functionally constraint model node.");
         }
 
         FcModelNode fcModelNode = (FcModelNode) modelNode;
@@ -394,8 +395,8 @@ public class Client {
      * @return
      */
     public String quit() {
-        System.out.println(java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("** CLOSING CONNECTION"));
+        System.out.println("** Closing connection");
         association.close();
-        return java.util.ResourceBundle.getBundle("serverguiiec61850/Bundle").getString("SERVER STOPPED");
+        return "Server stopped";
     }
 }
