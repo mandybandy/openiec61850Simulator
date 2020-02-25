@@ -150,6 +150,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
+        //TODO: mit enter den tree aufmachen, nur schreibbare elemente anzeigen, mit esc oder strg W zumachen
         detailsPanel.removeAll();
         detailsPanel.repaint();
         if (e.getNewLeadSelectionPath() != null) {

@@ -137,11 +137,12 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
         String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
-        if (selectedNode.writable()) {
+        if (selectedNode.writable()) {//ToDo: else feedback ned beschreibbar
 
             for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
                 // if (RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString().equals(fcList.get(fcCount))) {
                 validate();
+                //ToDo: in gui machen!!!
                 Gui.reference = selectedNode.getNode().getReference().toString();
                 Gui.fc = selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
 

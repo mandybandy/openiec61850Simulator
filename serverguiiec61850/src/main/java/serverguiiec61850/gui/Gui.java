@@ -1626,6 +1626,7 @@ public class Gui extends javax.swing.JFrame {
         int to;
         long time;
         int steps;
+        LOGGER_GUI.info("ramp simulator started: ");
         try {
             time = Long.parseLong(simulateRampTimeTB.getText());
             steps = Integer.parseInt(simulateRampStepsTB.getText());
@@ -1639,15 +1640,22 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("a non number entered in ramp simulator", e);
         }
 
-        for (int i = 0; i < steps; i++) {
-            try {
-                server.writeValue(referenceRamp, fcString, String.valueOf((from + ((to - from) / steps)) * (i + 1)));
-                LOGGER_GUI.info("ramp simulator: \n");
-                Thread.sleep(time / steps);
-            } catch (InterruptedException ex) {
-                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //        for (int i = 0; i < steps; i++) {
+//            try {
+//                server.writeValue(referenceRamp, fcString, String.valueOf((from + ((to - from) / steps)) * (i + 1)));
+//                LOGGER_GUI.info("\n");
+//                Thread.sleep(time / steps);
+//            } catch (InterruptedException ex) {
+//                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+            Simulator sim = new Simulator(server);
+            sim.rampSimulator(reference, fcString, from, to, time, steps);
+        } catch (InterruptedException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
 
     private void simulatePulsStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulatePulsStartBTNActionPerformed
@@ -1670,15 +1678,21 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStopBTN.setEnabled(true);
 
         LOGGER_GUI.info("started pulse simulator\n");
+        Simulator sim = new Simulator(server);
         try {
-            server.writeValue(referencePuls, fcString, max);
-            //ontime
-            Thread.sleep(onTime);
-            server.writeValue(referencePuls, fcString, min);
-            //offtime
-            Thread.sleep(offTime);
+            sim.pulseSimulator(reference, fcString, min, max, onTime, offTime);
+//        try {
+//            server.writeValue(referencePuls, fcString, max);
+//            //ontime
+//            Thread.sleep(onTime);
+//            server.writeValue(referencePuls, fcString, min);
+//            //offtime
+//            Thread.sleep(offTime);
+//        } catch (InterruptedException ex) {
+//            LOGGER_GUI.error("simulator interrupted", ex);
+//        }
         } catch (InterruptedException ex) {
-            LOGGER_GUI.error("simulator interrupted", ex);
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_simulatePulsStartBTNActionPerformed
 
@@ -1686,6 +1700,7 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStartBTN.setEnabled(true);
         simulatePulsStopBTN.setEnabled(false);
         executorService.shutdown();
+        
         LOGGER_GUI.info("stoped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
 
