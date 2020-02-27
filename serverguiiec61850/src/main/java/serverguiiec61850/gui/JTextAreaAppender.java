@@ -82,9 +82,9 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         ENCODER.encode(event);
         String line = getTime(event.getTimeStamp()) + event.toString() + "\n";
         MASTER_LOG.append(line);
-        if (Gui.main.getSelectedIndex() == 2) {//simulator page
+        if (Gui.mainFrame.getSelectedIndex() == 2) {//simulator page
             SIMULATOR_LOG.append(line);
-        } else if (Gui.main.getSelectedIndex() == 1) {//report dataset manipulation
+        } else if (Gui.mainFrame.getSelectedIndex() == 1) {//report dataset manipulation
             REPORT_DATASET_LOG.append(line);
         }
     }

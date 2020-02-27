@@ -27,6 +27,7 @@ import com.beanit.openiec61850.ServerSap;
 import com.beanit.openiec61850.ServiceError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static serverguiiec61850.gui.Gui.mainFrame;
 import static serverguiiec61850.gui.Gui.main;
 
 /**
@@ -80,8 +81,8 @@ public class Server {
                     serverSap.stop();
                 }
                 LOGGER_SERVER.info("Server was stopped.");
-                main.setEnabledAt(1, false);
-                main.setEnabledAt(2, false);
+                mainFrame.setEnabledAt(1, false);
+                mainFrame.setEnabledAt(2, false);
             }
         });
 

@@ -1,3 +1,4 @@
+serverguiiec61850\gui\HelpWindow.class
 serverguiiec61850\network\Client$1.class
 serverguiiec61850\gui\Gui$19.class
 serverguiiec61850\gui\Gui$24.class
@@ -20,6 +21,7 @@ serverguiiec61850\gui\Gui$2.class
 serverguiiec61850\network\Server$1.class
 serverguiiec61850\gui\Gui$5.class
 serverguiiec61850\gui\Gui$16.class
+serverguiiec61850\gui\KeyListenerGui.class
 serverguiiec61850\gui\Gui$15.class
 serverguiiec61850\gui\Gui$7.class
 serverguiiec61850\network\Server$EventListener.class

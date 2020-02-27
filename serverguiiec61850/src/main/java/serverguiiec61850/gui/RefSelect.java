@@ -28,10 +28,9 @@ import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import serverguiiec61850.network.Server;
-import static serverguiiec61850.gui.Gui.fc;
-import static serverguiiec61850.gui.Gui.reference;
 
 /**
  *
@@ -43,6 +42,8 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      *
      */
     public static DataObjectTreeNode selectedNode;
+    private static String fc = "";
+    private static String reference = "";
 
     /**
      *
@@ -135,28 +136,29 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * @param evt
      */
     public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
-        String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
+        String[] fcs = {/*"ST", "MX",*/"SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
-        if (selectedNode.writable()) {//ToDo: else feedback ned beschreibbar
+        if (selectedNode.writable()) {
 
             for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
-                // if (RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString().equals(fcList.get(fcCount))) {
-                validate();
-                //ToDo: in gui machen!!!
-                Gui.reference = selectedNode.getNode().getReference().toString();
-                Gui.fc = selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
+                fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
+                if (fc.equals(fcList.get(fcCount))) {
+                    validate();
+                    reference = selectedNode.getNode().getReference().toString();
 
-                Gui.referenceTB.setText(reference);
-                Gui.createDatasetRefTB.setText(reference);
-                Gui.createDatasetFcCB.setSelectedItem(fc);
-                Gui.simulateRampReferenceTB.setText(reference);
-                Gui.simulateRampFcCB.setSelectedItem(fc);
-                Gui.simulatePulsReferenceTB.setText(reference);
-                Gui.simulatePulsFcCB.setSelectedItem(fc);
-                exit();
-                //}
+                    Gui.referenceTB.setText(reference);
+                    Gui.createDatasetRefTB.setText(reference);
+                    Gui.createDatasetFcCB.setSelectedItem(fc);
+                    Gui.simulateRampReferenceTB.setText(reference);
+                    Gui.simulateRampFcCB.setSelectedItem(fc);
+                    Gui.simulatePulsReferenceTB.setText(reference);
+                    Gui.simulatePulsFcCB.setSelectedItem(fc);
+                    exit();
+                }
             }
 
+        } else {
+            JOptionPane.showMessageDialog(this, "ST and MX are not writeable", "write error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

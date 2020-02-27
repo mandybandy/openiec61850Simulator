@@ -13,9 +13,10 @@ import serverguiiec61850.network.Server;
  *
  * @author Philipp
  */
-public class Simulator{
+public class Simulator {
+
     Server server;
-    
+
     Simulator(Server server) {
         this.server = server;
     }
@@ -32,32 +33,27 @@ public class Simulator{
         Thread pulseSim = new Thread(new PulseSim(referencePuls, fcString, min, max, onTime, offTime));
         pulseSim.start();
     }
-    //TODO: PulseSim Stoppt nicht weil Thread nicht terminiert wird
-    //Thread exportieren und bei btnClick mit interrupt stoppen oder 
-    //bool stopPulseSim wird exportiert statt Gui.simulatePulseStopBTN.isSelected 
-    //(macht es gleiche wird nur true wenn der btnStop drückt ist und false wenn btnStart)
-    private class PulseSim implements Runnable
-    {
+//boolsche variable!!!
+
+    private class PulseSim implements Runnable {
+
         private boolean running = true;
         private String referencePuls, fcString, min, max;
         private long onTime, offTime;
         Thread listener;
-        
-        public PulseSim(String referencePuls, String fcString, String min, String max, long onTime, long offTime)
-        {
+
+        public PulseSim(String referencePuls, String fcString, String min, String max, long onTime, long offTime) {
             this.referencePuls = referencePuls;
             this.fcString = fcString;
             this.min = min;
-            this.max = max; 
+            this.max = max;
             this.onTime = onTime;
             this.offTime = offTime;
         }
-        
+
         @Override
-        public void run()
-        {
-            while (!Gui.simulatePulsStopBTN.isSelected())
-            {
+        public void run() {
+            while (Gui.enabled) {
                 try {
                     server.writeValue(referencePuls, fcString, max);
                     //ontime
@@ -67,7 +63,7 @@ public class Simulator{
                     Thread.sleep(offTime);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
-                }  
+                }
             }
         }
     }
