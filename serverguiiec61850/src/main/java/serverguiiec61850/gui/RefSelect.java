@@ -27,6 +27,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -68,6 +69,9 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                 exit();
             }
         });
+
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\nodeicon.png");
+        this.setIconImage(img.getImage());
 
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);

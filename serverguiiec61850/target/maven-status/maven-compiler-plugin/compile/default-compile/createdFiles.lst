@@ -1,4 +1,5 @@
 serverguiiec61850\gui\HelpWindow.class
+serverguiiec61850\gui\HelpWindow$1.class
 serverguiiec61850\network\Client$1.class
 serverguiiec61850\gui\Gui$19.class
 serverguiiec61850\gui\Gui$24.class
@@ -29,7 +30,6 @@ serverguiiec61850\network\Client.class
 serverguiiec61850\gui\Gui$25.class
 serverguiiec61850\gui\Gui$20.class
 serverguiiec61850\gui\Gui$10.class
-serverguiiec61850\files\ModifyXmlFile$NonSclFileException.class
 serverguiiec61850\gui\Gui$12.class
 serverguiiec61850\files\ModifyXmlFile.class
 serverguiiec61850\gui\Gui$4.class

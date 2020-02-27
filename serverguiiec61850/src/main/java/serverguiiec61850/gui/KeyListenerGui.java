@@ -8,7 +8,6 @@ package serverguiiec61850.gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 /**
@@ -17,8 +16,7 @@ import javax.swing.JTabbedPane;
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
 
-    JLabel label;
-    HelpWindow help = null;
+    public HelpWindow help = null;
 
     public KeyListenerGui() {
 
@@ -40,6 +38,9 @@ public class KeyListenerGui extends JFrame implements KeyListener {
             System.out.println("f1");
             try {
                 if (help == null) {
+                    help = new HelpWindow();
+                    help.setVisible(true);
+                } else if (!help.isActive()) {
                     help = new HelpWindow();
                     help.setVisible(true);
                 }

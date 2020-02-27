@@ -23,7 +23,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import serverguiiec61850.files.ModifyXmlFile;
 import static serverguiiec61850.files.ModifyXmlFile.splitIed;
 import serverguiiec61850.network.NetworkUtil;
 
@@ -1302,7 +1301,7 @@ public class Gui extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\"));
         // Dialog zum Oeffnen von Dateien anzeigen
-        int rueckgabeWert = chooser.showDialog(null, "select IED");
+        int rueckgabeWert = chooser.showDialog(this, "select IED");
         String iedPathName = "no IED selected";
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             iedPath = chooser.getSelectedFile().getPath();
@@ -1311,10 +1310,10 @@ public class Gui extends javax.swing.JFrame {
 
         netInfosTA.setText(null);
         try {
-            iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
+//            iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
             createNetInfoList(iedPathName);
-        } catch (StringIndexOutOfBoundsException e) {
-            LOGGER_GUI.error("more than one . in filename is not permitted", e);
+//        } catch (StringIndexOutOfBoundsException e) {
+//            LOGGER_GUI.error("more than one . in filename is not permitted", e);
         } catch (NullPointerException e) {
             LOGGER_GUI.error("no addressblock found", e);
         }
@@ -1331,7 +1330,7 @@ public class Gui extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
 
-        int rueckgabeWert = chooser.showDialog(null, "select a SCD/ICD file");
+        int rueckgabeWert = chooser.showDialog(this, "select a SCD/ICD file");
 
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             System.out.println("The path of the file is: " + chooser.getSelectedFile().getPath());
@@ -1358,10 +1357,8 @@ public class Gui extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ModifyXmlFile.NonSclFileException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            changeIedBTNActionPerformed(null);
         }
-        changeIedBTNActionPerformed(null);
     }//GEN-LAST:event_selectFileBTNActionPerformed
 
     private void stopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBTNActionPerformed
@@ -1665,7 +1662,7 @@ public class Gui extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Specify a file to save");
 
-        int rueckgabeWert = chooser.showSaveDialog(null);
+        int rueckgabeWert = chooser.showSaveDialog(this);
 
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
