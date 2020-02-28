@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Built-By: Philipp
+Class-Path: lib/jcalender-1.4.jar lib/jasn1-1.11.0.jar lib/logback-cla
+ ssic-1.2.3.jar lib/logback-core-1.2.3.jar lib/slf4j-api-1.7.25.jar li
+ b/AbsoluteLayout-SNAPSHOT.jar lib/openiec61850-1.8.0.jar
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_131
+Main-Class: serverguiiec61850.gui.Gui
+

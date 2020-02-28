@@ -7,6 +7,8 @@ import java.util.List;
 import com.beanit.openiec61850.BasicDataAttribute;
 import com.beanit.openiec61850.BdaBoolean;
 import com.beanit.openiec61850.BdaCheck;
+import com.beanit.openiec61850.BdaDoubleBitPos;
+import com.beanit.openiec61850.BdaEntryTime;
 import com.beanit.openiec61850.BdaFloat32;
 import com.beanit.openiec61850.BdaFloat64;
 import com.beanit.openiec61850.BdaInt16;
@@ -16,6 +18,14 @@ import com.beanit.openiec61850.BdaInt32U;
 import com.beanit.openiec61850.BdaInt64;
 import com.beanit.openiec61850.BdaInt8;
 import com.beanit.openiec61850.BdaInt8U;
+import com.beanit.openiec61850.BdaOctetString;
+import com.beanit.openiec61850.BdaOptFlds;
+import com.beanit.openiec61850.BdaQuality;
+import com.beanit.openiec61850.BdaReasonForInclusion;
+import com.beanit.openiec61850.BdaTapCommand;
+import com.beanit.openiec61850.BdaTimestamp;
+import com.beanit.openiec61850.BdaTriggerConditions;
+import com.beanit.openiec61850.BdaUnicodeString;
 import com.beanit.openiec61850.BdaVisibleString;
 import com.beanit.openiec61850.Fc;
 import com.beanit.openiec61850.ModelNode;
@@ -28,7 +38,6 @@ import com.beanit.openiec61850.ServiceError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static serverguiiec61850.gui.Gui.mainFrame;
-import static serverguiiec61850.gui.Gui.main;
 
 /**
  *
@@ -194,6 +203,47 @@ public class Server {
             boolean value = Boolean.parseBoolean(valueString);
             ((BdaBoolean) bda).setValue(value);
             LOGGER_SERVER.debug("BdaFloat32");
+        } else if (bda instanceof BdaOctetString) {
+            byte[] value = valueString.getBytes();
+            ((BdaOctetString) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaOctetString");
+        } else if (bda instanceof BdaTimestamp) {
+            byte[] value = valueString.getBytes();
+            ((BdaTimestamp) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaTimestamp");
+        } else if (bda instanceof BdaUnicodeString) {
+            byte[] value = valueString.getBytes();
+            ((BdaUnicodeString) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaUnicodeString");
+        } else if (bda instanceof BdaEntryTime) {
+            byte[] value = valueString.getBytes();
+            ((BdaEntryTime) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaEntryTime");
+        } else if (bda instanceof BdaDoubleBitPos) {
+            byte[] value = valueString.getBytes();
+            ((BdaDoubleBitPos) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaDoubleBitPos");
+        } else if (bda instanceof BdaOptFlds) {
+            byte[] value = valueString.getBytes();
+            ((BdaOptFlds) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaOptFlds");
+        } else if (bda instanceof BdaQuality) {
+            byte[] value = valueString.getBytes();
+            ((BdaQuality) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaQuality");
+        } else if (bda instanceof BdaReasonForInclusion) {
+            byte[] value = valueString.getBytes();
+            ((BdaReasonForInclusion) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaReasonForInclusion");
+        } else if (bda instanceof BdaTapCommand) {
+            byte[] value = valueString.getBytes();
+            ((BdaTapCommand) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaTapCommand");
+        } else if (bda instanceof BdaTriggerConditions) {
+            byte[] value = valueString.getBytes();
+            ((BdaTriggerConditions) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaTriggerConditions");
+
         } else {
             LOGGER_SERVER.info("datatypes are not the same");
             throw new IllegalArgumentException();
