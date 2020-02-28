@@ -21,6 +21,16 @@ public class Simulator {
         this.server = server;
     }
 
+    /**
+     *
+     * @param referenceRamp
+     * @param fcString
+     * @param from
+     * @param to
+     * @param time
+     * @param steps
+     * @throws InterruptedException
+     */
     public void rampSimulator(String referenceRamp, String fcString, int from, int to, long time, int steps) throws InterruptedException {
         for (int i = 0; i < steps + 1; i++) {
             server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (i)));
@@ -29,6 +39,16 @@ public class Simulator {
         }
     }
 
+    /**
+     *
+     * @param referencePuls
+     * @param fcString
+     * @param min
+     * @param max
+     * @param onTime
+     * @param offTime
+     * @throws InterruptedException
+     */
     public void pulseSimulator(String referencePuls, String fcString, String min, String max, long onTime, long offTime) throws InterruptedException {
         Thread pulseSim = new Thread(new PulseSim(referencePuls, fcString, min, max, onTime, offTime));
         pulseSim.start();

@@ -16,22 +16,40 @@ import javax.swing.JTabbedPane;
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
 
+    /**
+     *
+     */
     public HelpWindow help = null;
 
+    /**
+     *
+     */
     public KeyListenerGui() {
 
         JTabbedPane tabbedPane = Gui.mainFrame;
         tabbedPane.addKeyListener(this);
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_F1) {

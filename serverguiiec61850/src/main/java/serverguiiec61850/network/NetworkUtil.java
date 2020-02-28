@@ -27,8 +27,7 @@ public class NetworkUtil {
     }
 
     /**
-     *
-     * @return @throws java.net.SocketException
+     * @throws java.net.SocketException
      */
     public static void getNetDevice() throws SocketException {
 
@@ -36,7 +35,7 @@ public class NetworkUtil {
         Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
         Collections.list(nets).forEach((netint) -> {
             Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-            Collections.list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((Consumer<? super InetAddress>) (inetAddress) -> {
+            Collections.list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((inetAddress) -> {
                 System.out.println("Display name:" + netint.getDisplayName());
                 System.out.println("Name: " + netint.getName());
                 System.out.println("InetAddress: " + inetAddress);
