@@ -81,15 +81,16 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
 
 public final class ServerAssociation {
 
   private static final Logger logger = LoggerFactory.getLogger(ServerAssociation.class);
-  public ArrayList<String> loggerString = new ArrayList<String>(); 
 
   private static final WriteResponse.CHOICE writeSuccess = new WriteResponse.CHOICE();
-  private static String[] mmsFcs = {    "MX", "ST", "CO", "CF", "DC", "SP", "SG", "RP", "LG", "BR", "GO", "GS", "SV", "SE", "EX", "SR", "OR", "BL"  };
+  private static String[] mmsFcs = {
+    "MX", "ST", "CO", "CF", "DC", "SP", "SG", "RP", "LG", "BR", "GO", "GS", "SV", "SE", "EX", "SR",
+    "OR", "BL"
+  };
 
   static {
     writeSuccess.setSuccess(new BerNull());
@@ -147,7 +148,6 @@ public final class ServerAssociation {
       associate(acseAssociation, associationRequest);
     } catch (IOException e) {
       logger.warn("Error during association build up", e);
-      loggerString.add("warning"+"Error during association build up: "+e.toString());
       return;
     }
 
@@ -256,7 +256,6 @@ public final class ServerAssociation {
       if (confirmedRequestPdu.getInvokeID() == null) {
         // cannot respond with ServiceError because no InvokeID was received
         logger.warn("Got unexpected MMS PDU or no invokeID");
-        loggerString.add("warning "+"Got unexpected MMS PDU or no invokeID");
         continue;
       }
       int invokeId = confirmedRequestPdu.getInvokeID().intValue();
@@ -287,32 +286,31 @@ public final class ServerAssociation {
               getNameListRequest.getObjectClass().getBasicObjectClass().longValue();
           if (basicObjectClass == 9) {
             logger.debug("Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request");
-            loggerString.add("deBug "+"Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request");
             response = handleGetServerDirectoryRequest(getNameListRequest);
           } else if (basicObjectClass == 0) {
             logger.debug("Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request");
-            loggerString.add("deBug "+"Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request");
             response = handleGetDirectoryRequest(getNameListRequest);
           } else if (basicObjectClass == 2) {
-            logger.debug("Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request");
-            loggerString.add("deBug "+"Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request");
+            logger.debug(
+                "Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request");
             response = handleGetDataSetNamesRequest(getNameListRequest);
-          } else if (basicObjectClass == 8) {
-            logger.debug("Got a GetLogicalNodeDirectory[Log] (MMS GetNameList[JOURNAL]) request");
-            loggerString.add("deBug "+"Got a GetLogicalNodeDirectory[Log] (MMS GetNameList[JOURNAL]) request");
-            response =
-            handleGetNameListJournalRequest(getNameListRequest);
-            }else {
+          } else {
             throw new ServiceError(
                 ServiceError.FAILED_DUE_TO_SERVER_CONSTRAINT,
                 "Unable to handle Get directory request for basic object class: "
                     + basicObjectClass);
           }
+          // else if (basicObjectClass == 8) {
+          // logger.debug("Got a GetLogicalNodeDirectory[Log] (MMS GetNameList[JOURNAL]) request");
+          // response =
+          // handleGetNameListJournalRequest(getNameListRequest);
+          // }
+
           confirmedServiceResponse.setGetNameList(response);
 
         } else if (confirmedServiceRequest.getGetVariableAccessAttributes() != null) {
-          logger.debug("Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request");
-          loggerString.add("deBug "+"Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request");
+          logger.debug(
+              "Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request");
           GetVariableAccessAttributesResponse response =
               handleGetVariableAccessAttributesRequest(
                   confirmedServiceRequest.getGetVariableAccessAttributes());
@@ -326,8 +324,6 @@ public final class ServerAssociation {
           confirmedServiceResponse.setRead(response);
         } else if (confirmedServiceRequest.getWrite() != null) {
           logger.debug("Got a Write request");
-          loggerString.add("deBug "+"Got a Write request");
-
 
           WriteResponse response = handleSetDataValuesRequest(confirmedServiceRequest.getWrite());
 
@@ -337,7 +333,6 @@ public final class ServerAssociation {
         // for Data Sets
         else if (confirmedServiceRequest.getDefineNamedVariableList() != null) {
           logger.debug("Got a CreateDataSet request");
-          loggerString.add("deBug "+"Got a CreateDataSet request");
 
           DefineNamedVariableListResponse response =
               handleCreateDataSetRequest(confirmedServiceRequest.getDefineNamedVariableList());
@@ -345,7 +340,6 @@ public final class ServerAssociation {
           confirmedServiceResponse.setDefineNamedVariableList(response);
         } else if (confirmedServiceRequest.getGetNamedVariableListAttributes() != null) {
           logger.debug("Got a GetDataSetDirectory request");
-          loggerString.add("deBug "+"Got a GetDataSetDirectory request");
           GetNamedVariableListAttributesResponse response =
               handleGetDataSetDirectoryRequest(
                   confirmedServiceRequest.getGetNamedVariableListAttributes());
@@ -354,8 +348,6 @@ public final class ServerAssociation {
 
         } else if (confirmedServiceRequest.getDeleteNamedVariableList() != null) {
           logger.debug("Got a DeleteDataSet request");
-          loggerString.add("deBug "+"Got a DeleteDataSet request");
-
           DeleteNamedVariableListResponse response =
               handleDeleteDataSetRequest(confirmedServiceRequest.getDeleteNamedVariableList());
 
@@ -378,8 +370,6 @@ public final class ServerAssociation {
         }
       } catch (ServiceError e) {
         logger.warn(e.getMessage());
-        loggerString.add("warning "+e.toString());
-
         if (!sendAnMmsPdu(createServiceErrorResponse(e, invokeId))) {
           return;
         }
@@ -412,15 +402,12 @@ public final class ServerAssociation {
         mmsResponsePdu.encode(reverseOStream);
       } catch (IOException e1) {
         logger.error("IOException while encoding MMS PDU. Closing association.", e1);
-        loggerString.add("error "+"IOException while encoding MMS PDU. Closing association."+ e1.toString());
         return false;
       }
       try {
         acseAssociation.send(reverseOStream.getByteBuffer());
       } catch (IOException e) {
         logger.warn("IOException while sending MMS PDU. Closing association.", e);
-        loggerString.add("warning "+"IOException while sending MMS PDU. Closing association."+ e.toString());
-
         return false;
       }
     }
@@ -437,27 +424,23 @@ public final class ServerAssociation {
         buffer = acseAssociation.receive(pduBuffer);
       } catch (EOFException e) {
         logger.debug("Connection was closed by client.");
-        loggerString.add("deBug "+"Connection was closed by client.");
-
         return null;
       } catch (SocketTimeoutException e) {
-        logger.warn("Message fragment timeout occured while receiving request. Closing association.", e);
-        loggerString.add("warning "+"Message fragment timeout occured while receiving request. Closing association."+ e.toString());
-
+        logger.warn(
+            "Message fragment timeout occured while receiving request. Closing association.", e);
         return null;
       } catch (IOException e) {
-        logger.warn("IOException at lower layers while listening for incoming request. Closing association.", e);
-        loggerString.add("warning "+"IOException at lower layers while listening for incoming request. Closing association."+ e.toString());
-
+        logger.warn(
+            "IOException at lower layers while listening for incoming request. Closing association.",
+            e);
         return null;
       } catch (DecodingException e) {
         logger.error("Error decoding request at OSI layers.", e);
-        loggerString.add("error "+"Error decoding request at OSI layers."+ e.toString());
-
         continue;
       } catch (TimeoutException e) {
-        logger.error("Illegal state: message timeout while receiving request though this timeout should 0 and never be thrown", e);
-        loggerString.add("error "+"Illegal state: message timeout while receiving request though this timeout should 0 and never be thrown"+ e.toString());
+        logger.error(
+            "Illegal state: message timeout while receiving request though this timeout should 0 and never be thrown",
+            e);
         return null;
       }
       mmsRequestPdu = new MMSpdu();
@@ -466,20 +449,15 @@ public final class ServerAssociation {
         mmsRequestPdu.decode(new ByteArrayInputStream(buffer), null);
       } catch (IOException e) {
         logger.warn("IOException decoding received MMS request PDU.", e);
-        loggerString.add("warning "+"IOException decoding received MMS request PDU."+ e.toString());
-
         continue;
       }
 
       if (mmsRequestPdu.getConfirmedRequestPDU() == null) {
         if (mmsRequestPdu.getConcludeRequestPDU() != null) {
           logger.debug("Got Conclude request, will close connection");
-          loggerString.add("deBug "+"Got Conclude request, will close connection");
-
           return null;
         } else {
           logger.warn("Got unexpected MMS PDU, will ignore it");
-          loggerString.add("warning "+"Got unexpected MMS PDU, will ignore it");
           continue;
         }
       }
@@ -617,8 +595,6 @@ public final class ServerAssociation {
         if (identifierSize > negotiatedMaxPduSize - 200) {
           moreFollows = true;
           logger.debug(" ->maxMMSPduSize of " + negotiatedMaxPduSize + " Bytes reached");
-          loggerString.add("deBug "+" ->maxMMSPduSize of " + negotiatedMaxPduSize + " Bytes reached");
-
           break;
         }
 
@@ -920,8 +896,6 @@ public final class ServerAssociation {
 
           if (modelNode == null) {
             logger.debug("Got a GetDataValues request for a non existent model node.");
-            loggerString.add("deBug "+"Got a GetDataValues request for a non existent model node.");
-
             // 10 indicates error "object-non-existent"
             AccessResult accessResult = new AccessResult();
             accessResult.setFailure(new DataAccessError(10L));
@@ -929,12 +903,9 @@ public final class ServerAssociation {
           } else {
             if (logger.isDebugEnabled()) {
               logger.debug("Got a GetDataValues request for node: " + modelNode);
-              loggerString.add("deBug "+"Got a GetDataValues request for node: " + modelNode);
-
               if (!(modelNode instanceof BasicDataAttribute)) {
                 for (BasicDataAttribute bda : modelNode.getBasicDataAttributes()) {
                   logger.debug("sub BDA is:" + bda);
-                  loggerString.add("deBug "+"sub BDA is:" + bda);
                 }
               }
             }
@@ -948,7 +919,6 @@ public final class ServerAssociation {
       return readResponse;
     } else {
       logger.debug("Got a GetDataSetValues request.");
-      loggerString.add("deBug "+"Got a GetDataSetValues request.");
 
       String dataSetReference =
           convertToDataSetReference(variableAccessSpecification.getVariableListName());
@@ -1006,9 +976,8 @@ public final class ServerAssociation {
       if (ctlModelNode == null
           || !(ctlModelNode instanceof BdaInt8)
           || ((BdaInt8) ctlModelNode).getValue() != 2) {
-        logger.warn("Selecting controle DO fails because ctlModel is not set to \"sbo-with-normal-security\"");
-        loggerString.add("warning "+"Selecting controle DO fails because ctlModel is not set to \"sbo-with-normal-security\"");
-
+        logger.warn(
+            "Selecting controle DO fails because ctlModel is not set to \"sbo-with-normal-security\"");
         // 3 indicates error "object_access_denied"
         accessResult.setFailure(new DataAccessError(3L));
         return accessResult;
@@ -1024,13 +993,15 @@ public final class ServerAssociation {
       accessResult.setSuccess(data);
       return accessResult;
 
-      }
-      else {
-      logger.warn("A client tried to read a control variable other than SBO. This is not allowed.");
-      // 3 indicates error "object_access_denied"
-      return new AccessResult(new BerInteger(3L), null);
-      }
-    
+      // }
+      // else {
+      // logger.warn("A client tried to read a control variable other than SBO. This is not
+      // allowed.");
+      // // 3 indicates error "object_access_denied"
+      // return new AccessResult(new BerInteger(3L), null);
+      // }
+
+    }
 
     Data data = modelNode.getMmsDataObj();
 
@@ -1057,8 +1028,6 @@ public final class ServerAssociation {
 
     if (variableAccessSpecification.getListOfVariable() != null) {
       logger.debug("Got a SetDataValues request.");
-      loggerString.add("deBug "+"Got a SetDataValues request.");
-
 
       List<VariableDefs.SEQUENCE> listOfVariable =
           variableAccessSpecification.getListOfVariable().getSEQUENCE();
@@ -1101,8 +1070,6 @@ public final class ServerAssociation {
 
     } else if (variableAccessSpecification.getVariableListName() != null) {
       logger.debug("Got a SetDataSetValues request.");
-      loggerString.add("deBug "+"Got a SetDataValues request.");
-
 
       String dataSetRef =
           convertToDataSetReference(variableAccessSpecification.getVariableListName());
@@ -1194,8 +1161,6 @@ public final class ServerAssociation {
         fcModelNodeCopy.setValueFromMmsDataObj(mmsData);
       } catch (ServiceError e) {
         logger.warn("SetDataValues failed because of data missmatch.", e);
-        loggerString.add("warning "+"SetDataValues failed because of data missmatch."+ e.toString());
-
         WriteResponse.CHOICE writeResponseChoice = new WriteResponse.CHOICE();
         writeResponseChoice.setFailure(new DataAccessError(serviceErrorToMmsError(e)));
         mmsResponseValues.add(writeResponseChoice);
@@ -1272,8 +1237,6 @@ public final class ServerAssociation {
             serverModel.findModelNode(cdcParent.getReference(), Fc.CF).getChild("ctlModel");
         if (ctlModelNode == null || !(ctlModelNode instanceof BdaInt8)) {
           logger.warn("Operatring controle DO failed because ctlModel is not set.");
-          loggerString.add("warning "+"Operatring controle DO failed because ctlModel is not set.");
-
           // 3 indicates error "object_access_denied"
           writeResponse.setFailure(new DataAccessError(3L));
           return writeResponse;
@@ -1297,17 +1260,14 @@ public final class ServerAssociation {
 
         } else {
           logger.warn("SetDataValues failed because of unsupported ctlModel: " + ctlModel);
-          loggerString.add("warning "+"SetDataValues failed because of unsupported ctlModel: " + ctlModel);
-
           // 9 indicates error "object_access_unsupported"
           writeResponse.setFailure(new DataAccessError(9L));
           return writeResponse;
         }
       } else {
-        logger.warn("SetDataValues failed because of the operation is not allowed yet: " + modelNode.getName());
-        loggerString.add("warning "+"SetDataValues failed because of the operation is not allowed yet: " + modelNode.getName());
-
-        
+        logger.warn(
+            "SetDataValues failed because of the operation is not allowed yet: "
+                + modelNode.getName());
         // 9 indicates error "object_access_unsupported"
         writeResponse.setFailure(new DataAccessError(9L));
         return writeResponse;
@@ -1340,8 +1300,6 @@ public final class ServerAssociation {
           if (rptEnaNode.getValue()) {
             if (urcb.dataSet == null) {
               logger.info("client tried to enable RCB even though there is no configured data set");
-              loggerString.add("info "+"client tried to enable RCB even though there is no configured data set");
-
               // 3 indicates error "object_access_denied"
               writeResponse.setFailure(new DataAccessError(3L));
               return writeResponse;
@@ -1422,18 +1380,16 @@ public final class ServerAssociation {
                 ((BasicDataAttribute) modelNode).setValueFrom((BasicDataAttribute) fcModelNodeCopy);
                 return writeSuccess;
               } else {
-                logger.info("Client tried to set dataSetReference of URCB to non existant data set.");
-                loggerString.add("info "+"Client tried to set dataSetReference of URCB to non existant data set.");
-
+                logger.info(
+                    "Client tried to set dataSetReference of URCB to non existant data set.");
                 // 3 indicates error "object_access_denied"
                 writeResponse.setFailure(new DataAccessError(3L));
                 return writeResponse;
               }
             }
           } else {
-            logger.info("Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
-            loggerString.add("info "+"Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
-
+            logger.info(
+                "Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
             // 3 indicates error "object_access_denied"
             writeResponse.setFailure(new DataAccessError(3L));
             return writeResponse;
@@ -1448,16 +1404,13 @@ public final class ServerAssociation {
               return writeSuccess;
             } else {
               logger.info("Client tried to write OptFlds with usupported field set to true.");
-              loggerString.add("info "+"Client tried to write OptFlds with usupported field set to true.");
-
               // 3 indicates error "object_access_denied"
               writeResponse.setFailure(new DataAccessError(3L));
               return writeResponse;
             }
           } else {
-            logger.info("Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
-            loggerString.add("info "+"Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
-
+            logger.info(
+                "Client tried to write RCB parameter even though URCB is reserved by other client or already enabled.");
             // 3 indicates error "object_access_denied"
             writeResponse.setFailure(new DataAccessError(3L));
             return writeResponse;
@@ -1471,9 +1424,8 @@ public final class ServerAssociation {
             urcb.generalInterrogation();
             return writeSuccess;
           } else {
-            logger.info("Client tried to initiate a general interrogation even though URCB is not enabled by this client or general interrogation is not enabled in the trigger options.");
-            loggerString.add("info "+"Client tried to initiate a general interrogation even though URCB is not enabled by this client or general interrogation is not enabled in the trigger options.");
-
+            logger.info(
+                "Client tried to initiate a general interrogation even though URCB is not enabled by this client or general interrogation is not enabled in the trigger options.");
             // 3 indicates error "object_access_denied"
             writeResponse.setFailure(new DataAccessError(3L));
             return writeResponse;
@@ -1559,8 +1511,6 @@ public final class ServerAssociation {
           if (identifierSize > negotiatedMaxPduSize - 200) {
             moreFollows = true;
             logger.info("maxMMSPduSize reached");
-            loggerString.add("info "+"maxMMSPduSize reached");
-
             break;
           }
           identifiers.add(new Identifier(dsRef.getBytes()));

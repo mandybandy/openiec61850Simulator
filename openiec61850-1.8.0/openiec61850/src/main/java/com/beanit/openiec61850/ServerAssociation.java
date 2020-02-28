@@ -82,7 +82,7 @@ import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class ServerAssociation {
+public final class ServerAssociation {
 
   private static final Logger logger = LoggerFactory.getLogger(ServerAssociation.class);
 

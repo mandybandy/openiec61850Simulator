@@ -21,6 +21,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -493,7 +494,7 @@ public final class TConnection {
   public void receive(ByteBuffer tSduBuffer)
       throws EOFException, SocketTimeoutException, IOException, TimeoutException {
 
-    tSduBuffer.mark();
+    ((Buffer) tSduBuffer).mark();
 
     int packetLength;
     int eot = 0;
@@ -593,8 +594,8 @@ public final class TConnection {
 
     } while (eot != 0x80);
 
-    tSduBuffer.limit(tSduBuffer.position());
-    tSduBuffer.reset();
+    ((Buffer) tSduBuffer).limit(tSduBuffer.position());
+    ((Buffer) tSduBuffer).reset();
   }
 
   /** This function sends a Disconnect Request but does not wait for a Disconnect Confirm. */
