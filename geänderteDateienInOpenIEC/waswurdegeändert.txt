@@ -1,3 +1,5 @@
 serverassociation ist public, für den logger appender
 bei den anderen wurde BufferByte auf Buffer, bei mark(), position()... geändert
 qualitydatabind, bdaquality writeImpl für testmodus ST und MX Werte
+serversap für server schreiben wegen bda.mirror doppelter zugriff auf mirror
+

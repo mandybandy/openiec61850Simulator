@@ -1,139 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.beanit.openiec61850.integrationtests.ReportingTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-29T19:38:53" hostname="Mandl-PC" time="2.535">
+<testsuite name="com.beanit.openiec61850.integrationtests.ReportingTest" tests="2" skipped="0" failures="2" errors="0" timestamp="2020-02-29T20:48:13" hostname="Mandl-PC" time="0.014">
   <properties/>
-  <testcase name="reportingWithCreatedDataSetTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="1.52"/>
-  <testcase name="reportingTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="1.015"/>
-  <system-out><![CDATA[20:38:53.092 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request
-20:38:53.093 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request
-20:38:53.093 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:53.094 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:53.094 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:53.095 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:53.096 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:53.096 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request
-20:38:53.096 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a CreateDataSet request
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
-ied1lDevice1/LLN0.urcb101.RptID: urcb1
-ied1lDevice1/LLN0.urcb101.RptEna: false
-ied1lDevice1/LLN0.urcb101.Resv: false
-ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
-ied1lDevice1/LLN0.urcb101.ConfRev: 0
-ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-ied1lDevice1/LLN0.urcb101.BufTm: 50
-ied1lDevice1/LLN0.urcb101.SqNum: 0
-ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-ied1lDevice1/LLN0.urcb101.GI: false
-ied1lDevice1/LLN0.urcb101.Owner: []
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: false
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
-20:38:53.097 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
-dataset: ied1lDevice1/LLN0$dataset1
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
-ied1lDevice1/LLN0.urcb101.RptID: urcb1
-ied1lDevice1/LLN0.urcb101.RptEna: false
-ied1lDevice1/LLN0.urcb101.Resv: true
-ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$datasetnew
-ied1lDevice1/LLN0.urcb101.ConfRev: 0
-ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-ied1lDevice1/LLN0.urcb101.BufTm: 50
-ied1lDevice1/LLN0.urcb101.SqNum: 0
-ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-ied1lDevice1/LLN0.urcb101.GI: false
-ied1lDevice1/LLN0.urcb101.Owner: []
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: true
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$datasetnew
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
-20:38:53.098 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
-got a report.
-20:38:54.604 [openiec61850-osi-server-8-thread-1] WARN com.beanit.openiec61850.ServerAssociation - IOException at lower layers while listening for incoming request. Closing association.
-java.net.SocketException: Socket closed
-	at java.base/sun.nio.ch.NioSocketImpl.endRead(NioSocketImpl.java:249)
-	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328)
-	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:351)
-	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802)
-	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:937)
-	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:245)
-	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:264)
-	at java.base/java.io.DataInputStream.readByte(DataInputStream.java:270)
-	at com.beanit.jositransport.TConnection.receive(TConnection.java:507)
-	at com.beanit.josistack.AcseAssociation.receive(AcseAssociation.java:853)
-	at com.beanit.openiec61850.ServerAssociation.listenForMmsRequest(ServerAssociation.java:425)
-	at com.beanit.openiec61850.ServerAssociation.handleConnection(ServerAssociation.java:248)
-	at com.beanit.openiec61850.ServerAssociation.handleNewAssociation(ServerAssociation.java:155)
-	at com.beanit.openiec61850.ServerSap.connectionIndication(ServerSap.java:307)
-	at com.beanit.openiec61850.AcseListener.connectionIndication(AcseListener.java:31)
-	at com.beanit.josistack.ServerAcseSap.connectionIndication(ServerAcseSap.java:119)
-	at com.beanit.jositransport.ServerThread$ConnectionHandler.run(ServerThread.java:143)
+  <testcase name="reportingWithCreatedDataSetTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="0.008">
+    <failure message="java.net.BindException: Address already in use: bind" type="java.net.BindException">java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:469)
+	at java.base/sun.nio.ch.Net.bind(Net.java:458)
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:643)
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:374)
+	at java.base/java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:260)
+	at java.base/javax.net.DefaultServerSocketFactory.createServerSocket(ServerSocketFactory.java:231)
+	at com.beanit.jositransport.ServerTSap.startListening(ServerTSap.java:116)
+	at com.beanit.josistack.ServerAcseSap.startListening(ServerAcseSap.java:85)
+	at com.beanit.openiec61850.ServerSap.startListening(ServerSap.java:276)
+	at com.beanit.openiec61850.integrationtests.ReportingTest.startServer(ReportingTest.java:77)
+	at com.beanit.openiec61850.integrationtests.ReportingTest.startServerAndClient(ReportingTest.java:62)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:118)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:175)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:157)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
 	at java.base/java.lang.Thread.run(Thread.java:830)
-20:38:54.609 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request
-20:38:54.610 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request
-20:38:54.610 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:54.611 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:54.611 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:54.612 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:54.613 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
-20:38:54.613 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request
-20:38:54.613 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
-ied1lDevice1/LLN0.urcb101.RptID: urcb1
-ied1lDevice1/LLN0.urcb101.RptEna: false
-ied1lDevice1/LLN0.urcb101.Resv: false
-ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
-ied1lDevice1/LLN0.urcb101.ConfRev: 0
-ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-ied1lDevice1/LLN0.urcb101.BufTm: 50
-ied1lDevice1/LLN0.urcb101.SqNum: 0
-ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-ied1lDevice1/LLN0.urcb101.GI: false
-ied1lDevice1/LLN0.urcb101.Owner: []
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: false
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
-20:38:54.614 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
-got a report.
-]]></system-out>
+</failure>
+  </testcase>
+  <testcase name="reportingTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="0.006">
+    <failure message="java.net.BindException: Address already in use: bind" type="java.net.BindException">java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:469)
+	at java.base/sun.nio.ch.Net.bind(Net.java:458)
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:643)
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:374)
+	at java.base/java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:260)
+	at java.base/javax.net.DefaultServerSocketFactory.createServerSocket(ServerSocketFactory.java:231)
+	at com.beanit.jositransport.ServerTSap.startListening(ServerTSap.java:116)
+	at com.beanit.josistack.ServerAcseSap.startListening(ServerAcseSap.java:85)
+	at com.beanit.openiec61850.ServerSap.startListening(ServerSap.java:276)
+	at com.beanit.openiec61850.integrationtests.ReportingTest.startServer(ReportingTest.java:77)
+	at com.beanit.openiec61850.integrationtests.ReportingTest.startServerAndClient(ReportingTest.java:62)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:118)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:175)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:157)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
