@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.beanit.jositransport.ClientServerITest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-29T16:59:05" hostname="Mandl-PC" time="0.003">
-  <properties/>
-  <testcase name="testClientServerCom" classname="com.beanit.jositransport.ClientServerITest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

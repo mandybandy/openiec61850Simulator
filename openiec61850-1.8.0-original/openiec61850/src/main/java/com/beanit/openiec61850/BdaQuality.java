@@ -63,25 +63,16 @@ public final class BdaQuality extends BdaBitString {
   }
 
   public void setValidity(Validity validity) {
-    if (null == validity) {
-      value[0] = (byte) (value[0] & 0x03);
+    if (validity == Validity.QUESTIONABLE) {
+      value[0] = (byte) (value[0] | 0xC0);
+    } else if (validity == Validity.RESERVED) {
+      value[0] = (byte) (value[0] | 0x80);
+      value[0] = (byte) (value[0] & 0xbf);
+    } else if (validity == Validity.INVALID) {
+      value[0] = (byte) (value[0] & 0x7f);
+      value[0] = (byte) (value[0] | 0x40);
     } else {
-      switch (validity) {
-        case QUESTIONABLE:
-          value[0] = (byte) (value[0] | 0xC0);
-          break;
-        case RESERVED:
-          value[0] = (byte) (value[0] | 0x80);
-          value[0] = (byte) (value[0] & 0xbf);
-          break;
-        case INVALID:
-          value[0] = (byte) (value[0] & 0x7f);
-          value[0] = (byte) (value[0] | 0x40);
-          break;
-        default:
-          value[0] = (byte) (value[0] & 0x03);
-          break;
-      }
+      value[0] = (byte) (value[0] & 0x03);
     }
   }
 

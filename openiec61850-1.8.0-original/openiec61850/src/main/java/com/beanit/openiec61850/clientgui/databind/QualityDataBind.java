@@ -83,17 +83,18 @@ public class QualityDataBind extends BasicDataBind<BdaQuality> {
 
   @Override
   protected void writeImpl() {
-    data.setValidity((BdaQuality.Validity) validity.getSelectedItem());
-    data.setBadReference(badReference.isSelected());
-    data.setFailure(failure.isSelected());
-    data.setInaccurate(inaccurate.isSelected());
-    data.setInconsistent(inconsistent.isSelected());
-    data.setOldData(oldData.isSelected());
-    data.setOperatorBlocked(operatorBlocked.isSelected());
-    data.setOscillatory(oscillatory.isSelected());
-    data.setOutOfRange(outOfRange.isSelected());
-    data.setOverflow(overflow.isSelected());
-    data.setSubstituted(substituded.isSelected());
-    data.setTest(test.isSelected());
+    // TODO uncomment once mutators are implemented
+    // data.setValidity(validity.getSelectedItem());
+    // data.setBadReference(badReference.isSelected());
+    // data.setFailure(failure.isSelected());
+    // data.setInaccurate(inaccurate.isSelected());
+    // data.setInconsistent(inconsistent.isSelected());
+    // data.setOldData(oldData.isSelected());
+    // data.setOperatorBlocked(operatorBlocked.isSelected());
+    // data.setOlscillatory(oscillatory.isSelected());
+    // data.setOutOfRange(outOfRange.isSelected());
+    // data.setOverflow(overflow.isSelected());
+    // data.setSubstituded(substituded.isSelected());
+    // data.setTest(test.isSelected());
   }
 }

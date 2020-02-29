@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.beanit.openiec61850.integrationtests.SclTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-29T19:38:55" hostname="Mandl-PC" time="0.013">
+  <properties/>
+  <testcase name="testClientServerCom" classname="com.beanit.openiec61850.integrationtests.SclTests" time="0.013"/>
+  <system-out><![CDATA[20:38:55.616 [openiec61850-osi-server-10-thread-1] WARN com.beanit.openiec61850.ServerAssociation - IOException at lower layers while listening for incoming request. Closing association.
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.endRead(NioSocketImpl.java:249)
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:351)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:937)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:245)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:264)
+	at java.base/java.io.DataInputStream.readByte(DataInputStream.java:270)
+	at com.beanit.jositransport.TConnection.receive(TConnection.java:507)
+	at com.beanit.josistack.AcseAssociation.receive(AcseAssociation.java:853)
+	at com.beanit.openiec61850.ServerAssociation.listenForMmsRequest(ServerAssociation.java:425)
+	at com.beanit.openiec61850.ServerAssociation.handleConnection(ServerAssociation.java:248)
+	at com.beanit.openiec61850.ServerAssociation.handleNewAssociation(ServerAssociation.java:155)
+	at com.beanit.openiec61850.ServerSap.connectionIndication(ServerSap.java:307)
+	at com.beanit.openiec61850.AcseListener.connectionIndication(AcseListener.java:31)
+	at com.beanit.josistack.ServerAcseSap.connectionIndication(ServerAcseSap.java:119)
+	at com.beanit.jositransport.ServerThread$ConnectionHandler.run(ServerThread.java:143)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

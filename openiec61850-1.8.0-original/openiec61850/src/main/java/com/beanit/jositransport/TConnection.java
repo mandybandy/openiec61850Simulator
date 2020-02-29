@@ -21,7 +21,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -494,7 +493,7 @@ public final class TConnection {
   public void receive(ByteBuffer tSduBuffer)
       throws EOFException, SocketTimeoutException, IOException, TimeoutException {
 
-    ((Buffer) tSduBuffer).mark();
+    tSduBuffer.mark();
 
     int packetLength;
     int eot = 0;
@@ -552,10 +551,8 @@ public final class TConnection {
           throw new IOException("tSduBuffer size is too small to hold the complete TSDU");
         }
         is.readFully(
-            tSduBuffer.array(),
-            ((Buffer) tSduBuffer).arrayOffset() + ((Buffer) tSduBuffer).position(),
-            packetLength - 7);
-        ((Buffer) tSduBuffer).position(((Buffer) tSduBuffer).position() + packetLength - 7);
+            tSduBuffer.array(), tSduBuffer.arrayOffset() + tSduBuffer.position(), packetLength - 7);
+        tSduBuffer.position(tSduBuffer.position() + packetLength - 7);
       } else if (tPduCode == 0x80) {
         // Disconnect Request (DR)
 
@@ -596,8 +593,8 @@ public final class TConnection {
 
     } while (eot != 0x80);
 
-    ((Buffer) tSduBuffer).limit(tSduBuffer.position());
-    ((Buffer) tSduBuffer).reset();
+    tSduBuffer.limit(tSduBuffer.position());
+    tSduBuffer.reset();
   }
 
   /** This function sends a Disconnect Request but does not wait for a Disconnect Confirm. */
