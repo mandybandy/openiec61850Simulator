@@ -73,7 +73,6 @@ import com.beanit.openiec61850.internal.mms.asn1.WriteResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -1950,8 +1949,7 @@ public final class ClientAssociation {
       try {
         while (true) {
 
-          ((Buffer) pduBuffer).clear();
-
+          pduBuffer.clear();
           byte[] buffer;
           try {
             buffer = acseAssociation.receive(pduBuffer);

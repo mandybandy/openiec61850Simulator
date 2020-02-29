@@ -68,7 +68,6 @@ import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,7 +82,7 @@ import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ServerAssociation {
+final class ServerAssociation {
 
   private static final Logger logger = LoggerFactory.getLogger(ServerAssociation.class);
 
@@ -420,7 +419,7 @@ public final class ServerAssociation {
     while (true) {
       MMSpdu mmsRequestPdu = null;
       byte[] buffer;
-      ((Buffer) pduBuffer).clear();
+      pduBuffer.clear();
       try {
         buffer = acseAssociation.receive(pduBuffer);
       } catch (EOFException e) {

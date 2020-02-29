@@ -1225,8 +1225,9 @@ public final class ServerAssociation {
     Fc fc = modelNode.getFc();
     if (fc == Fc.ST || fc == Fc.MX || fc == Fc.OR || fc == Fc.EX) {
       // 3 indicates error "object_access_denied"
-      writeResponse.setFailure(new DataAccessError(3L));
-      return writeResponse;
+      logger.warn("access on "+fc.toString());
+      //writeResponse.setFailure(new DataAccessError(3L));
+      //return writeResponse;
     }
 
     if (fc == Fc.CO) {

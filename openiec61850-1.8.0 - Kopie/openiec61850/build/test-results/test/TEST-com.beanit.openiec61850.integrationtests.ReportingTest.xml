@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.beanit.openiec61850.integrationtests.ReportingTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-29T16:59:19" hostname="Mandl-PC" time="2.534">
+  <properties/>
+  <testcase name="reportingWithCreatedDataSetTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="1.519"/>
+  <testcase name="reportingTest" classname="com.beanit.openiec61850.integrationtests.ReportingTest" time="1.014"/>
+  <system-out><![CDATA[17:59:19.746 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request
+17:59:19.746 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request
+17:59:19.747 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:19.748 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:19.748 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:19.749 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:19.749 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:19.750 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request
+17:59:19.750 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
+17:59:19.750 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a CreateDataSet request
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
+ied1lDevice1/LLN0.urcb101.RptID: urcb1
+ied1lDevice1/LLN0.urcb101.RptEna: false
+ied1lDevice1/LLN0.urcb101.Resv: false
+ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
+ied1lDevice1/LLN0.urcb101.ConfRev: 0
+ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+ied1lDevice1/LLN0.urcb101.BufTm: 50
+ied1lDevice1/LLN0.urcb101.SqNum: 0
+ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+ied1lDevice1/LLN0.urcb101.GI: false
+ied1lDevice1/LLN0.urcb101.Owner: []
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: false
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
+dataset: ied1lDevice1/LLN0$dataset1
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
+ied1lDevice1/LLN0.urcb101.RptID: urcb1
+ied1lDevice1/LLN0.urcb101.RptEna: false
+ied1lDevice1/LLN0.urcb101.Resv: true
+ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$datasetnew
+ied1lDevice1/LLN0.urcb101.ConfRev: 0
+ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+ied1lDevice1/LLN0.urcb101.BufTm: 50
+ied1lDevice1/LLN0.urcb101.SqNum: 0
+ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+ied1lDevice1/LLN0.urcb101.GI: false
+ied1lDevice1/LLN0.urcb101.Owner: []
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: true
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$datasetnew
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
+17:59:19.751 [openiec61850-osi-server-8-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
+got a report.
+17:59:21.256 [openiec61850-osi-server-8-thread-1] WARN com.beanit.openiec61850.ServerAssociation - IOException at lower layers while listening for incoming request. Closing association.
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.endRead(NioSocketImpl.java:249)
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:351)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:937)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:245)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:264)
+	at java.base/java.io.DataInputStream.readByte(DataInputStream.java:270)
+	at com.beanit.jositransport.TConnection.receive(TConnection.java:507)
+	at com.beanit.josistack.AcseAssociation.receive(AcseAssociation.java:853)
+	at com.beanit.openiec61850.ServerAssociation.listenForMmsRequest(ServerAssociation.java:425)
+	at com.beanit.openiec61850.ServerAssociation.handleConnection(ServerAssociation.java:248)
+	at com.beanit.openiec61850.ServerAssociation.handleNewAssociation(ServerAssociation.java:155)
+	at com.beanit.openiec61850.ServerSap.connectionIndication(ServerSap.java:307)
+	at com.beanit.openiec61850.AcseListener.connectionIndication(AcseListener.java:31)
+	at com.beanit.josistack.ServerAcseSap.connectionIndication(ServerAcseSap.java:119)
+	at com.beanit.jositransport.ServerThread$ConnectionHandler.run(ServerThread.java:143)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+17:59:21.262 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetServerDirectory (MMS GetNameList[DOMAIN]) request
+17:59:21.263 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Get{LD|LN}Directory (MMS GetNameList[NAMED_VARIABLE]) request
+17:59:21.264 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:21.264 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:21.265 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:21.265 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:21.266 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataDirectory/GetDataDefinition (MMS GetVariableAccessAttributes) request
+17:59:21.266 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetLogicalNodeDirectory[DataSet] (MMS GetNameList[NAMED_VARIABLE_LIST]) request
+17:59:21.266 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataSetDirectory request
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a GetDataValues request for node: ied1lDevice1/LLN0.urcb101 [RP]
+ied1lDevice1/LLN0.urcb101.RptID: urcb1
+ied1lDevice1/LLN0.urcb101.RptEna: false
+ied1lDevice1/LLN0.urcb101.Resv: false
+ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
+ied1lDevice1/LLN0.urcb101.ConfRev: 0
+ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+ied1lDevice1/LLN0.urcb101.BufTm: 50
+ied1lDevice1/LLN0.urcb101.SqNum: 0
+ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+ied1lDevice1/LLN0.urcb101.GI: false
+ied1lDevice1/LLN0.urcb101.Owner: []
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptID: urcb1
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.RptEna: false
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Resv: false
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.DatSet: ied1lDevice1/LLN0$dataset1
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.ConfRev: 0
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.OptFlds: 0x78 0x00
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.BufTm: 50
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.SqNum: 0
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.TrgOps: 0x74, data change: true, data update: true, quality change:true, integrity period: false, GI: true
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.IntgPd: 5000
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.GI: false
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - sub BDA is:ied1lDevice1/LLN0.urcb101.Owner: []
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a Write request
+17:59:21.267 [openiec61850-osi-server-10-thread-1] DEBUG com.beanit.openiec61850.ServerAssociation - Got a SetDataValues request.
+got a report.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
