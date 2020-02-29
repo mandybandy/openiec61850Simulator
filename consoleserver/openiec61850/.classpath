@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="F:/diplomarbeit/openiec61850Simulator/java/openiec61850/lib/openiec61850-1.8.0.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib"/>
 	
 	<classpathentry kind="output" path="bin"/>
 </classpath>
