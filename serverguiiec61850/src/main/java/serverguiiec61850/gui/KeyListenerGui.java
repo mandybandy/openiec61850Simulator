@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serverguiiec61850.gui;
 
 import java.awt.event.KeyEvent;
@@ -11,18 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 /**
- *
+ * erstellt einen KeyListener
+ * 
  * @author Philipp
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
 
-    /**
-     *
-     */
-    public HelpWindow help = null;
+    private HelpWindow help = null;
 
     /**
-     *
+     *KeyListener
      */
     public KeyListenerGui() {
 
@@ -31,7 +24,7 @@ public class KeyListenerGui extends JFrame implements KeyListener {
     }
 
     /**
-     *
+     *on keyTyped
      * @param e
      */
     @Override
@@ -39,7 +32,7 @@ public class KeyListenerGui extends JFrame implements KeyListener {
     }
 
     /**
-     *
+     *on keyPressed
      * @param e
      */
     @Override
@@ -47,11 +40,12 @@ public class KeyListenerGui extends JFrame implements KeyListener {
     }
 
     /**
-     *
+     *on keyReleased
      * @param e
      */
     @Override
     public void keyReleased(KeyEvent e) {
+        //wenn f1 ausgelassen wird
         if (e.getKeyCode() == KeyEvent.VK_F1) {
             System.out.println("f1");
             try {

@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Properties;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,6 +39,8 @@ import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
 /**
+ * erstellt eine Gui, mit der es möglich ist Werte anzusehen und zu schreiben
+ * hier funktionieren Datasets, GetDataValue und SetDataValue
  *
  * @author Philipp Mandl
  */
@@ -55,21 +56,22 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private DataTreeNode selectedNode;
 
     /**
+     * Gui für manuelle Werteänderung
      *
      * @throws java.net.UnknownHostException
      */
     public GuiTree() throws UnknownHostException {
-        super("Werte ändern");
+        super("change values");
+        //Info: setze Icon //ToDo: Pfad ändern für -jar
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 exit();
             }
         });
-
-        Properties lastConnection = new Properties();
-
+//Info: erstelle GUI mittels raster(muss statisch sein, denn sonst kann nichts wieder erbaut werden)...
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
 
@@ -122,7 +124,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         gbl.setConstraints(detailsScrollPane, detailsScrollPaneConstraint);
         add(detailsScrollPane);
 
-        // Display the window.
+        // Info: Fix size//ToDo: min sized???
         setSize(700, 500);
         setMinimumSize(new Dimension(420, 0));
         setVisible(true);
@@ -132,6 +134,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
+     * Buttonkontrolle
      *
      * @param arg0
      */
@@ -145,6 +148,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
+     * wiederaufbau für Tree
      *
      * @param e
      */
@@ -185,22 +189,23 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
 
+                //Info: If gilt nicht für ST,MX,EX,Op(Op ist speziell zu betrachten)
                 //if (selectedNode.writable()) {
-                    button = new JButton("Write values");
-                    button.addActionListener(this);
-                    button.setActionCommand("write");
-                    gbc = new GridBagConstraints();
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.gridx = 2;
-                    gbc.gridy = GridBagConstraints.RELATIVE;
-                    gbc.gridwidth = 1;
-                    gbc.gridheight = 1;
-                    gbc.weightx = 0;
-                    gbc.weighty = 0;
-                    gbc.anchor = GridBagConstraints.SOUTHEAST;
-                    gbc.insets = new Insets(0, 0, 5, 5);
-                    detailsLayout.setConstraints(button, gbc);
-                    detailsPanel.add(button);
+                button = new JButton("Write values");
+                button.addActionListener(this);
+                button.setActionCommand("write");
+                gbc = new GridBagConstraints();
+                gbc.fill = GridBagConstraints.NONE;
+                gbc.gridx = 2;
+                gbc.gridy = GridBagConstraints.RELATIVE;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.weightx = 0;
+                gbc.weighty = 0;
+                gbc.anchor = GridBagConstraints.SOUTHEAST;
+                gbc.insets = new Insets(0, 0, 5, 5);
+                detailsLayout.setConstraints(button, gbc);
+                detailsPanel.add(button);
                 //}
             }
         } else {
@@ -211,10 +216,11 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
+     * verbindet mit zuvor erstelltem Server als neuer Client
      *
      * @throws java.net.UnknownHostException
      */
-    public void connect() throws UnknownHostException {
+    private void connect() throws UnknownHostException {
 
         ClientSap clientSap = new ClientSap();
 
@@ -233,7 +239,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
             Client.association.getAllDataValues();
         } catch (ServiceError e) {
             System.out.println("Service Error requesting model." + e.getMessage());
-            // serverguiiec61850.Client.association.close();
             return;
         } catch (IOException e) {
             System.out.println("Fatal IOException requesting model." + e.getMessage());
@@ -263,20 +268,24 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     private void write() {
+        //INFO: funktion gilt nicht für ST, MX, EX und vlt OP
         //if (selectedNode.writable()) {
-            try {
-                selectedNode.writeValues(Client.association);
-            } catch (ServiceError e) {
-                System.out.println("ServiceError on writing" + e.getMessage());
-                return;
-            } catch (IOException e) {
-                System.out.println("IOException on writing" + e.getMessage());
-                return;
-            }
-            validate();
+        try {
+            selectedNode.writeValues(Client.association);
+        } catch (ServiceError e) {
+            System.out.println("ServiceError on writing" + e.getMessage());
+            return;
+        } catch (IOException e) {
+            System.out.println("IOException on writing" + e.getMessage());
+            return;
+        }
+        validate();
         //}
     }
 
+    /**
+     * grafische Funktion*
+     */
     private void showDataDetails(DataTreeNode node, Counter y) {
         if (node.getData() != null) {
             BasicDataBind<?> data = node.getData();
@@ -294,6 +303,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         }
     }
 
+    /**
+     * grafische Funktion*
+     */
     private void showDataDetails(DataTreeNode node, String pre, Counter y) {
         if (node.getData() != null) {
             BasicDataBind<?> data = node.getData();
@@ -313,6 +325,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         }
     }
 
+    /**
+     * grafische Funktion*
+     */
     private void addDetailsComponent(Component c, int x, int y, int width, int height, double weightx, double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -328,6 +343,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         detailsPanel.add(c);
     }
 
+    /**schließt aktuelles Fenster**/
     private void exit() {
         setVisible(false);
         dispose();

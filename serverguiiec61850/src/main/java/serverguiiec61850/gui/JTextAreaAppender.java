@@ -16,10 +16,11 @@ import java.util.Date;
 import serverguiiec61850.network.Server;
 
 /**
- * Appender LogBack for JTextArea (swing component)
+ * Appender LogBack for JTextArea (swing component) wiedergibt die logs in Gui
  *
  * @author Philipp Mandl
  */
+//ToDo: muss noch sortiert und vereinfacht werden
 public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
 
     private static final Logger LOGGER_SERVER = LoggerFactory.getLogger(ServerAssociation.class);
@@ -53,12 +54,12 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         setContext(lc);
         start();
 
-        // auto-add
+        // auto-add für alle logger
         lc.getLogger("ROOT").addAppender(this);
     }
 
     /**
-     *
+     *startet encoder
      */
     @Override
     public void start() {
@@ -74,7 +75,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     }
 
     /**
-     *
+     * wird bei angegebenen loggerEvents aufgerufen
      * @param event
      */
     @Override

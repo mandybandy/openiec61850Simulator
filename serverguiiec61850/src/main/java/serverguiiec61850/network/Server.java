@@ -149,8 +149,7 @@ public class Server {
         bdas.add(bda);
         serverSap.setValues(bdas);
 
-        LOGGER_SERVER.info("Successfully wrote data.");
-        System.out.println(bda);
+        LOGGER_SERVER.info("successfully wrote data.");
         LOGGER_SERVER.info(bda.toString());
     }
 

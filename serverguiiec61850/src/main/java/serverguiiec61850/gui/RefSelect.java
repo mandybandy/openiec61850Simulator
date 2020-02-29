@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
@@ -39,17 +34,10 @@ import serverguiiec61850.network.Server;
  */
 public final class RefSelect extends JFrame implements TreeSelectionListener {
 
-    /**
-     *
-     */
-    public static DataObjectTreeNode selectedNode;
+    private static DataObjectTreeNode selectedNode;
     private static String fc = "";
     private static String reference = "";
 
-    /**
-     *
-     */
-    public static DataObjectTreeNode lastNode;
     private Server server;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
@@ -58,6 +46,8 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
     /**
+     * erstellt Fenster, wo die Referenz und die FC gewählt werden kann ähnlich
+     * wie GuiTree
      *
      * @throws java.net.UnknownHostException
      */
@@ -70,6 +60,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
             }
         });
 
+        //ToDo: icon Pfad ändern für -jar
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\nodeicon.png");
         this.setIconImage(img.getImage());
 
@@ -111,7 +102,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         add(confirm);
         confirm.addActionListener(this::confirmBTNpressed);
 
-        // Display the window.
+        // gleich wie GuiTree
         setSize(700, 500);
         setMinimumSize(new Dimension(420, 0));
         setVisible(true);
@@ -140,26 +131,29 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * @param evt
      */
     public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
-        String[] fcs = {"ST", "MX","SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
+        String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
         //if (selectedNode.writable()) {
 
-            for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
-                fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
-                if (fc.equals(fcList.get(fcCount))) {
-                    validate();
-                    reference = selectedNode.getNode().getReference().toString();
-
-                    Gui.referenceTB.setText(reference);
-                    Gui.createDatasetRefTB.setText(reference);
-                    Gui.createDatasetFcCB.setSelectedItem(fc);
-                    Gui.simulateRampReferenceTB.setText(reference);
-                    Gui.simulateRampFcCB.setSelectedItem(fc);
-                    Gui.simulatePulsReferenceTB.setText(reference);
-                    Gui.simulatePulsFcCB.setSelectedItem(fc);
-                    exit();
+        for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
+            fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
+            if (fc.equals(fcList.get(fcCount))) {
+                validate();
+                if ((fc == "MX") || (fc == "ST")) {
+                    JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "write error", JOptionPane.WARNING_MESSAGE);
                 }
+                reference = selectedNode.getNode().getReference().toString();
+
+                Gui.referenceTB.setText(reference);
+                Gui.createDatasetRefTB.setText(reference);
+                Gui.createDatasetFcCB.setSelectedItem(fc);
+                Gui.simulateRampReferenceTB.setText(reference);
+                Gui.simulateRampFcCB.setSelectedItem(fc);
+                Gui.simulatePulsReferenceTB.setText(reference);
+                Gui.simulatePulsFcCB.setSelectedItem(fc);
+                exit();
             }
+        }
 
 //        } else {
 //            JOptionPane.showMessageDialog(this, "ST and MX are not writeable", "write error", JOptionPane.ERROR_MESSAGE);
@@ -167,6 +161,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
+     * schließt Fenster
      *
      */
     public void exit() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serverguiiec61850.gui;
 
 import java.awt.event.WindowAdapter;
@@ -16,7 +11,9 @@ import javax.swing.ImageIcon;
 public class HelpWindow extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewJFrame
+     * Creates new form HelpWindow
+     * HilfeFenster wird bei F1 aufgerufen
+     * noch erweiterbar...
      */
     public HelpWindow() {
         super("help");
@@ -25,6 +22,7 @@ public class HelpWindow extends javax.swing.JFrame {
                 exit();
             }
         });
+        //ToDo: Icon Pfad ändern für -jar
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\helpicon.png");
         this.setIconImage(img.getImage());
         initComponents();

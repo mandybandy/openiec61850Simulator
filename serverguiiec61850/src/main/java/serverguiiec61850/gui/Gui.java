@@ -1339,7 +1339,7 @@ public class Gui extends javax.swing.JFrame {
         int rueckgabeWert = chooser.showDialog(this, "select a SCD/ICD file");
 
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
-            System.out.println("The path of the file is: " + chooser.getSelectedFile().getPath());
+            LOGGER_GUI.info("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
         }
@@ -1498,21 +1498,21 @@ public class Gui extends javax.swing.JFrame {
 
         try {
             if (reserveReportRB.isSelected()) {
-                LOGGER_GUI.info(client.reserveReport(reference, time));
+                client.reserveReport(reference, time);
             } else if (cancelReservationRB.isSelected()) {
-                LOGGER_GUI.info(client.cancelReservation(reference));
+                client.cancelReservation(reference);
             } else if (disableReportRB.isSelected()) {
-                LOGGER_GUI.info(client.disableReport(reference));
+                client.disableReport(reference);
             } else if (enableReportRB.isSelected()) {
-                LOGGER_GUI.info(client.enableReport(reference));
+                client.enableReport(reference);
             } else if (setTriggerReportRB.isSelected()) {
-                LOGGER_GUI.info(client.setTriggerReport(reference, value));
+                client.setTriggerReport(reference, value);
             } else if (setDatasetReportRB.isSelected()) {
-                LOGGER_GUI.info(client.setDatasetReport(reference, triggerOptionsString));
+                client.setDatasetReport(reference, triggerOptionsString);
             } else if (setIntegrityReportRB.isSelected()) {
-                LOGGER_GUI.info(client.setIntegrityReport(reference, integrityPeriod));
+                client.setIntegrityReport(reference, integrityPeriod);
             } else if (sendGeneralInterrogationReportRB.isSelected()) {
-                LOGGER_GUI.info(client.sendGeneralInterrogationReport(reference));
+                client.sendGeneralInterrogationReport(reference);
             } else {
                 LOGGER_GUI.warn("no function selected\n");
             }
@@ -1540,9 +1540,9 @@ public class Gui extends javax.swing.JFrame {
         String fc = createDatasetFcCB.getSelectedItem().toString();
         try {
             if (createDatasetRB.isSelected()) {
-                LOGGER_GUI.info(client.createdataset(reference, fc, numberOfEntriesString));
+                client.createdataset(reference, fc, numberOfEntriesString);
             } else if (deleteDatasetRB.isSelected()) {
-                LOGGER_GUI.info(client.deletedataset(reference));
+                client.deletedataset(reference);
             } else {
                 //nothing selected
                 LOGGER_GUI.warn("no function selected\n");
@@ -1673,7 +1673,7 @@ public class Gui extends javax.swing.JFrame {
                     fw.write(s);
                 }
             } catch (IOException ioe) {
-                System.out.println("Exception Caught : " + ioe.getMessage());
+                LOGGER_GUI.error("Exception Caught : " + ioe.getMessage());
             }
         }
     }//GEN-LAST:event_saveCsvBTNActionPerformed
@@ -1682,7 +1682,6 @@ public class Gui extends javax.swing.JFrame {
 
         try {
             netDevicesTA.setText(null);
-            netDevicesTA.setEditable(false);
             NetworkUtil.getNetDevice();
         } catch (SocketException ex) {
             LOGGER_GUI.error("socket error", ex);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serverguiiec61850.gui;
 
 import java.util.logging.Level;
@@ -10,6 +5,7 @@ import java.util.logging.Logger;
 import serverguiiec61850.network.Server;
 
 /**
+ * erstellt einen neuen Simulator Thread
  *
  * @author Philipp
  */
@@ -22,6 +18,7 @@ public class Simulator {
     }
 
     /**
+     * erstellt einen Rampen Simulator
      *
      * @param referenceRamp
      * @param fcString
@@ -32,14 +29,15 @@ public class Simulator {
      * @throws InterruptedException
      */
     public void rampSimulator(String referenceRamp, String fcString, int from, int to, long time, int steps) throws InterruptedException {
-        for (int i = 0; i < steps + 1; i++) {
-            server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (i)));
+        for (int stepsCounter = 0; stepsCounter < steps + 1; stepsCounter++) {
+            server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));
             //wait time/steps
             Thread.sleep(time / steps);
         }
     }
 
     /**
+     * erstellt einen Puls Simulator
      *
      * @param referencePuls
      * @param fcString
@@ -57,9 +55,8 @@ public class Simulator {
 
     private class PulseSim implements Runnable {
 
-        private boolean running = true;
-        private String referencePuls, fcString, min, max;
-        private long onTime, offTime;
+        private final String referencePuls, fcString, min, max;
+        private final long onTime, offTime;
         Thread listener;
 
         public PulseSim(String referencePuls, String fcString, String min, String max, long onTime, long offTime) {
@@ -71,6 +68,7 @@ public class Simulator {
             this.offTime = offTime;
         }
 
+        //wird mit externer Variable beendet? mehr oder weniger gut
         @Override
         public void run() {
             while (Gui.enabled) {

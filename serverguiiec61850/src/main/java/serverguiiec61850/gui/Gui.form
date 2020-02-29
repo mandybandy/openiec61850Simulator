@@ -535,7 +535,7 @@
                                   <Component id="valueLBL" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                                   <Component id="valueTB" min="-2" pref="226" max="-2" attributes="0"/>
-                                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                                  <EmptySpace pref="26" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -579,7 +579,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <EmptySpace pref="66" max="32767" attributes="0"/>
                                   <Component id="referenceLBL" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                   <Component id="referenceTB" min="-2" pref="226" max="-2" attributes="0"/>
@@ -632,7 +632,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="reserveTimeLBL" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                                  <EmptySpace pref="38" max="32767" attributes="0"/>
                                   <Component id="reserveTimeTB" min="-2" pref="38" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               </Group>
@@ -722,7 +722,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="IntegrityLBL" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                                  <EmptySpace pref="41" max="32767" attributes="0"/>
                                   <Component id="integrityPeriodTB" min="-2" pref="227" max="-2" attributes="0"/>
                               </Group>
                           </Group>
