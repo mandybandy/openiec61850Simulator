@@ -185,7 +185,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
 
-                if (selectedNode.writable()) {
+                //if (selectedNode.writable()) {
                     button = new JButton("Write values");
                     button.addActionListener(this);
                     button.setActionCommand("write");
@@ -201,7 +201,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                     gbc.insets = new Insets(0, 0, 5, 5);
                     detailsLayout.setConstraints(button, gbc);
                     detailsPanel.add(button);
-                }
+                //}
             }
         } else {
             selectedNode = null;
@@ -263,7 +263,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     private void write() {
-        if (selectedNode.writable()) {
+        //if (selectedNode.writable()) {
             try {
                 selectedNode.writeValues(Client.association);
             } catch (ServiceError e) {
@@ -274,7 +274,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 return;
             }
             validate();
-        }
+        //}
     }
 
     private void showDataDetails(DataTreeNode node, Counter y) {

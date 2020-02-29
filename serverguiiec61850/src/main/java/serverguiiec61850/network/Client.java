@@ -69,14 +69,6 @@ public class Client {
         LOGGER_CLIENT.debug("successfully read model");
     }
 
-    /**
-     *
-     * @param report
-     * @return
-     */
-    public Report newReport(Report report) {
-        return report;
-    }
 
     /**
      *

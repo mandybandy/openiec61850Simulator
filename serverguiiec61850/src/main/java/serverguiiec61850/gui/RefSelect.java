@@ -140,9 +140,9 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * @param evt
      */
     public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
-        String[] fcs = {/*"ST", "MX",*/"SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
+        String[] fcs = {"ST", "MX","SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
-        if (selectedNode.writable()) {
+        //if (selectedNode.writable()) {
 
             for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
                 fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
@@ -161,9 +161,9 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                 }
             }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "ST and MX are not writeable", "write error", JOptionPane.ERROR_MESSAGE);
-        }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "ST and MX are not writeable", "write error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     /**
