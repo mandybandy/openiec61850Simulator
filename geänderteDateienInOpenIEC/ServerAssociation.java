@@ -68,6 +68,7 @@ import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -419,7 +420,7 @@ public final class ServerAssociation {
     while (true) {
       MMSpdu mmsRequestPdu = null;
       byte[] buffer;
-      pduBuffer.clear();
+      ((Buffer) pduBuffer).clear();
       try {
         buffer = acseAssociation.receive(pduBuffer);
       } catch (EOFException e) {
