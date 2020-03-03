@@ -1,6 +1,7 @@
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.ClientSap;
+import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.clientgui.BasicDataBind;
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
@@ -46,7 +47,8 @@ import serverguiiec61850.network.Server;
  */
 public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
 
-    private Server server;
+    //private Server server;
+    private ServerModel serverModel;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
@@ -60,8 +62,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      *
      * @throws java.net.UnknownHostException
      */
-    public GuiTree() throws UnknownHostException {
+    public GuiTree(ServerModel serverModel) throws UnknownHostException {
         super("change values");
+        this.serverModel = serverModel;
         //Info: setze Icon //ToDo: Pfad ändern für -jar
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -126,7 +129,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
         // Info: Fix size//ToDo: min sized???
         setSize(700, 500);
-        setMinimumSize(new Dimension(420, 0));
+        setMinimumSize(new Dimension(420, 400));
         setVisible(true);
 
         connect();
@@ -245,7 +248,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
             return;
         }
 
-        ServerModelParser parser = new ServerModelParser(server.serverModel);
+        ServerModelParser parser = new ServerModelParser(serverModel);
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
         validate();

@@ -1295,7 +1295,7 @@ public class Gui extends javax.swing.JFrame {
 
     private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
         try {
-            GuiTree changevalues = new GuiTree();
+            GuiTree changevalues = new GuiTree(server.serverModel);
             LOGGER_GUI.info("change values manual \n");
         } catch (UnknownHostException ex) {
             LOGGER_GUI.error("unknmown host", ex);
@@ -1391,7 +1391,7 @@ public class Gui extends javax.swing.JFrame {
                 LOGGER_GUI.error("no file selected\n");
             }
             server = new Server(iedPath, remotePort);
-            client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()));
+            client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
 
             //btn hide machen
             startBTN.setEnabled(false);
@@ -1634,7 +1634,7 @@ public class Gui extends javax.swing.JFrame {
 
     private void selectReference(java.awt.event.ActionEvent evt) {
         try {
-            RefSelect select = new RefSelect();
+            RefSelect select = new RefSelect(server.serverModel);
         } catch (UnknownHostException ex) {
             LOGGER_GUI.error("unknown host", ex);
         }

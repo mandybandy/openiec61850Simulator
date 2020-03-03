@@ -1,5 +1,6 @@
 package serverguiiec61850.gui;
 
+import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
 import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
 import com.beanit.openiec61850.clientgui.ServerModelParser;
@@ -26,9 +27,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import serverguiiec61850.network.Server;
 
 /**
+ * Erstellt eine GUI zum auswählen der FCs und Reference
  *
  * @author Philipp Mandl
  */
@@ -38,7 +39,6 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     private static String fc = "";
     private static String reference = "";
 
-    private Server server;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
@@ -51,7 +51,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      *
      * @throws java.net.UnknownHostException
      */
-    public RefSelect() throws UnknownHostException {
+    public RefSelect(ServerModel serverModel) throws UnknownHostException {
         super("select datanode");
 
         addWindowListener(new WindowAdapter() {
@@ -59,6 +59,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                 exit();
             }
         });
+
 
         //ToDo: icon Pfad ändern für -jar
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\nodeicon.png");
@@ -107,7 +108,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         setMinimumSize(new Dimension(420, 0));
         setVisible(true);
 
-        ServerModelParser parser = new ServerModelParser(server.serverModel);
+        ServerModelParser parser = new ServerModelParser(serverModel);
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
     }
@@ -137,21 +138,25 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
 
         for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
             fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
-            if (fc.equals(fcList.get(fcCount))) {
-                validate();
-                if ((fc == "MX") || (fc == "ST")) {
-                    JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "write error", JOptionPane.WARNING_MESSAGE);
-                }
-                reference = selectedNode.getNode().getReference().toString();
+            reference = selectedNode.getNode().getReference().toString();
+            if (reference != null) {
+                if (fc.equals(fcList.get(fcCount))) {
+                    validate();
+                    if (("MX".equals(fc)) || ("ST".equals(fc))) {
+                        JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "write error", JOptionPane.WARNING_MESSAGE);
+                    }
 
-                Gui.referenceTB.setText(reference);
-                Gui.createDatasetRefTB.setText(reference);
-                Gui.createDatasetFcCB.setSelectedItem(fc);
-                Gui.simulateRampReferenceTB.setText(reference);
-                Gui.simulateRampFcCB.setSelectedItem(fc);
-                Gui.simulatePulsReferenceTB.setText(reference);
-                Gui.simulatePulsFcCB.setSelectedItem(fc);
-                exit();
+                    Gui.referenceTB.setText(reference);
+                    Gui.createDatasetRefTB.setText(reference);
+                    Gui.createDatasetFcCB.setSelectedItem(fc);
+                    Gui.simulateRampReferenceTB.setText(reference);
+                    Gui.simulateRampFcCB.setSelectedItem(fc);
+                    Gui.simulatePulsReferenceTB.setText(reference);
+                    Gui.simulatePulsFcCB.setSelectedItem(fc);
+                    exit();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "no reference selected", "no reference", JOptionPane.WARNING_MESSAGE);
             }
         }
 

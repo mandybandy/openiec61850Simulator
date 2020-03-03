@@ -13,6 +13,7 @@ import ch.qos.logback.core.encoder.Encoder;
 import com.beanit.openiec61850.ServerAssociation;
 
 import java.util.Date;
+import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
 /**
@@ -26,7 +27,8 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private static final Logger LOGGER_SERVER = LoggerFactory.getLogger(ServerAssociation.class);
     private static final Logger LOGGER_SERVER_FRONTEND = LoggerFactory.getLogger(Server.class);
     private static final Logger LOGGER_GUI = LoggerFactory.getLogger(Gui.class);
-    private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Gui.class);
+    private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Client.class);
+    private static final Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
 
     private final Encoder<ILoggingEvent> ENCODER = new EchoEncoder<ILoggingEvent>();
     private final JTextArea MASTER_LOG;
@@ -44,6 +46,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         LOGGER_GUI.warn("Initialization of GUI Console...");
         LOGGER_SERVER_FRONTEND.warn("Initialization of Server Console...");
         LOGGER_CLIENT.warn("Initialization of Client Console...");
+        LOGGER_SIM.warn("Initialization of Client Console...");
 
         this.MASTER_LOG = masterLog;
         this.SIMULATOR_LOG = simulatorLog;
@@ -59,7 +62,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     }
 
     /**
-     *startet encoder
+     * startet encoder
      */
     @Override
     public void start() {
@@ -76,10 +79,13 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
 
     /**
      * wird bei angegebenen loggerEvents aufgerufen
+     *
      * @param event
      */
     @Override
     public void append(ILoggingEvent event) {
+        //TODO error red, warn orange
+        //TODO make autoscroll
         ENCODER.encode(event);
         String line = getTime(event.getTimeStamp()) + event.toString() + "\n";
         MASTER_LOG.append(line);

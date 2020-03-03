@@ -21,6 +21,7 @@ serverguiiec61850\gui\Gui.class
 serverguiiec61850\gui\Gui$2.class
 serverguiiec61850\network\Server$1.class
 serverguiiec61850\gui\Gui$5.class
+serverguiiec61850\gui\Simulator$RampSim.class
 serverguiiec61850\gui\Gui$16.class
 serverguiiec61850\gui\KeyListenerGui.class
 serverguiiec61850\gui\Gui$15.class

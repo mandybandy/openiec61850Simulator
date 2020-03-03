@@ -28,6 +28,7 @@ import com.beanit.openiec61850.BdaTriggerConditions;
 import com.beanit.openiec61850.BdaUnicodeString;
 import com.beanit.openiec61850.BdaVisibleString;
 import com.beanit.openiec61850.Fc;
+import com.beanit.openiec61850.FcModelNode;
 import com.beanit.openiec61850.ModelNode;
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.SclParser;
@@ -35,6 +36,7 @@ import com.beanit.openiec61850.ServerEventListener;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServerSap;
 import com.beanit.openiec61850.ServiceError;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static serverguiiec61850.gui.Gui.mainFrame;
@@ -56,7 +58,7 @@ public class Server {
     /**
      *
      */
-    public static ServerModel serverModel;
+    public ServerModel serverModel;
 
     private static final Logger LOGGER_SERVER = LoggerFactory.getLogger(Server.class);
 
@@ -148,6 +150,14 @@ public class Server {
         List<BasicDataAttribute> bdas = new ArrayList<>();
         bdas.add(bda);
         serverSap.setValues(bdas);
+
+        try {
+            Client.association.setDataValues(((FcModelNode) bda.getParent()));
+        } catch (ServiceError ex) {
+            java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         LOGGER_SERVER.info("successfully wrote data.");
         LOGGER_SERVER.info(bda.toString());

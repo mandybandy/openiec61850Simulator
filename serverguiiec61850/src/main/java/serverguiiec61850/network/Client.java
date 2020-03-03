@@ -11,6 +11,7 @@ import com.beanit.openiec61850.ModelNode;
 import com.beanit.openiec61850.Rcb;
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.SclParser;
+import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.Urcb;
 import java.io.IOException;
@@ -26,14 +27,13 @@ import org.slf4j.LoggerFactory;
  * @author Philipp Mandl
  */
 public class Client {
-
-    private Server server;
+    private ServerModel serverModel;
     /**
      *
      */
     public static volatile ClientAssociation association;
 
-    private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Server.class);
+    private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Client.class);
 
     /**
      *
@@ -43,8 +43,9 @@ public class Client {
      * @throws java.io.IOException
      * @throws com.beanit.openiec61850.SclParseException
      */
-    public Client(String host, int port) throws UnknownHostException, IOException, SclParseException {
-
+    public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException {
+        this.serverModel = serverModel;
+        
         InetAddress address;
 
         address = InetAddress.getByName(host);
@@ -62,8 +63,8 @@ public class Client {
         LOGGER_CLIENT.info("successfully connected");
 
         LOGGER_CLIENT.info("reading model from file...");
-        server.serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
-        association.setServerModel(server.serverModel);
+        serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
+        association.setServerModel(serverModel);
         LOGGER_CLIENT.debug("successfully read model");
     }
 
@@ -125,7 +126,7 @@ public class Client {
      * @throws java.io.IOException
      */
     public void deletedataset(String reference) throws ServiceError, IOException {
-        DataSet dataSet = server.serverModel.getDataSet(reference);
+        DataSet dataSet = serverModel.getDataSet(reference);
         if (dataSet == null) {
             //gibs nd
             LOGGER_CLIENT.debug("dataset not found error while deleting dataset");
@@ -139,7 +140,7 @@ public class Client {
     //get unbuffered rcb
     private Urcb getUrcb(String reference) throws ServiceError, IOException {
 
-        Urcb urcb = server.serverModel.getUrcb(reference);
+        Urcb urcb = serverModel.getUrcb(reference);
         if (urcb != null) {
             association.getRcbValues(urcb);
             return urcb;
@@ -150,7 +151,7 @@ public class Client {
     //get buffered RCB
     private Brcb getBrcb(String reference) throws ServiceError, IOException {
 
-        Brcb brcb = server.serverModel.getBrcb(reference);
+        Brcb brcb = serverModel.getBrcb(reference);
         if (brcb != null) {
             association.getRcbValues(brcb);
             return brcb;
@@ -165,13 +166,13 @@ public class Client {
      * @return
      */
     public Rcb getRcb(String reference) {
-        Brcb brcb = server.serverModel.getBrcb(reference);
-        Urcb urcb = server.serverModel.getUrcb(reference);
+        Brcb brcb = serverModel.getBrcb(reference);
+        Urcb urcb = serverModel.getUrcb(reference);
         if (urcb != null) {
-            Rcb rcb = server.serverModel.getUrcb(reference);
+            Rcb rcb = serverModel.getUrcb(reference);
             return rcb;
         } else if (brcb != null) {
-            Rcb rcb = server.serverModel.getBrcb(reference);
+            Rcb rcb = serverModel.getBrcb(reference);
             return rcb;
         }
         return null;
@@ -333,7 +334,7 @@ public class Client {
     private FcModelNode askForFcModelNode(String reference, String fcString) {
         Fc fc = Fc.fromString(fcString);
 
-        ModelNode modelNode = server.serverModel.findModelNode(reference, Fc.fromString(fcString));
+        ModelNode modelNode = serverModel.findModelNode(reference, Fc.fromString(fcString));
         if (modelNode == null) {
             LOGGER_CLIENT.error("modelNode not found");
         }
