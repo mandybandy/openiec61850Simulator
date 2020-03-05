@@ -1,18 +1,18 @@
 package serverguiiec61850.gui;
 
-import javax.swing.JTextArea;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import ch.qos.logback.core.encoder.Encoder;
 import com.beanit.openiec61850.ServerAssociation;
-
 import java.util.Date;
+import java.util.logging.Level;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
@@ -21,7 +21,6 @@ import serverguiiec61850.network.Server;
  *
  * @author Philipp Mandl
  */
-//ToDo: muss noch sortiert und vereinfacht werden
 public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
 
     private static final Logger LOGGER_SERVER = LoggerFactory.getLogger(ServerAssociation.class);
@@ -31,9 +30,9 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private static final Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
 
     private final Encoder<ILoggingEvent> ENCODER = new EchoEncoder<ILoggingEvent>();
-    private final JTextArea MASTER_LOG;
-    private final JTextArea SIMULATOR_LOG;
-    private final JTextArea REPORT_DATASET_LOG;
+    private final JTextPane MASTER_LOG;
+    private final JTextPane SIMULATOR_LOG;
+    private final JTextPane REPORT_DATASET_LOG;
 
     /**
      *
@@ -41,7 +40,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
      * @param simulatorLog
      * @param reportdatasetLog
      */
-    public JTextAreaAppender(JTextArea masterLog, JTextArea simulatorLog, JTextArea reportdatasetLog) {
+    public JTextAreaAppender(JTextPane masterLog, JTextPane simulatorLog, JTextPane reportdatasetLog) {
         LOGGER_SERVER.warn("Initialization of Server Console...");
         LOGGER_GUI.warn("Initialization of GUI Console...");
         LOGGER_SERVER_FRONTEND.warn("Initialization of Server Console...");
@@ -84,16 +83,32 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
      */
     @Override
     public void append(ILoggingEvent event) {
-        //TODO error red, warn orange
+        AttributeSet color = StyleConstant.BLACK;
+
         //TODO make autoscroll
-        //TODO simulator append nur bei simulator aktiv
         ENCODER.encode(event);
         String line = getTime(event.getTimeStamp()) + event.toString() + "\n";
-        MASTER_LOG.append(line);
-        if (Gui.mainFrame.getSelectedIndex() == 2) {//simulator page
-            SIMULATOR_LOG.append(line);
-        } else if (Gui.mainFrame.getSelectedIndex() == 1) {//report dataset manipulation
-            REPORT_DATASET_LOG.append(line);
+        if (line.contains("ERROR")) {
+            color = StyleConstant.RED;
+        } else if (line.contains("WARN")) {
+            color = StyleConstant.YELLOW;
+        } else if (line.contains("DEBUG")) {
+            color = StyleConstant.GREW;
         }
+
+        try {
+            MASTER_LOG.getDocument().insertString(MASTER_LOG.getDocument().getLength(), line, color);
+            if (Simulator.simulate) {//simulator page
+                if (!line.contains("DEBUG")) {
+                    SIMULATOR_LOG.getDocument().insertString(SIMULATOR_LOG.getDocument().getLength(), line, color);
+                }
+
+            } else if (Gui.mainFrame.getSelectedIndex() == 1) {//report dataset manipulation
+                REPORT_DATASET_LOG.getDocument().insertString(REPORT_DATASET_LOG.getDocument().getLength(), line, color);
+            }
+        } catch (BadLocationException ex) {
+            java.util.logging.Logger.getLogger(JTextAreaAppender.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

@@ -7,6 +7,7 @@ serverguiiec61850\gui\Gui$3.class
 serverguiiec61850\gui\Gui$14.class
 serverguiiec61850\gui\Gui$8.class
 serverguiiec61850\gui\GuiTree$1.class
+serverguiiec61850\gui\StyleConstant.class
 serverguiiec61850\gui\Simulator.class
 serverguiiec61850\network\NetworkUtil.class
 serverguiiec61850\gui\Simulator$PulseSim.class

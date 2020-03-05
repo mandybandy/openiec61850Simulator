@@ -74,7 +74,7 @@ public class Gui extends javax.swing.JFrame {
         this.setIconImage(img.getImage());
         KeyListenerGui keyListenerGui = new KeyListenerGui();
         createNetDeviceList();
-        JTextAreaAppender masterappender = new JTextAreaAppender(masterLogTA, simLogTA, reportDatasetTA);
+        JTextAreaAppender masterappender = new JTextAreaAppender(masterLogTP, simLogTP, reportDatasetTP);
     }
 
     /**
@@ -160,16 +160,16 @@ public class Gui extends javax.swing.JFrame {
         createDatasetNumberOfEntriesTB = new javax.swing.JTextField();
         selectReferenceDatasetBTN = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        reportDatasetTA = new javax.swing.JTextArea();
         jLabel14 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        reportDatasetTP = new javax.swing.JTextPane();
         simulateTAB = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        simLogTA = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         saveCsvBTN = new javax.swing.JToggleButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        simLogTP = new javax.swing.JTextPane();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -205,9 +205,9 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStopBTN = new javax.swing.JButton();
         selectReferencePulsBTN = new javax.swing.JButton();
         logTAB = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        masterLogTA = new javax.swing.JTextArea();
         jLabel26 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        masterLogTP = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -447,7 +447,7 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(valueLBL)
                 .addGap(42, 42, 42)
                 .addComponent(valueTB, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         valueReportPNLLayout.setVerticalGroup(
             valueReportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -470,7 +470,7 @@ public class Gui extends javax.swing.JFrame {
         referenceReportPNLLayout.setHorizontalGroup(
             referenceReportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, referenceReportPNLLayout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addComponent(referenceLBL)
                 .addGap(36, 36, 36)
                 .addComponent(referenceTB, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -499,7 +499,7 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(reserveTimeReportPNLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(reserveTimeLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(reserveTimeTB, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
@@ -548,7 +548,7 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(IntegrityReportPNLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(IntegrityLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(integrityPeriodTB, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         IntegrityReportPNLLayout.setVerticalGroup(
@@ -688,16 +688,14 @@ public class Gui extends javax.swing.JFrame {
                             .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         reportPNLLayout.setVerticalGroup(
             reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportPNLLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 337, Short.MAX_VALUE))
+                    .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(reportPNLLayout.createSequentialGroup()
                         .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(referenceReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -709,13 +707,15 @@ public class Gui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane4.addTab("report", reportPNL);
+
+        datasetPNL.setEnabled(false);
 
         datasetBG.add(createDatasetRB);
         createDatasetRB.setText("create dataset");
@@ -897,26 +897,16 @@ public class Gui extends javax.swing.JFrame {
 
         changeIedTAB.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 345, 232));
 
-        reportDatasetTA.setEditable(false);
-        reportDatasetTA.setColumns(20);
-        reportDatasetTA.setEditable(false);
-        reportDatasetTA.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
-        reportDatasetTA.setRows(5);
-        jScrollPane4.setViewportView(reportDatasetTA);
-
-        changeIedTAB.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 370, 480));
-
         jLabel14.setText("client:");
         changeIedTAB.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jScrollPane6.setViewportView(reportDatasetTP);
+
+        changeIedTAB.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 360, 450));
 
         mainFrame.addTab("change IED", changeIedTAB);
 
         jSplitPane1.setDividerLocation(300);
-
-        simLogTA.setEditable(false);
-        simLogTA.setColumns(20);
-        simLogTA.setRows(5);
-        jScrollPane1.setViewportView(simLogTA);
 
         jLabel3.setText("Values changed by simulator:");
 
@@ -927,33 +917,33 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setViewportView(simLogTP);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(saveCsvBTN)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)
+                        .addComponent(saveCsvBTN))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 814, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap()
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(saveCsvBTN)
                 .addGap(19, 19, 19))
         );
@@ -1243,33 +1233,32 @@ public class Gui extends javax.swing.JFrame {
 
         mainFrame.addTab("simulate", simulateTAB);
 
-        masterLogTA.setEditable(false);
-        masterLogTA.setColumns(20);
-        masterLogTA.setFont(new java.awt.Font("Gadugi", 0, 10)); // NOI18N
-        masterLogTA.setRows(5);
-        jScrollPane3.setViewportView(masterLogTA);
-
         jLabel26.setText("log:");
+
+        jScrollPane4.setViewportView(masterLogTP);
 
         javax.swing.GroupLayout logTABLayout = new javax.swing.GroupLayout(logTAB);
         logTAB.setLayout(logTABLayout);
         logTABLayout.setHorizontalGroup(
             logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logTABLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel26)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addGroup(logTABLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel26))
+                    .addGroup(logTABLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         logTABLayout.setVerticalGroup(
             logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logTABLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel26)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         mainFrame.addTab("log", logTAB);
@@ -1403,11 +1392,13 @@ public class Gui extends javax.swing.JFrame {
             connectedLBL.setText("server started");
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
-            //todo get error  
-            LOGGER_GUI.error("", e);
+            LOGGER_GUI.error("a text instead of a number entered", e);
         } catch (IOException ex) {
             LOGGER_GUI.error("", ex);
         } catch (SclParseException ex) {
+            LOGGER_GUI.error("", ex);
+        }catch (NullPointerException ex) {
+            connectedLBL.setText("no ied selected");
             LOGGER_GUI.error("", ex);
         }
     }//GEN-LAST:event_startBTNActionPerformed
@@ -1516,9 +1507,7 @@ public class Gui extends javax.swing.JFrame {
             } else {
                 LOGGER_GUI.warn("no function selected\n");
             }
-            reportDatasetTA.append("\n");
         } catch (ServiceError | IOException e) {
-//ToDo Error
             LOGGER_GUI.error("", e);
         }
     }//GEN-LAST:event_reportStartBTNActionPerformed
@@ -1547,7 +1536,6 @@ public class Gui extends javax.swing.JFrame {
                 //nothing selected
                 LOGGER_GUI.warn("no function selected\n");
             }
-            reportDatasetTA.append("\n");
         } catch (ServiceError | IOException e) {
             LOGGER_GUI.error("service error ", e);
         }
@@ -1555,6 +1543,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_startDatasetBTNActionPerformed
 
     private void simulateRampStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateRampStartBTNActionPerformed
+
         String referenceRamp = simulateRampReferenceTB.getText();
         String fcString = simulateRampFcCB.getSelectedItem().toString();
 
@@ -1586,6 +1575,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
 
     private void simulatePulsStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulatePulsStartBTNActionPerformed
+
         String referencePuls = simulatePulsReferenceTB.getText();
         String fcString = simulatePulsFcCB.getSelectedItem().toString();
 
@@ -1609,19 +1599,10 @@ public class Gui extends javax.swing.JFrame {
         Simulator sim = new Simulator(server);
         try {
             sim.pulseSimulator(referencePuls, fcString, min, max, onTime, offTime);
-//        try {
-//            server.writeValue(referencePuls, fcString, max);
-//            //ontime
-//            Thread.sleep(onTime);
-//            server.writeValue(referencePuls, fcString, min);
-//            //offtime
-//            Thread.sleep(offTime);
-//        } catch (InterruptedException ex) {
-//            LOGGER_GUI.error("simulator interrupted", ex);
-//        }
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_simulatePulsStartBTNActionPerformed
 
     private void simulatePulsStopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulatePulsStopBTNActionPerformed
@@ -1667,7 +1648,7 @@ public class Gui extends javax.swing.JFrame {
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
-                String s = simLogTA.getText();
+                String s = simLogTP.getText();
                 File f = new File(fileToSave.getAbsolutePath() + ".txt");
                 try ( FileWriter fw = new FileWriter(f)) {
                     fw.write(s);
@@ -1768,17 +1749,17 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JPanel jPanel7;
     public static javax.swing.JPanel jPanel8;
     public static javax.swing.JPanel jPanel9;
-    public static javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JScrollPane jScrollPane4;
     public static javax.swing.JScrollPane jScrollPane5;
+    public static javax.swing.JScrollPane jScrollPane6;
     public static javax.swing.JSplitPane jSplitPane1;
     public static javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JTabbedPane jTabbedPane4;
     public static javax.swing.JPanel logTAB;
     public static javax.swing.JTabbedPane mainFrame;
-    public static javax.swing.JTextArea masterLogTA;
+    public static javax.swing.JTextPane masterLogTP;
     public static javax.swing.JTextArea netDevicesTA;
     public static javax.swing.JTextArea netInfosTA;
     public static javax.swing.JPanel networkPNL;
@@ -1790,7 +1771,7 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JPanel referenceReportPNL;
     public static javax.swing.JTextField referenceTB;
     public static javax.swing.ButtonGroup reportBG;
-    public static javax.swing.JTextArea reportDatasetTA;
+    public static javax.swing.JTextPane reportDatasetTP;
     public static javax.swing.JPanel reportPNL;
     public static javax.swing.JButton reportStartBTN;
     public static javax.swing.JRadioButton reserveReportRB;
@@ -1808,7 +1789,7 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JRadioButton setDatasetReportRB;
     public static javax.swing.JRadioButton setIntegrityReportRB;
     public static javax.swing.JRadioButton setTriggerReportRB;
-    public static javax.swing.JTextArea simLogTA;
+    public static javax.swing.JTextPane simLogTP;
     public static javax.swing.JComboBox<String> simulatePulsFcCB;
     public static javax.swing.JTextField simulatePulsMaxTB;
     public static javax.swing.JTextField simulatePulsMinTB;

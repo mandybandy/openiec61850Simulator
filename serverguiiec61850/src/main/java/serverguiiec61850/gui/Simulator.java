@@ -2,8 +2,7 @@ package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.BasicDataAttribute;
 import com.beanit.openiec61850.Fc;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serverguiiec61850.network.Server;
 
@@ -14,7 +13,12 @@ import serverguiiec61850.network.Server;
  */
 public class Simulator {
 
-    private static final org.slf4j.Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
+    private static final Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
+
+    /**
+     *
+     */
+    public static boolean simulate = false;
     Server server;
 
     Simulator(Server server) {
@@ -33,6 +37,7 @@ public class Simulator {
      * @throws InterruptedException
      */
     public void rampSimulator(String referenceRamp, String fcString, int from, int to, long time, int steps) throws InterruptedException {
+        simulate = true;
         Thread rampSim = new Thread(new RampSim(referenceRamp, fcString, from, to, time, steps));
         rampSim.start();
     }
@@ -49,6 +54,7 @@ public class Simulator {
      * @throws InterruptedException
      */
     public void pulseSimulator(String referencePuls, String fcString, String min, String max, long onTime, long offTime) throws InterruptedException {
+        simulate = true;
         Thread pulseSim = new Thread(new PulseSim(referencePuls, fcString, min, max, onTime, offTime));
         pulseSim.start();
     }
@@ -83,7 +89,7 @@ public class Simulator {
         //wird mit externer Variable beendet? mehr oder weniger gut
         @Override
         public void run() {
-            while (Gui.enabled) {
+            if (Gui.enabled) {
                 try {
                     server.writeValue(referencePuls, fcString, max);
                     //ontime
@@ -94,6 +100,8 @@ public class Simulator {
                 } catch (InterruptedException ex) {
                     LOGGER_SIM.error("", ex);
                 }
+            } else {
+                simulate = false;
             }
         }
     }
@@ -115,7 +123,7 @@ public class Simulator {
             this.to = to;
             this.steps = steps;
 
-            BasicDataAttribute bda = null;
+            BasicDataAttribute bda;
             try {
                 bda = (BasicDataAttribute) server.serverModel.findModelNode(referenceRamp, Fc.fromString(fcString));
                 if ((bda == null) || bda.getChildren() != null) {
@@ -142,6 +150,8 @@ public class Simulator {
                         LOGGER_SIM.error("", ex);
                     }
                 }
+            } else {
+                simulate = false;
             }
         }
     }

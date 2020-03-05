@@ -49,6 +49,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * erstellt Fenster, wo die Referenz und die FC gewählt werden kann ähnlich
      * wie GuiTree
      *
+     * @param serverModel
      * @throws java.net.UnknownHostException
      */
     public RefSelect(ServerModel serverModel) throws UnknownHostException {

@@ -27,25 +27,28 @@ import org.slf4j.LoggerFactory;
  * @author Philipp Mandl
  */
 public class Client {
-    private ServerModel serverModel;
+
+    private final ServerModel serverModel;
     /**
-     *
+     * Client
      */
     public static volatile ClientAssociation association;
 
     private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Client.class);
 
     /**
+     * create client
      *
      * @param host
      * @param port
+     * @param serverModel
      * @throws java.net.UnknownHostException
      * @throws java.io.IOException
      * @throws com.beanit.openiec61850.SclParseException
      */
     public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException {
         this.serverModel = serverModel;
-        
+
         InetAddress address;
 
         address = InetAddress.getByName(host);
@@ -68,26 +71,6 @@ public class Client {
         LOGGER_CLIENT.debug("successfully read model");
     }
 
-//    /**
-//     *
-//     * @param reference
-//     * @param fcString
-//     * @throws com.beanit.openiec61850.ServiceError
-//     * @throws java.io.IOException
-//     */
-//    public void getdata(String reference, String fcString) throws ServiceError, IOException {
-//        if (server.serverModel == null) {
-//            LOGGER_CLIENT.info("You have to retrieve the model before reading data.");
-//            return;
-//        }
-//
-//        FcModelNode fcModelNode = askForFcModelNode(reference, fcString);
-//
-//        LOGGER_CLIENT.info("Sending GetDataValues request...");
-//        association.getDataValues(fcModelNode);
-//        LOGGER_CLIENT.info("Successfully read data.");
-//        LOGGER_CLIENT.info(fcModelNode);
-//    }
     /**
      * erstellt Dataset
      *

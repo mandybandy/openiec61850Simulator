@@ -1,0 +1,53 @@
+package serverguiiec61850.gui;
+
+import java.awt.Color;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
+/**
+ *
+ * @author Philipp
+ */
+public class StyleConstant {
+
+    private static final int FONTSIZE = 10;
+    private static final String FONTFAMILY = "Helvetica";
+
+    /**
+     *
+     */
+    public static final SimpleAttributeSet YELLOW = new SimpleAttributeSet();
+
+    /**
+     *
+     */
+    public static final SimpleAttributeSet RED = new SimpleAttributeSet();
+
+    /**
+     *
+     */
+    public static final SimpleAttributeSet BLACK = new SimpleAttributeSet();
+
+    /**
+     *
+     */
+    public static final SimpleAttributeSet GREW = new SimpleAttributeSet();
+
+    static {
+        StyleConstants.setForeground(YELLOW, Color.YELLOW);
+        StyleConstants.setFontFamily(YELLOW, FONTFAMILY);
+        StyleConstants.setFontSize(YELLOW, FONTSIZE);
+
+        StyleConstants.setForeground(RED, Color.RED);
+        StyleConstants.setFontFamily(RED, FONTFAMILY);
+        StyleConstants.setFontSize(RED, FONTSIZE);
+
+        StyleConstants.setForeground(BLACK, Color.BLACK);
+        StyleConstants.setFontFamily(BLACK, FONTFAMILY);
+        StyleConstants.setFontSize(BLACK, FONTSIZE);
+
+        StyleConstants.setForeground(GREW, Color.DARK_GRAY);
+        StyleConstants.setFontFamily(GREW, FONTFAMILY);
+        StyleConstants.setFontSize(GREW, FONTSIZE);
+    }
+}

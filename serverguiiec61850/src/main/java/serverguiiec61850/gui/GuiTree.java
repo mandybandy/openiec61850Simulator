@@ -37,7 +37,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import serverguiiec61850.network.Client;
-import serverguiiec61850.network.Server;
 
 /**
  * erstellt eine Gui, mit der es möglich ist Werte anzusehen und zu schreiben
@@ -48,7 +47,7 @@ import serverguiiec61850.network.Server;
 public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
 
     //private Server server;
-    private ServerModel serverModel;
+    private final ServerModel serverModel;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
@@ -60,6 +59,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     /**
      * Gui für manuelle Werteänderung
      *
+     * @param serverModel
      * @throws java.net.UnknownHostException
      */
     public GuiTree(ServerModel serverModel) throws UnknownHostException {
@@ -127,7 +127,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         gbl.setConstraints(detailsScrollPane, detailsScrollPaneConstraint);
         add(detailsScrollPane);
 
-        // Info: Fix size//ToDo: min sized???
+        // Info: Fix size
         setSize(700, 500);
         setMinimumSize(new Dimension(420, 400));
         setVisible(true);
@@ -346,7 +346,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         detailsPanel.add(c);
     }
 
-    /**schließt aktuelles Fenster**/
+    /**
+     * schließt aktuelles Fenster*
+     */
     private void exit() {
         setVisible(false);
         dispose();

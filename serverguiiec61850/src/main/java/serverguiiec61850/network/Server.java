@@ -72,7 +72,7 @@ public class Server {
      * @throws java.io.IOException
      * @throws com.beanit.openiec61850.SclParseException
      */
-    public Server(String sclPath, int portServer) throws IOException, SclParseException {
+    public Server(String sclPath, int portServer) throws IOException, SclParseException, NullPointerException {
         serverSap = null;
 
         List<ServerModel> serverModels = null;
@@ -82,7 +82,6 @@ public class Server {
             LOGGER_SERVER.error("file failed parsing.");
         }
         LOGGER_SERVER.info("file passed parsing.");
-
         serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -159,8 +158,8 @@ public class Server {
             java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        LOGGER_SERVER.info("successfully wrote data.");
-        LOGGER_SERVER.info(bda.toString());
+        LOGGER_SERVER.debug("successfully wrote data.");
+        LOGGER_SERVER.debug(bda.toString());
     }
 
     private void setBdaValue(BasicDataAttribute bda, String valueString) {
@@ -254,7 +253,7 @@ public class Server {
             LOGGER_SERVER.debug("BdaTriggerConditions");
 
         } else {
-            LOGGER_SERVER.info("datatypes are not the same");
+            LOGGER_SERVER.error("datatypes are not the same");
             throw new IllegalArgumentException();
         }
     }
