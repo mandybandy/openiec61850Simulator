@@ -86,6 +86,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     public void append(ILoggingEvent event) {
         //TODO error red, warn orange
         //TODO make autoscroll
+        //TODO simulator append nur bei simulator aktiv
         ENCODER.encode(event);
         String line = getTime(event.getTimeStamp()) + event.toString() + "\n";
         MASTER_LOG.append(line);
