@@ -338,6 +338,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextArea" name="netInfosTA">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
                             <Property name="text" type="java.lang.String" value="IP: 0.0.0.0&#xa;IP-SUBNET: 0.0.0.0&#xa;IP-GATEWAY: 0.0.0.0"/>
@@ -354,6 +355,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextArea" name="netDevicesTA">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
                             <Property name="text" type="java.lang.String" value="found no devices"/>

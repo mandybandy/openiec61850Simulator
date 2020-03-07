@@ -265,11 +265,13 @@ public class Gui extends javax.swing.JFrame {
 
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
+        netInfosTA.setEditable(false);
         netInfosTA.setColumns(20);
         netInfosTA.setRows(5);
         netInfosTA.setText("IP: 0.0.0.0\nIP-SUBNET: 0.0.0.0\nIP-GATEWAY: 0.0.0.0");
         jScrollPane2.setViewportView(netInfosTA);
 
+        netDevicesTA.setEditable(false);
         netDevicesTA.setColumns(20);
         netDevicesTA.setRows(5);
         netDevicesTA.setText("found no devices");
