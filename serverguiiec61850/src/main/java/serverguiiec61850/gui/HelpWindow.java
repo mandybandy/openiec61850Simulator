@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Philipp
+ * @author Philipp Mandl
  */
 public class HelpWindow extends javax.swing.JFrame {
 

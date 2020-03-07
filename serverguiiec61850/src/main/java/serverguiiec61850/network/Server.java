@@ -64,9 +64,6 @@ public class Server {
 
     /**
      *
-     */
-    /**
-     *
      * @param sclPath
      * @param portServer
      * @throws java.io.IOException
@@ -124,7 +121,7 @@ public class Server {
      * @param fcString
      * @param valueString
      */
-    public void writeValue(String reference, String fcString, String valueString) {
+    public void writeValue(String reference, String fcString, String valueString) throws IOException {
         Fc fc = Fc.fromString(fcString);
         if (fc == null) {
             LOGGER_SERVER.info("Unknown functional constraint.");
@@ -154,9 +151,7 @@ public class Server {
             Client.association.setDataValues(((FcModelNode) bda.getParent()));
         } catch (ServiceError ex) {
             java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
         LOGGER_SERVER.debug("successfully wrote data.");
         LOGGER_SERVER.debug(bda.toString());

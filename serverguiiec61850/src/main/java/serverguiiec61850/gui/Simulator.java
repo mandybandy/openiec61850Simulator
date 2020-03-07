@@ -2,6 +2,8 @@ package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.BasicDataAttribute;
 import com.beanit.openiec61850.Fc;
+import java.io.IOException;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serverguiiec61850.network.Server;
@@ -9,7 +11,7 @@ import serverguiiec61850.network.Server;
 /**
  * erstellt einen neuen Simulator Thread
  *
- * @author Philipp
+ * @author Philipp Mandl
  */
 public class Simulator {
 
@@ -99,6 +101,9 @@ public class Simulator {
                     Thread.sleep(offTime);
                 } catch (InterruptedException ex) {
                     LOGGER_SIM.error("", ex);
+                } catch (IOException ex) {
+                    LOGGER_SIM.error("server not found");
+                    return;
                 }
             } else {
                 simulate = false;
@@ -137,7 +142,7 @@ public class Simulator {
 
         }
 
-        //wird mit externer Variable beendet? mehr oder weniger gut
+        //wird mit externer Variable beendet.
         @Override
         public void run() {
             if (start) {

@@ -6,7 +6,7 @@ import javax.swing.text.StyleConstants;
 
 /**
  *
- * @author Philipp
+ * @author Philipp Mandl
  */
 public class StyleConstant {
 
@@ -14,27 +14,27 @@ public class StyleConstant {
     private static final String FONTFAMILY = "Helvetica";
 
     /**
-     *
+     * yellow
      */
     public static final SimpleAttributeSet YELLOW = new SimpleAttributeSet();
 
     /**
-     *
+     *red
      */
     public static final SimpleAttributeSet RED = new SimpleAttributeSet();
 
     /**
-     *
+     *black
      */
     public static final SimpleAttributeSet BLACK = new SimpleAttributeSet();
 
     /**
-     *
+     *grew
      */
     public static final SimpleAttributeSet GREW = new SimpleAttributeSet();
 
     static {
-        StyleConstants.setForeground(YELLOW, Color.YELLOW);
+        StyleConstants.setForeground(YELLOW, Color.ORANGE);
         StyleConstants.setFontFamily(YELLOW, FONTFAMILY);
         StyleConstants.setFontSize(YELLOW, FONTSIZE);
 

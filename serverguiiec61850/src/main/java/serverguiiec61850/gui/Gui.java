@@ -144,6 +144,7 @@ public class Gui extends javax.swing.JFrame {
         disableReportRB = new javax.swing.JRadioButton();
         enableReportRB = new javax.swing.JRadioButton();
         reserveReportRB = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
         datasetPNL = new javax.swing.JPanel();
         createDatasetRB = new javax.swing.JRadioButton();
         deleteDatasetRB = new javax.swing.JRadioButton();
@@ -397,7 +398,7 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(connectTABLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         connectTABLayout.setVerticalGroup(
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,37 +666,46 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        jLabel4.setText("functions:");
+
         javax.swing.GroupLayout reportPNLLayout = new javax.swing.GroupLayout(reportPNL);
         reportPNL.setLayout(reportPNLLayout);
         reportPNLLayout.setHorizontalGroup(
             reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportPNLLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(IntegrityReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(referenceReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(valueReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectReferenceReportBTN))
-                    .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addContainerGap()
+                        .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(reportPNLLayout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(IntegrityReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(reportPNLLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(referenceReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(valueReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(selectReferenceReportBTN))
+                            .addGroup(reportPNLLayout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(reportPNLLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel4)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         reportPNLLayout.setVerticalGroup(
             reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportPNLLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(reportPNLLayout.createSequentialGroup()
@@ -902,6 +912,7 @@ public class Gui extends javax.swing.JFrame {
         jLabel14.setText("client:");
         changeIedTAB.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
+        reportDatasetTP.setEditable(false);
         jScrollPane6.setViewportView(reportDatasetTP);
 
         changeIedTAB.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 360, 450));
@@ -919,6 +930,7 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        simLogTP.setEditable(false);
         jScrollPane3.setViewportView(simLogTP);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -1237,6 +1249,7 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel26.setText("log:");
 
+        masterLogTP.setEditable(false);
         jScrollPane4.setViewportView(masterLogTP);
 
         javax.swing.GroupLayout logTABLayout = new javax.swing.GroupLayout(logTAB);
@@ -1394,7 +1407,7 @@ public class Gui extends javax.swing.JFrame {
             connectedLBL.setText("server started");
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
-            LOGGER_GUI.error("a text instead of a number entered", e);
+            LOGGER_GUI.error("port is not a valid number", e);
         } catch (IOException ex) {
             LOGGER_GUI.error("", ex);
         } catch (SclParseException ex) {
@@ -1738,6 +1751,7 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel25;
     public static javax.swing.JLabel jLabel26;
     public static javax.swing.JLabel jLabel3;
+    public static javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
     public static javax.swing.JLabel jLabel6;
     public static javax.swing.JLabel jLabel7;

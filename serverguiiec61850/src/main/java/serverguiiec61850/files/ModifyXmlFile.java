@@ -2,7 +2,7 @@ package serverguiiec61850.files;
 
 /**
  *
- * @author Philipp
+ * @author Philipp Mandl
  */
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,6 @@ import serverguiiec61850.gui.Gui;
  * einzelnen IEDs die Netzwerkeinstellungen werden hier auch gelesen. bzw. alles
  * was mit den Dateien zu tun hat befindet sich hier.
  *
- * @author Philipp
  */
 
 public class ModifyXmlFile {

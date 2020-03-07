@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 public class Client {
 
     private final ServerModel serverModel;
+
     /**
      * Client
      */
@@ -72,7 +73,7 @@ public class Client {
     }
 
     /**
-     * erstellt Dataset
+     * creates dataset
      *
      * @param reference
      * @param fcString
@@ -102,7 +103,7 @@ public class Client {
     }
 
     /**
-     * löscht Dataset
+     * deletes dataset
      *
      * @param reference
      * @throws com.beanit.openiec61850.ServiceError

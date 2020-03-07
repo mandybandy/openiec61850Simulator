@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 /**
- * erstellt einen KeyListener
+ * creates a keylistener
  * 
- * @author Philipp
+ * @author Philipp Mandl
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
 
