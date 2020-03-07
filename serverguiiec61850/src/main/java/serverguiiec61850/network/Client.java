@@ -174,10 +174,10 @@ public class Client {
         LOGGER_CLIENT.debug("Reserving RCB..");
         if (getUrcb(reference) != null) {
             association.reserveUrcb(getUrcb(reference));
-            LOGGER_CLIENT.debug("reserved unbuffered report: " + reference);
+            LOGGER_CLIENT.info("reserved unbuffered report: " + reference);
         } else if (getBrcb(reference) != null) {
             association.reserveBrcb(getBrcb(reference), time);
-            LOGGER_CLIENT.debug("reserved buffered report: " + reference);
+            LOGGER_CLIENT.info("reserved buffered report: " + reference);
         } else {
             LOGGER_CLIENT.error("report not found, error while reserving report");
         }
