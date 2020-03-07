@@ -16,7 +16,7 @@ public class StyleConstant {
     /**
      * yellow
      */
-    public static final SimpleAttributeSet YELLOW = new SimpleAttributeSet();
+    public static final SimpleAttributeSet ORANGE = new SimpleAttributeSet();
 
     /**
      *red
@@ -34,9 +34,9 @@ public class StyleConstant {
     public static final SimpleAttributeSet GREW = new SimpleAttributeSet();
 
     static {
-        StyleConstants.setForeground(YELLOW, Color.ORANGE);
-        StyleConstants.setFontFamily(YELLOW, FONTFAMILY);
-        StyleConstants.setFontSize(YELLOW, FONTSIZE);
+        StyleConstants.setForeground(ORANGE, Color.ORANGE);
+        StyleConstants.setFontFamily(ORANGE, FONTFAMILY);
+        StyleConstants.setFontSize(ORANGE, FONTSIZE);
 
         StyleConstants.setForeground(RED, Color.RED);
         StyleConstants.setFontFamily(RED, FONTFAMILY);

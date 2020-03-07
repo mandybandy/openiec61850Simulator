@@ -147,12 +147,16 @@ public class Simulator {
         public void run() {
             if (start) {
                 for (int stepsCounter = 0; stepsCounter < steps + 1; stepsCounter++) {
-                    server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));
                     try {
-                        //wait time/steps
-                        Thread.sleep(time / steps);
-                    } catch (InterruptedException ex) {
-                        LOGGER_SIM.error("", ex);
+                        server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));
+                        try {
+                            //wait time/steps
+                            Thread.sleep(time / steps);
+                        } catch (InterruptedException ex) {
+                            LOGGER_SIM.error("", ex);
+                        }
+                    } catch (IOException ex) {
+                        LOGGER_SIM.error("server not found");
                     }
                 }
             } else {

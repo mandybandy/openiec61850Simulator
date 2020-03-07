@@ -113,7 +113,7 @@ public class Client {
         DataSet dataSet = serverModel.getDataSet(reference);
         if (dataSet == null) {
             //gibs nd
-            LOGGER_CLIENT.debug("dataset not found error while deleting dataset");
+            LOGGER_CLIENT.error("dataset not found error while deleting dataset");
         }
         LOGGER_CLIENT.debug("Deleting data set..");
         association.deleteDataSet(dataSet);
@@ -178,8 +178,9 @@ public class Client {
         } else if (getBrcb(reference) != null) {
             association.reserveBrcb(getBrcb(reference), time);
             LOGGER_CLIENT.debug("reserved buffered report: " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while reserving report");
         }
-        LOGGER_CLIENT.debug("report not found, error while reserving report");
     }
 
     /**
@@ -195,8 +196,9 @@ public class Client {
         if (urcb != null) {
             association.cancelUrcbReservation(urcb);
             LOGGER_CLIENT.debug("canceld reservation: " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while cancelling reservation");
         }
-        LOGGER_CLIENT.debug("report not found, error while cancelling reservation");
     }
 
     /**
@@ -212,8 +214,9 @@ public class Client {
             LOGGER_CLIENT.debug("Enabling reporting..");
             association.enableReporting(getRcb(reference));
             LOGGER_CLIENT.debug("report enabled: " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while enabling report");
         }
-        LOGGER_CLIENT.debug("report not found, error while enabling report");
     }
 
     /**
@@ -229,8 +232,9 @@ public class Client {
             LOGGER_CLIENT.debug("Disabling reporting..");
             association.disableReporting(getRcb(reference));
             LOGGER_CLIENT.debug("report disabled: " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while disabling report");
         }
-        LOGGER_CLIENT.debug("report not found, error while disabling report");
     }
 
     /**
@@ -248,8 +252,9 @@ public class Client {
             List<ServiceError> serviceErrors = null;
             serviceErrors = association.setRcbValues(rcb, false, true, false, false, false, false, false, false);
             LOGGER_CLIENT.debug("value " + datasetValue + " set on: " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while setting trigger");
         }
-        LOGGER_CLIENT.debug("report not found, error while setting trigger");
     }
 
     /**
@@ -275,8 +280,9 @@ public class Client {
                 throw serviceErrors.get(0);
             }
             LOGGER_CLIENT.debug("dataset trigger " + triggerOptionsString + " set on " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while setting Dataset");
         }
-        LOGGER_CLIENT.debug("report not found, error while setting Dataset");
     }
 
     /**
@@ -294,8 +300,9 @@ public class Client {
             rcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
             List<ServiceError> serviceErrors = association.setRcbValues(rcb, false, false, false, false, false, true, false, false);
             LOGGER_CLIENT.debug("integrity " + integrityPeriodString + " set on " + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while changing integrity");
         }
-        LOGGER_CLIENT.debug("report not found, error while changing integrity");
     }
 
     /**
@@ -311,8 +318,9 @@ public class Client {
         if (rcb != null) {
             association.startGi(rcb);
             LOGGER_CLIENT.debug("general interrogation sent on" + reference);
+        } else {
+            LOGGER_CLIENT.error("report not found, error while sending GI");
         }
-        LOGGER_CLIENT.debug("report not found, error while sending GI");
     }
 
     private FcModelNode askForFcModelNode(String reference, String fcString) {
@@ -336,8 +344,8 @@ public class Client {
      *
      */
     public void quit() {
-        LOGGER_CLIENT.info("** stopping client");
+        LOGGER_CLIENT.debug("** stopping client");
         association.close();
-        LOGGER_CLIENT.debug("client stopped");
+        LOGGER_CLIENT.info("client stopped");
     }
 }

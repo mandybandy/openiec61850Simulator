@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import org.w3c.dom.Document;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
@@ -91,7 +92,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         if (line.contains("ERROR")) {
             color = StyleConstant.RED;
         } else if (line.contains("WARN")) {
-            color = StyleConstant.YELLOW;
+            color = StyleConstant.ORANGE;
         } else if (line.contains("DEBUG")) {
             color = StyleConstant.GREW;
         }
@@ -106,6 +107,10 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
             } else if (Gui.mainFrame.getSelectedIndex() == 1) {//report dataset manipulation
                 REPORT_DATASET_LOG.getDocument().insertString(REPORT_DATASET_LOG.getDocument().getLength(), line, color);
             }
+            MASTER_LOG.select(MASTER_LOG.getDocument().getLength(), MASTER_LOG.getDocument().getLength());
+            SIMULATOR_LOG.select(SIMULATOR_LOG.getDocument().getLength(), SIMULATOR_LOG.getDocument().getLength());
+            REPORT_DATASET_LOG.select(REPORT_DATASET_LOG.getDocument().getLength(), REPORT_DATASET_LOG.getDocument().getLength());
+
         } catch (BadLocationException ex) {
             java.util.logging.Logger.getLogger(JTextAreaAppender.class.getName()).log(Level.SEVERE, null, ex);
         }

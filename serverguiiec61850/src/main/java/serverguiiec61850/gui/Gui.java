@@ -164,6 +164,7 @@ public class Gui extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         reportDatasetTP = new javax.swing.JTextPane();
+        jLabel27 = new javax.swing.JLabel();
         simulateTAB = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -189,6 +190,7 @@ public class Gui extends javax.swing.JFrame {
         simulateRampStepsTB = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
         selectReferenceRampBTN = new javax.swing.JButton();
+        simulateRampStopBTN = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         simulatePulsMinTB = new javax.swing.JTextField();
         simulatePulsMaxTB = new javax.swing.JTextField();
@@ -910,12 +912,15 @@ public class Gui extends javax.swing.JFrame {
         changeIedTAB.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 345, 232));
 
         jLabel14.setText("client:");
-        changeIedTAB.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        changeIedTAB.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
         reportDatasetTP.setEditable(false);
         jScrollPane6.setViewportView(reportDatasetTP);
 
         changeIedTAB.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 360, 450));
+
+        jLabel27.setText("server:");
+        changeIedTAB.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
 
         mainFrame.addTab("change IED", changeIedTAB);
 
@@ -1013,6 +1018,14 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        simulateRampStopBTN.setText("stop");
+        simulateRampStopBTN.setEnabled(false);
+        simulateRampStopBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simulateRampStopBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1034,20 +1047,23 @@ public class Gui extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(simulateRampStartBTN)
+                            .addComponent(selectReferenceRampBTN)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7)
-                                    .addComponent(simulateRampTimeTB)
-                                    .addComponent(jLabel20)
-                                    .addComponent(simulateRampFromTB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7)
+                                        .addComponent(simulateRampTimeTB)
+                                        .addComponent(jLabel20)
+                                        .addComponent(simulateRampFromTB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(simulateRampStartBTN))
                                 .addGap(62, 62, 62)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel25)
-                                    .addComponent(simulateRampStepsTB)
-                                    .addComponent(jLabel8)
-                                    .addComponent(simulateRampToTB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(selectReferenceRampBTN))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(simulateRampStopBTN)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel25)
+                                        .addComponent(simulateRampStepsTB)
+                                        .addComponent(jLabel8)
+                                        .addComponent(simulateRampToTB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -1080,7 +1096,9 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(simulateRampTimeTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(simulateRampStepsTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
-                .addComponent(simulateRampStartBTN)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(simulateRampStartBTN)
+                    .addComponent(simulateRampStopBTN))
                 .addContainerGap(298, Short.MAX_VALUE))
         );
 
@@ -1412,7 +1430,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("", ex);
         } catch (SclParseException ex) {
             LOGGER_GUI.error("", ex);
-        }catch (NullPointerException ex) {
+        } catch (NullPointerException ex) {
             connectedLBL.setText("no ied selected");
             LOGGER_GUI.error("", ex);
         }
@@ -1674,6 +1692,15 @@ public class Gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveCsvBTNActionPerformed
 
+    private void simulateRampStopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateRampStopBTNActionPerformed
+        // TODO add your handling code here:
+        simulateRampStartBTN.setEnabled(true);
+        simulateRampStopBTN.setEnabled(false);
+        enabled = false;
+
+        LOGGER_GUI.info("stopped ramp simulator\n");
+    }//GEN-LAST:event_simulateRampStopBTNActionPerformed
+
     private void createNetDeviceList() {
 
         try {
@@ -1750,6 +1777,7 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel24;
     public static javax.swing.JLabel jLabel25;
     public static javax.swing.JLabel jLabel26;
+    public static javax.swing.JLabel jLabel27;
     public static javax.swing.JLabel jLabel3;
     public static javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
@@ -1819,6 +1847,7 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JTextField simulateRampReferenceTB;
     public static javax.swing.JButton simulateRampStartBTN;
     public static javax.swing.JTextField simulateRampStepsTB;
+    public static javax.swing.JButton simulateRampStopBTN;
     public static javax.swing.JTextField simulateRampTimeTB;
     public static javax.swing.JTextField simulateRampToTB;
     public javax.swing.JPanel simulateTAB;
