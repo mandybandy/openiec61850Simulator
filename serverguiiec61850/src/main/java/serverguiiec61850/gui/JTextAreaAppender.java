@@ -88,7 +88,6 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     public void append(ILoggingEvent event) {
         AttributeSet color = StyleConstant.BLACK;
 
-        //TODO make autoscroll
         ENCODER.encode(event);
         String line = getTime(event.getTimeStamp()) + event.toString() + "\n";
         if (line.contains("ERROR")) {

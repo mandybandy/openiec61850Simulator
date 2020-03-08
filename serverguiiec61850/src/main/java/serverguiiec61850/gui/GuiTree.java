@@ -68,7 +68,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         super("change values");
         this.serverModel = serverModel;
         //Info: setze Icon //ToDo: Pfad ändern für -jar
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\iconSelecter.png");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
 
         addWindowListener(new WindowAdapter() {
@@ -284,6 +284,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
             return;
         }
         validate();
+        
         LOGGER_GUITREE.info("wrote sucessfully");
     }
 

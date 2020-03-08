@@ -22,7 +22,7 @@ public class HelpWindow extends javax.swing.JFrame {
             }
         });
         //ToDo: Icon Pfad ändern für -jar
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\helpicon.png");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\helpicon.png");
         this.setIconImage(img.getImage());
         initComponents();
     }

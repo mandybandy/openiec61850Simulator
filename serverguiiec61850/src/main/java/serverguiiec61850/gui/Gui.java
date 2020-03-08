@@ -41,7 +41,7 @@ public class Gui extends javax.swing.JFrame {
     /**
      * path where the modified xml is
      */
-    public static String iedPath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\everyIed.xml";
+    public static String iedPath = System.getProperty("user.dir") + "\\files\\icd\\everyIed.xml";
 
     private Server server;
     private Client client;
@@ -61,21 +61,17 @@ public class Gui extends javax.swing.JFrame {
             // Set System L&F
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
-        } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            LOGGER_GUI.error("look and feel not avaible", e);
         }
         initComponents();
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icon.png");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\icon.png");
         this.setIconImage(img.getImage());
         KeyListenerGui keyListenerGui = new KeyListenerGui();
         createNetDeviceList();
         JTextAreaAppender masterappender = new JTextAreaAppender(masterLogTP, simLogTP, reportDatasetTP);
+        iedPathTB.setText(System.getProperty("user.dir") + "\\files\\example.icd");
+
     }
 
     /**
@@ -1328,7 +1324,7 @@ public class Gui extends javax.swing.JFrame {
     private void changeIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeIedBTNActionPerformed
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\"));
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\files\\icd\\"));
         // Dialog zum Oeffnen von Dateien anzeigen
         int rueckgabeWert = chooser.showDialog(this, "select IED");
         String iedPathName = "no IED selected";
@@ -1438,12 +1434,12 @@ public class Gui extends javax.swing.JFrame {
             mainFrame.setEnabledAt(2, true);
 
             connectedLBL.setText("server started");
-            connectedLBL.setForeground(Color.green);
+            connectedLBL.setForeground(Color.BLUE);
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number", e);
         } catch (IOException | SclParseException ex) {
-            LOGGER_GUI.error("", ex);
+            LOGGER_GUI.error("scl parse exception", ex);
         } catch (NullPointerException ex) {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(Color.red);
@@ -1709,7 +1705,6 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_saveCsvBTNActionPerformed
 
     private void simulateRampStopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateRampStopBTNActionPerformed
-        // TODO add your handling code here:
         simulateRampStartBTN.setEnabled(true);
         simulateRampStopBTN.setEnabled(false);
         enabled = false;

@@ -62,7 +62,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         });
 
         //ToDo: icon Pfad ändern für -jar
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\nodeicon.png");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\nodeicon.png");
         this.setIconImage(img.getImage());
 
         GridBagLayout gbl = new GridBagLayout();

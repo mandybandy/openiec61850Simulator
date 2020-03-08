@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><SCL xmlns="http://www.iec.ch/61850/2003/SCL">
-    <IED name="ied1">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><SCL xmlns="http://www.iec.ch/61850/2003/SCL"><IED name="ied1">
         <Services>
             <DynAssociation/>
             <GetDirectory/>
@@ -88,8 +87,7 @@
                 </LDevice>
             </Server>
         </AccessPoint>
-    </IED>
-    <DataTypeTemplates>
+    </IED><DataTypeTemplates>
         <LNodeType id="LLN01" lnClass="LLN0">
             <DO name="Mod" type="INC_1_Mod"/>
             <DO name="Beh" type="INS_1_Beh"/>
@@ -270,8 +268,7 @@
             <EnumVal ord="7">maintenance</EnumVal>
             <EnumVal ord="8">process</EnumVal>
         </EnumType>
-    </DataTypeTemplates>
-    <Communication>
+    </DataTypeTemplates><Communication>
         <SubNetwork name="subnetwork1" type="8-MMS">
             <Text>Station bus</Text>
             <BitRate unit="b/s">10</BitRate>
@@ -286,5 +283,4 @@
                 </Address>
             </ConnectedAP>
         </SubNetwork>
-    </Communication>
-</SCL>
+    </Communication></SCL>
