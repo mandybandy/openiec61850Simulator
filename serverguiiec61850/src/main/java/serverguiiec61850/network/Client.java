@@ -51,7 +51,9 @@ public class Client {
         this.serverModel = serverModel;
 
         InetAddress address;
-
+        if (host == "localhost") {
+            host = "127.0.0.1";
+        }
         address = InetAddress.getByName(host);
 
         ClientSap clientSap = new ClientSap();

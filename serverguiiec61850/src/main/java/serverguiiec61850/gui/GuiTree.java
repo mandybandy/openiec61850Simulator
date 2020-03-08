@@ -36,17 +36,17 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serverguiiec61850.network.Client;
 
 /**
- * erstellt eine Gui, mit der es möglich ist Werte anzusehen und zu schreiben
- * hier funktionieren Datasets, GetDataValue und SetDataValue
+ * creates a new client which is able to change all values manually
  *
  * @author Philipp Mandl
  */
 public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
 
-    //private Server server;
     private final ServerModel serverModel;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
@@ -54,10 +54,12 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
+    private static final Logger LOGGER_GUITREE = LoggerFactory.getLogger(Simulator.class);
+
     private DataTreeNode selectedNode;
 
     /**
-     * Gui für manuelle Werteänderung
+     * Gui change values
      *
      * @param serverModel
      * @throws java.net.UnknownHostException
@@ -137,7 +139,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * Buttonkontrolle
+     * controls buttonevents
      *
      * @param arg0
      */
@@ -151,7 +153,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * wiederaufbau für Tree
+     * rebuild tree
      *
      * @param e
      */
@@ -192,8 +194,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
 
-                //Info: If gilt nicht für ST,MX,EX,Op(Op ist speziell zu betrachten)
-                //if (selectedNode.writable()) {
                 button = new JButton("Write values");
                 button.addActionListener(this);
                 button.setActionCommand("write");
@@ -209,7 +209,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 gbc.insets = new Insets(0, 0, 5, 5);
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
-                //}
+
             }
         } else {
             selectedNode = null;
@@ -219,7 +219,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * verbindet mit zuvor erstelltem Server als neuer Client
+     * connects new client
      *
      * @throws java.net.UnknownHostException
      */
@@ -241,10 +241,10 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         try {
             Client.association.getAllDataValues();
         } catch (ServiceError e) {
-            System.out.println("Service Error requesting model." + e.getMessage());
+            LOGGER_GUITREE.error("Service Error requesting model.", e);
             return;
         } catch (IOException e) {
-            System.out.println("Fatal IOException requesting model." + e.getMessage());
+            LOGGER_GUITREE.error("Fatal IOException requesting model.", e);
             return;
         }
 
@@ -252,6 +252,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
         validate();
+        LOGGER_GUITREE.debug("values can now be changed by gui");
 
     }
 
@@ -260,10 +261,10 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
             try {
                 selectedNode.reset(Client.association);
             } catch (ServiceError e) {
-                System.out.println("ServiceError on reading" + e.getMessage());
+                LOGGER_GUITREE.error("ServiceError on reading", e);
                 return;
             } catch (IOException e) {
-                System.out.println("IOException on reading" + e.getMessage());
+                LOGGER_GUITREE.error("IOException on reading", e);
                 return;
             }
             validate();
@@ -272,22 +273,23 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     private void write() {
         //INFO: funktion gilt nicht für ST, MX, EX und vlt OP
-        //if (selectedNode.writable()) {
         try {
             selectedNode.writeValues(Client.association);
+
         } catch (ServiceError e) {
-            System.out.println("ServiceError on writing" + e.getMessage());
+            LOGGER_GUITREE.error("ServiceError on reading", e);
             return;
         } catch (IOException e) {
-            System.out.println("IOException on writing" + e.getMessage());
+            LOGGER_GUITREE.error("IOException on reading", e);
             return;
         }
         validate();
-        //}
+        LOGGER_GUITREE.info("wrote sucessfully");
     }
 
     /**
-     * grafische Funktion*
+     * shows data details
+     *
      */
     private void showDataDetails(DataTreeNode node, Counter y) {
         if (node.getData() != null) {
@@ -307,7 +309,8 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * grafische Funktion*
+     * shows details of node
+     *
      */
     private void showDataDetails(DataTreeNode node, String pre, Counter y) {
         if (node.getData() != null) {
@@ -329,7 +332,8 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * grafische Funktion*
+     * adds details
+     *
      */
     private void addDetailsComponent(Component c, int x, int y, int width, int height, double weightx, double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -347,7 +351,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * schließt aktuelles Fenster*
+     * exit guitree
      */
     private void exit() {
         setVisible(false);

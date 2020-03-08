@@ -2,6 +2,7 @@ package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.ServiceError;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -1394,9 +1395,13 @@ public class Gui extends javax.swing.JFrame {
             mainFrame.setEnabledAt(1, false);
             mainFrame.setEnabledAt(2, false);
             connectedLBL.setText("server stopped");
+            connectedLBL.setForeground(Color.black);
+
             LOGGER_GUI.info("\n server stopped\n");
         } catch (Exception e) {
             connectedLBL.setText("error");
+            connectedLBL.setForeground(Color.red);
+
             LOGGER_GUI.error("error while closing server and client", e);
         }
     }//GEN-LAST:event_stopBTNActionPerformed
@@ -1408,12 +1413,22 @@ public class Gui extends javax.swing.JFrame {
             if (remotePort < 1 || remotePort > 0xFFFF) {
                 throw new NumberFormatException("port must be in range [1, 65535]");
             }
-            if (iedPath == null) {
-                connectedLBL.setText("select a file");
-                LOGGER_GUI.error("no file selected\n");
+            if ("127.0.0.1".equals(ipTB.getText()) || "localhost".equals(ipTB.getText())) {
+                if (iedPath == null) {
+                    connectedLBL.setText("select a file");
+                    connectedLBL.setForeground(Color.black);
+
+                    LOGGER_GUI.error("no file selected\n");
+                }
             }
-            server = new Server(iedPath, remotePort);
-            client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
+            try {
+                server = new Server(iedPath, remotePort);
+                client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
+
+            } catch (java.net.BindException | java.lang.NoSuchMethodError ex) {
+                connectedLBL.setText("port already in use");
+                connectedLBL.setForeground(Color.red);
+            }
 
             //btn hide machen
             startBTN.setEnabled(false);
@@ -1423,15 +1438,16 @@ public class Gui extends javax.swing.JFrame {
             mainFrame.setEnabledAt(2, true);
 
             connectedLBL.setText("server started");
+            connectedLBL.setForeground(Color.green);
             LOGGER_GUI.info("server started\n");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number", e);
-        } catch (IOException ex) {
-            LOGGER_GUI.error("", ex);
-        } catch (SclParseException ex) {
+        } catch (IOException | SclParseException ex) {
             LOGGER_GUI.error("", ex);
         } catch (NullPointerException ex) {
             connectedLBL.setText("no ied selected");
+            connectedLBL.setForeground(Color.red);
+
             LOGGER_GUI.error("", ex);
         }
     }//GEN-LAST:event_startBTNActionPerformed

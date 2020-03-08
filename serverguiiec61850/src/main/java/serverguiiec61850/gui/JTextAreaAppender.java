@@ -29,6 +29,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private static final Logger LOGGER_GUI = LoggerFactory.getLogger(Gui.class);
     private static final Logger LOGGER_CLIENT = LoggerFactory.getLogger(Client.class);
     private static final Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
+    private static final Logger LOGGER_GUITREE = LoggerFactory.getLogger(GuiTree.class);
 
     private final Encoder<ILoggingEvent> ENCODER = new EchoEncoder<ILoggingEvent>();
     private final JTextPane MASTER_LOG;
@@ -47,6 +48,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         LOGGER_SERVER_FRONTEND.warn("Initialization of Server Console...");
         LOGGER_CLIENT.warn("Initialization of Client Console...");
         LOGGER_SIM.warn("Initialization of Client Console...");
+        LOGGER_GUITREE.warn("Initialization of Client Console...");
 
         this.MASTER_LOG = masterLog;
         this.SIMULATOR_LOG = simulatorLog;

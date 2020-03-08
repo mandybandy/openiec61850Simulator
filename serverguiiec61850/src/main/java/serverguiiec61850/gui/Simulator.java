@@ -145,7 +145,8 @@ public class Simulator {
         //wird mit externer Variable beendet.
         @Override
         public void run() {
-            if (start) {
+
+            if (start && Gui.enabled) {
                 for (int stepsCounter = 0; stepsCounter < steps + 1; stepsCounter++) {
                     try {
                         server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));

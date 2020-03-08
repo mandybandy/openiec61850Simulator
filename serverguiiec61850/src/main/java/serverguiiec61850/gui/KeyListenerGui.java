@@ -1,5 +1,6 @@
 package serverguiiec61850.gui;
 
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
@@ -7,24 +8,25 @@ import javax.swing.JTabbedPane;
 
 /**
  * creates a keylistener
- * 
+ *
  * @author Philipp Mandl
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
-
+    
     private HelpWindow help = null;
 
     /**
-     *KeyListener
+     * KeyListener
      */
     public KeyListenerGui() {
-
-        JTabbedPane tabbedPane = Gui.mainFrame;
-        tabbedPane.addKeyListener(this);
+        
+        Frame[] frame = Gui.getFrames();
+        frame[0].addKeyListener(this);
     }
 
     /**
-     *on keyTyped
+     * on keyTyped
+     *
      * @param e
      */
     @Override
@@ -32,7 +34,8 @@ public class KeyListenerGui extends JFrame implements KeyListener {
     }
 
     /**
-     *on keyPressed
+     * on keyPressed
+     *
      * @param e
      */
     @Override
@@ -40,7 +43,8 @@ public class KeyListenerGui extends JFrame implements KeyListener {
     }
 
     /**
-     *on keyReleased
+     * on keyReleased
+     *
      * @param e
      */
     @Override

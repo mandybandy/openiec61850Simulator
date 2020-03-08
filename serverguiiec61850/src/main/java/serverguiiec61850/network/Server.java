@@ -151,7 +151,7 @@ public class Server {
             Client.association.setDataValues(((FcModelNode) bda.getParent()));
         } catch (ServiceError ex) {
             java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
 
         LOGGER_SERVER.debug("successfully wrote data.");
         LOGGER_SERVER.debug(bda.toString());

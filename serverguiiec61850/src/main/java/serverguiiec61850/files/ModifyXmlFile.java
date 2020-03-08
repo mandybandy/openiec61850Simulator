@@ -33,7 +33,6 @@ import serverguiiec61850.gui.Gui;
  * was mit den Dateien zu tun hat befindet sich hier.
  *
  */
-
 public class ModifyXmlFile {
 
     /**

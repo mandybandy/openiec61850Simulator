@@ -5,6 +5,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 /**
+ * controls all style stuff for the logs
  *
  * @author Philipp Mandl
  */
@@ -14,26 +15,26 @@ public class StyleConstant {
     private static final String FONTFAMILY = "Helvetica";
 
     /**
-     * yellow
+     * orange
      */
     public static final SimpleAttributeSet ORANGE = new SimpleAttributeSet();
 
     /**
-     *red
+     * red
      */
     public static final SimpleAttributeSet RED = new SimpleAttributeSet();
 
     /**
-     *black
+     * black
      */
     public static final SimpleAttributeSet BLACK = new SimpleAttributeSet();
 
     /**
-     *grew
+     * grew
      */
     public static final SimpleAttributeSet GREW = new SimpleAttributeSet();
 
-    static {
+    static {//könnte man wenn mans erweitert verkürzen!
         StyleConstants.setForeground(ORANGE, Color.ORANGE);
         StyleConstants.setFontFamily(ORANGE, FONTFAMILY);
         StyleConstants.setFontSize(ORANGE, FONTSIZE);
