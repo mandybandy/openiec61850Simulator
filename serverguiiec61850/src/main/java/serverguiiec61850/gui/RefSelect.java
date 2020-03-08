@@ -142,34 +142,36 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
             if (reference != null) {
                 if (fc.equals(fcList.get(fcCount))) {
                     validate();
-                    if (("MX".equals(fc)) || ("ST".equals(fc))) {
-                        JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "write error", JOptionPane.WARNING_MESSAGE);
+                    if (selectedNode.getNode().getChildren() == null) {
+                        if (("MX".equals(fc)) || ("ST".equals(fc))) {
+                            JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "access warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "has children", "write warning", JOptionPane.WARNING_MESSAGE);
                     }
-
-                    Gui.referenceTB.setText(reference);
-                    Gui.createDatasetRefTB.setText(reference);
-                    Gui.createDatasetFcCB.setSelectedItem(fc);
-                    Gui.simulateRampReferenceTB.setText(reference);
-                    Gui.simulateRampFcCB.setSelectedItem(fc);
-                    Gui.simulatePulsReferenceTB.setText(reference);
-                    Gui.simulatePulsFcCB.setSelectedItem(fc);
-                    exit();
                 }
-            } else {
+
+                Gui.referenceTB.setText(reference);
+                Gui.createDatasetRefTB.setText(reference);
+                Gui.createDatasetFcCB.setSelectedItem(fc);
+                Gui.simulateRampReferenceTB.setText(reference);
+                Gui.simulateRampFcCB.setSelectedItem(fc);
+                Gui.simulatePulsReferenceTB.setText(reference);
+                Gui.simulatePulsFcCB.setSelectedItem(fc);
+                exit();
+            
+        }else {
                 JOptionPane.showMessageDialog(this, "no reference selected", "no reference", JOptionPane.WARNING_MESSAGE);
             }
-        }
-
-//        } else {
-//            JOptionPane.showMessageDialog(this, "ST and MX are not writeable", "write error", JOptionPane.ERROR_MESSAGE);
-//        }
     }
 
-    /**
-     * schließt Fenster
-     *
-     */
-    public void exit() {
+}
+
+/**
+ * schließt Fenster
+ *
+ */
+public void exit() {
         setVisible(false);
         dispose();
     }

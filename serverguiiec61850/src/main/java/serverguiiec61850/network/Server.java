@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beanit.openiec61850.BasicDataAttribute;
+import com.beanit.openiec61850.BdaBitString;
 import com.beanit.openiec61850.BdaBoolean;
 import com.beanit.openiec61850.BdaCheck;
 import com.beanit.openiec61850.BdaDoubleBitPos;
@@ -121,7 +122,7 @@ public class Server {
      * @param fcString
      * @param valueString
      */
-    public void writeValue(String reference, String fcString, String valueString) throws IOException {
+    public void writeValue(String reference, String fcString, String valueString) throws IOException, IllegalArgumentException {
         Fc fc = Fc.fromString(fcString);
         if (fc == null) {
             LOGGER_SERVER.info("Unknown functional constraint.");
@@ -140,7 +141,6 @@ public class Server {
         }
 
         BasicDataAttribute bda = (BasicDataAttribute) serverModel.findModelNode(reference, Fc.fromString(fcString));
-
         setBdaValue(bda, valueString);
 
         List<BasicDataAttribute> bdas = new ArrayList<>();
@@ -246,6 +246,10 @@ public class Server {
             byte[] value = valueString.getBytes();
             ((BdaTriggerConditions) bda).setValue(value);
             LOGGER_SERVER.debug("BdaTriggerConditions");
+        } else if (bda instanceof BdaBitString) {
+            byte[] value = valueString.getBytes();
+            ((BdaBitString) bda).setValue(value);
+            LOGGER_SERVER.debug("BdaBitString");
 
         } else {
             LOGGER_SERVER.error("datatypes are not the same");

@@ -101,8 +101,12 @@ public class Simulator {
                     Thread.sleep(offTime);
                 } catch (InterruptedException ex) {
                     LOGGER_SIM.error("", ex);
+                    return;
                 } catch (IOException ex) {
                     LOGGER_SIM.error("server not found");
+                    return;
+                } catch (IllegalArgumentException e) {
+                    LOGGER_SIM.error(e.getMessage());
                     return;
                 }
             } else {
@@ -158,6 +162,8 @@ public class Simulator {
                         }
                     } catch (IOException ex) {
                         LOGGER_SIM.error("server not found");
+                    } catch (IllegalArgumentException ex) {
+                        LOGGER_SIM.error(ex.getMessage());
                     }
                 }
             } else {

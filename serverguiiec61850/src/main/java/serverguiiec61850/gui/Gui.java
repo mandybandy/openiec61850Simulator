@@ -1609,7 +1609,9 @@ public class Gui extends javax.swing.JFrame {
             steps = 0;
             LOGGER_GUI.error("a non number entered in ramp simulator", e);
         }
-
+        enabled=true;
+        simulateRampStartBTN.setEnabled(false);
+        simulateRampStopBTN.setEnabled(true);
         try {
             Simulator sim = new Simulator(server);
             sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);

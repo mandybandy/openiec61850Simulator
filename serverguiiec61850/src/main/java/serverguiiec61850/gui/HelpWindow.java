@@ -231,7 +231,7 @@ public class HelpWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("connect", jPanel1);
 
-        jLabel10.setText("jLabel10");
+        jLabel10.setText("auf die genaue eigenschaft klicken um wert zu ändern");
 
         jLabel11.setText("jLabel11");
 
@@ -247,6 +247,15 @@ public class HelpWindow extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel20)
+                        .addGap(344, 344, 344))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(246, 246, 246))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -257,31 +266,21 @@ public class HelpWindow extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(148, 148, 148)
-                                .addComponent(jLabel13)))))
-                .addContainerGap(514, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel20)
-                        .addGap(344, 344, 344))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addGap(246, 246, 246))))
+                                .addGap(462, 462, 462)
+                                .addComponent(jLabel13))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel10)))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel10))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jLabel13)))
-                .addGap(8, 8, 8)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel10)
+                .addGap(49, 49, 49)
+                .addComponent(jLabel13)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel21)
                 .addGap(50, 50, 50)
                 .addComponent(jLabel11)
@@ -289,7 +288,7 @@ public class HelpWindow extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addGap(29, 29, 29)
                 .addComponent(jLabel20)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("changeIED", jPanel2);

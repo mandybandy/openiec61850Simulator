@@ -36,6 +36,7 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serverguiiec61850.network.Client;
@@ -67,7 +68,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     public GuiTree(ServerModel serverModel) throws UnknownHostException {
         super("change values");
         this.serverModel = serverModel;
-        //Info: setze Icon //ToDo: Pfad ändern für -jar
+        //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
 
@@ -193,26 +194,24 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 gbc.insets = new Insets(0, 5, 5, 0);
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
-
-                button = new JButton("Write values");
-                button.addActionListener(this);
-                button.setActionCommand("write");
-                gbc = new GridBagConstraints();
-                gbc.fill = GridBagConstraints.NONE;
-                gbc.gridx = 2;
-                gbc.gridy = GridBagConstraints.RELATIVE;
-                gbc.gridwidth = 1;
-                gbc.gridheight = 1;
-                gbc.weightx = 0;
-                gbc.weighty = 0;
-                gbc.anchor = GridBagConstraints.SOUTHEAST;
-                gbc.insets = new Insets(0, 0, 5, 5);
-                detailsLayout.setConstraints(button, gbc);
-                detailsPanel.add(button);
-
+                if (selectedNode.getChildCount() == 0) {
+                    button = new JButton("Write values");
+                    button.addActionListener(this);
+                    button.setActionCommand("write");
+                    gbc = new GridBagConstraints();
+                    gbc.fill = GridBagConstraints.NONE;
+                    gbc.gridx = 2;
+                    gbc.gridy = GridBagConstraints.RELATIVE;
+                    gbc.gridwidth = 1;
+                    gbc.gridheight = 1;
+                    gbc.weightx = 0;
+                    gbc.weighty = 0;
+                    gbc.anchor = GridBagConstraints.SOUTHEAST;
+                    gbc.insets = new Insets(0, 0, 5, 5);
+                    detailsLayout.setConstraints(button, gbc);
+                    detailsPanel.add(button);
+                }
             }
-        } else {
-            selectedNode = null;
         }
 
         validate();
@@ -272,19 +271,18 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     private void write() {
-        //INFO: funktion gilt nicht für ST, MX, EX und vlt OP
         try {
             selectedNode.writeValues(Client.association);
-
+            JOptionPane.showMessageDialog(this, "wrote data sucessfully", "sucess", JOptionPane.INFORMATION_MESSAGE);
         } catch (ServiceError e) {
-            LOGGER_GUITREE.error("ServiceError on reading", e);
+            LOGGER_GUITREE.error("ServiceError on write", e);
             return;
         } catch (IOException e) {
-            LOGGER_GUITREE.error("IOException on reading", e);
+            LOGGER_GUITREE.error("IOException on write", e);
             return;
         }
         validate();
-        
+
         LOGGER_GUITREE.info("wrote sucessfully");
     }
 
