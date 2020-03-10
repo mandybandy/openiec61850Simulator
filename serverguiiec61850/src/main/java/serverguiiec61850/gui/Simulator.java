@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.Simulator.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.BasicDataAttribute;
@@ -17,7 +23,7 @@ public class Simulator {
     private static final Logger LOGGER_SIM = LoggerFactory.getLogger(Simulator.class);
 
     /**
-     *
+     * simulate state var
      */
     public static boolean simulate = false;
     Server server;
@@ -27,7 +33,7 @@ public class Simulator {
     }
 
     /**
-     * creates rampsimulator
+     * creates a ramp simulator
      *
      * @param referenceRamp
      * @param fcString
@@ -66,7 +72,7 @@ public class Simulator {
         private final String referencePuls, fcString, min, max;
         private final long onTime, offTime;
 
-        public PulseSim(String referencePulse, String fcString, String min, String max, long onTime, long offTime) {
+        private PulseSim(String referencePulse, String fcString, String min, String max, long onTime, long offTime) {
             this.referencePuls = referencePulse;
             this.fcString = fcString;
             this.min = min;
@@ -90,7 +96,7 @@ public class Simulator {
         //wird mit externer Variable beendet? mehr oder weniger gut
         @Override
         public void run() {
-            if (Gui.enabled) {
+            while (Gui.enabled) {
                 try {
                     server.writeValue(referencePuls, fcString, max);
                     //ontime
@@ -107,9 +113,8 @@ public class Simulator {
                     LOGGER_SIM.error(e.getMessage());
                     return;
                 }
-            } else {
-                simulate = false;
             }
+            simulate = false;
         }
     }
 
@@ -122,7 +127,7 @@ public class Simulator {
         private final int to;
         private final int steps;
 
-        public RampSim(String referenceRamp, String fcString, int from, int to, long time, int steps) {
+        private RampSim(String referenceRamp, String fcString, int from, int to, long time, int steps) {
             this.referenceRamp = referenceRamp;
             this.fcString = fcString;
             this.time = time;
@@ -148,20 +153,22 @@ public class Simulator {
         @Override
         public void run() {
 
-            if (start && Gui.enabled) {
+            if (start) {
                 for (int stepsCounter = 0; stepsCounter < steps + 1; stepsCounter++) {
-                    try {
-                        server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));
+                    if (Gui.enabled) {
                         try {
-                            //wait time/steps
-                            Thread.sleep(time / steps);
-                        } catch (InterruptedException ex) {
-                            LOGGER_SIM.error("simulator interrupted", ex);
+                            server.writeValue(referenceRamp, fcString, String.valueOf(from + ((to - from) / steps) * (stepsCounter)));
+                            try {
+                                //wait time/steps
+                                Thread.sleep(time / steps);
+                            } catch (InterruptedException ex) {
+                                LOGGER_SIM.error("simulator interrupted", ex);
+                            }
+                        } catch (IOException ex) {
+                            LOGGER_SIM.error("server not found");
+                        } catch (IllegalArgumentException ex) {
+                            LOGGER_SIM.error(ex.getMessage());
                         }
-                    } catch (IOException ex) {
-                        LOGGER_SIM.error("server not found");
-                    } catch (IllegalArgumentException ex) {
-                        LOGGER_SIM.error(ex.getMessage());
                     }
                 }
             } else {

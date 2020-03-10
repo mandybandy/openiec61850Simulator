@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.network.Client.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.network;
 
 import com.beanit.openiec61850.BdaTriggerConditions;
@@ -70,9 +76,14 @@ public class Client {
         LOGGER_CLIENT.info("successfully connected");
 
         LOGGER_CLIENT.info("reading model from file...");
-        serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
-        association.setServerModel(serverModel);
-        LOGGER_CLIENT.debug("successfully read model");
+        if (serverModel != null) {
+            serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
+            association.setServerModel(serverModel);
+            LOGGER_CLIENT.debug("successfully read model");
+        } else {
+            LOGGER_CLIENT.debug("failed reading model");
+        }
+
     }
 
     /**

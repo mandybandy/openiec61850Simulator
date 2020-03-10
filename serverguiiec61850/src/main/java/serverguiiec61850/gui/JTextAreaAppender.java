@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.JTextAreaAppender.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import org.slf4j.Logger;
@@ -13,12 +19,12 @@ import java.util.logging.Level;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import org.w3c.dom.Document;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
 
 /**
- * Appender LogBack for JTextArea (swing component) wiedergibt die logs in Gui
+ * logback appender for JTextArea (swing component) ger.wiedergibt die logs in
+ * Gui
  *
  * @author Philipp Mandl
  */
@@ -37,6 +43,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private final JTextPane REPORT_DATASET_LOG;
 
     /**
+     * konstruktor for appender
      *
      * @param masterLog
      * @param simulatorLog
@@ -64,7 +71,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     }
 
     /**
-     * startet encoder
+     * start encoder
      */
     @Override
     public void start() {
@@ -80,7 +87,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     }
 
     /**
-     * wird bei angegebenen loggerEvents aufgerufen
+     * runs by logger event
      *
      * @param event
      */

@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.GuiTree.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.ClientSap;
@@ -8,7 +14,6 @@ import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
 import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
 import com.beanit.openiec61850.clientgui.DataTreeNode;
 import com.beanit.openiec61850.clientgui.ServerModelParser;
-import com.beanit.openiec61850.clientgui.SettingsFrame;
 import com.beanit.openiec61850.clientgui.util.Counter;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -43,17 +48,13 @@ import serverguiiec61850.network.Client;
 
 /**
  * creates a new client which is able to change all values manually
- *
- * @author Philipp Mandl
  */
 public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
 
-    private final ServerModel serverModel;
+    private static ServerModel serverModel;
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
-
-    private final SettingsFrame settingsFrame = new SettingsFrame();
 
     private static final Logger LOGGER_GUITREE = LoggerFactory.getLogger(Simulator.class);
 
@@ -62,12 +63,11 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     /**
      * Gui change values
      *
-     * @param serverModel
      * @throws java.net.UnknownHostException
+     * @throws com.beanit.openiec61850.ServiceError
      */
-    public GuiTree(ServerModel serverModel) throws UnknownHostException {
+    public GuiTree() throws UnknownHostException, ServiceError, IOException {
         super("change values");
-        this.serverModel = serverModel;
         //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -154,7 +154,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * rebuild tree
+     * rebuilds tree
      *
      * @param e
      */
@@ -234,10 +234,8 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
             throw new NumberFormatException("port must be in range [1, 65535]");
         }
 
-        clientSap.setTSelLocal(settingsFrame.getTselLocal());
-        clientSap.setTSelRemote(settingsFrame.getTselRemote());
-
         try {
+            serverModel = Client.association.retrieveModel();
             Client.association.getAllDataValues();
         } catch (ServiceError e) {
             LOGGER_GUITREE.error("Service Error requesting model.", e);

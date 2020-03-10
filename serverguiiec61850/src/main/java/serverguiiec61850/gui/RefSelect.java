@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.RefSelect.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.ServerModel;
@@ -29,7 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Erstellt eine GUI zum auswählen der FCs und Reference
+ * creates a gui for selecting reference and fc
  *
  * @author Philipp Mandl
  */
@@ -47,8 +53,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     private final SettingsFrame settingsFrame = new SettingsFrame();
 
     /**
-     * erstellt Fenster, wo die Referenz und die FC gewählt werden kann ähnlich
-     * wie GuiTree
+     * similar to guitree, but just only for selecting fc and reference
      *
      * @param serverModel
      * @param noFc
@@ -116,6 +121,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
+     * runs if a server node changes
      *
      * @param e
      */
@@ -129,11 +135,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         }
     }
 
-    /**
-     *
-     * @param evt
-     */
-    public void confirmBTNpressed(java.awt.event.ActionEvent evt) {
+    private void confirmBTNpressed(java.awt.event.ActionEvent evt) {
         String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
         //if (selectedNode.writable()) {
@@ -182,7 +184,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
-     * schließt Fenster
+     * close select window
      *
      */
     public void exit() {

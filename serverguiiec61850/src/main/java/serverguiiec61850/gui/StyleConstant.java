@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.StyleConstant.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import java.awt.Color;

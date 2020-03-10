@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.KeyListenerGui.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import java.awt.Frame;
@@ -6,11 +12,11 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 /**
- * creates a keylistener
+ * creates a keylistener not used yet
  *
  * @author Philipp Mandl
  */
-public class KeyListenerGui extends JFrame implements KeyListener {
+public class KeyListenerGui implements KeyListener {
 
     private HelpWindow help = null;
 
@@ -21,29 +27,10 @@ public class KeyListenerGui extends JFrame implements KeyListener {
 
         Frame[] frame = Gui.getFrames();
         KeyListener keyListener = null;
-        JFrame mainframe=(JFrame) frame[0];
-        mainframe.addKeyListener(keyListener);
+        JFrame mainframe = (JFrame) frame[0];
         mainframe.addKeyListener(this);
         mainframe.setFocusable(true);
         mainframe.setFocusTraversalKeysEnabled(false);
-    }
-
-    /**
-     * on keyTyped
-     *
-     * @param e
-     */
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    /**
-     * on keyPressed
-     *
-     * @param e
-     */
-    @Override
-    public void keyPressed(KeyEvent e) {
     }
 
     /**
@@ -68,5 +55,23 @@ public class KeyListenerGui extends JFrame implements KeyListener {
                 System.out.println("error opening help window");
             }
         }
+    }
+
+    /**
+     *
+     * @param e
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     *
+     * @param e
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

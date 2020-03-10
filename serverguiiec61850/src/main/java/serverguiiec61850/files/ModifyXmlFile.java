@@ -1,9 +1,11 @@
-package serverguiiec61850.files;
-
 /**
- *
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.files.ModifyXmlFile.java
  * @author Philipp Mandl
  */
+package serverguiiec61850.files;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,15 +30,12 @@ import org.xml.sax.SAXException;
 import serverguiiec61850.gui.Gui;
 
 /**
- * modifiziert die xml dateien, bekommt die SCL und erstellt SCL Dateien mit den
- * einzelnen IEDs die Netzwerkeinstellungen werden hier auch gelesen. bzw. alles
- * was mit den Dateien zu tun hat befindet sich hier.
- *
+ * modify xml files, xml file controler
  */
 public class ModifyXmlFile {
 
     /**
-     * erstellt aus einer SCL mehrere SCLs mit den jeweiligen IEDs
+     * creates icd from scl, split into ieds
      *
      * @param filepath
      * @throws TransformerConfigurationException
@@ -125,7 +124,7 @@ public class ModifyXmlFile {
     }
 
     /**
-     * gibt eine Liste mit den Netzwerkeinstellungen der gegebenen IED zurück
+     * returns a list consists of the network settings
      *
      * @param filepath
      * @param iedName

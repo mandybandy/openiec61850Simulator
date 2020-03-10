@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.HelpWindow.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import java.awt.event.WindowAdapter;
@@ -5,14 +11,13 @@ import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 
 /**
+ * local help window
  *
- * @author Philipp Mandl
  */
 public class HelpWindow extends javax.swing.JFrame {
 
     /**
-     * Creates new form HelpWindow HilfeFenster wird bei F1 aufgerufen noch
-     * erweiterbar...
+     * Creates new form HelpWindow
      */
     public HelpWindow() {
         super("help");
@@ -21,7 +26,7 @@ public class HelpWindow extends javax.swing.JFrame {
                 exit();
             }
         });
-        //ToDo: Icon Pfad ändern für -jar
+
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\helpicon.png");
         this.setIconImage(img.getImage());
         initComponents();

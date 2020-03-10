@@ -1,3 +1,9 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.network.Server.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.network;
 
 import java.io.IOException;
@@ -49,6 +55,7 @@ import static serverguiiec61850.gui.Gui.mainFrame;
 public class Server {
 
     /**
+     * ServerSAP
      *
      * @param icdpath
      * @param args
@@ -57,13 +64,14 @@ public class Server {
     private ServerSap serverSap;
 
     /**
-     *
+     * server Model including all Nodes, Data etc
      */
     public ServerModel serverModel;
 
     private static final Logger LOGGER_SERVER = LoggerFactory.getLogger(Server.class);
 
     /**
+     * server
      *
      * @param sclPath
      * @param portServer
@@ -260,7 +268,7 @@ public class Server {
     }
 
     /**
-     *
+     * stop server
      */
     public void quit() {
         LOGGER_SERVER.info("** Stopping server.");

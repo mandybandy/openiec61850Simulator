@@ -1,9 +1,14 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.network.NetworkUtil.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.network;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -19,7 +24,7 @@ public class NetworkUtil {
 
     /**
      * returns a list consisting network device information
-     * 
+     *
      * @throws java.net.SocketException
      */
     public static void getNetDevice() throws SocketException {

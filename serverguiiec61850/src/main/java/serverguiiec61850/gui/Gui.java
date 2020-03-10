@@ -1,12 +1,23 @@
+/**
+ * @project IEC61850 simulator
+ * @date 10.03.2020
+ * @path serverguiiec61850.gui.Gui.java
+ * @author Philipp Mandl
+ */
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.ServiceError;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,13 +39,13 @@ import static serverguiiec61850.files.ModifyXmlFile.splitIed;
 import serverguiiec61850.network.NetworkUtil;
 
 /**
+ * main window
  *
- * @author Philipp Mandl
  */
 public class Gui extends javax.swing.JFrame {
 
     /**
-     *
+     * logger in class Gui
      */
     public static final Logger LOGGER_GUI = LoggerFactory.getLogger(Gui.class);
 
@@ -48,15 +59,18 @@ public class Gui extends javax.swing.JFrame {
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     /**
-     *
+     * simulator enable state
      */
     public static boolean enabled = true;
 
+    HelpWindow help = null;
+
     /**
-     * Creates new form gui
+     * creates new form gui
      */
     public Gui() {
         super("IEC61850 Simulator");
+
         try {
             // Set System L&F
             UIManager.setLookAndFeel(
@@ -67,11 +81,14 @@ public class Gui extends javax.swing.JFrame {
         initComponents();
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\icon.png");
         this.setIconImage(img.getImage());
-        KeyListenerGui keyListenerGui = new KeyListenerGui();
         createNetDeviceList();
         JTextAreaAppender masterappender = new JTextAreaAppender(masterLogTP, simLogTP, reportDatasetTP);
         iedPathTB.setText(System.getProperty("user.dir") + "\\files\\example.icd");
-
+        //KeyListenerGui keyListenerGui = new KeyListenerGui();
+        reserveReportRBActionPerformed(null);
+        reserveReportRB.setSelected(true);
+        createDatasetRBActionPerformed(null);
+        createDatasetRB.setSelected(true);
     }
 
     /**
@@ -87,32 +104,37 @@ public class Gui extends javax.swing.JFrame {
         reportBG = new javax.swing.ButtonGroup();
         mainFrame = new javax.swing.JTabbedPane();
         connectTAB = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        jSplitPane3 = new javax.swing.JSplitPane();
+        jPanel3 = new javax.swing.JPanel();
         iedPathTB = new javax.swing.JTextField();
         icodersclLBL = new javax.swing.JLabel();
+        selectFileBTN = new javax.swing.JButton();
+        selectedIedLBL = new javax.swing.JLabel();
         IedLBL = new javax.swing.JLabel();
         changeIedBTN = new javax.swing.JButton();
-        selectedIedLBL = new javax.swing.JLabel();
-        selectFileBTN = new javax.swing.JButton();
-        networkPNL = new javax.swing.JPanel();
-        startBTN = new javax.swing.JButton();
-        portTB = new javax.swing.JTextField();
-        ipTB = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        connectedLBL = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        stopBTN = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        netInfosTA = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         netDevicesTA = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        netInfosTA = new javax.swing.JTextArea();
         jLabel15 = new javax.swing.JLabel();
+        connectedLBL = new javax.swing.JLabel();
+        startBTN = new javax.swing.JButton();
+        stopBTN = new javax.swing.JButton();
+        portTB = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        ipTB = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        createServer = new javax.swing.JCheckBox();
         changeIedTAB = new javax.swing.JPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        reportDatasetTP = new javax.swing.JTextPane();
         changeValuesBTN = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         reportPNL = new javax.swing.JPanel();
         selectReferenceReportBTN = new javax.swing.JButton();
@@ -157,11 +179,6 @@ public class Gui extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         createDatasetNumberOfEntriesTB = new javax.swing.JTextField();
         selectReferenceDatasetBTN = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        reportDatasetTP = new javax.swing.JTextPane();
-        jLabel27 = new javax.swing.JLabel();
         simulateTAB = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -208,12 +225,29 @@ public class Gui extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         masterLogTP = new javax.swing.JTextPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        mainFrame.setMinimumSize(new java.awt.Dimension(200, 200));
+
+        jSplitPane3.setBorder(null);
 
         iedPathTB.setText("F:\\diplomarbeit\\project\\openiec61850Simulator\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files");
 
         icodersclLBL.setText("ICD oder SCL file");
+
+        selectFileBTN.setText("select file");
+        selectFileBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectFileBTNActionPerformed(evt);
+            }
+        });
+
+        selectedIedLBL.setText("selected IED: ");
 
         IedLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         IedLBL.setText("select IED");
@@ -225,51 +259,48 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
-        selectedIedLBL.setText("selected IED: ");
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(selectedIedLBL)
+                                .addGap(44, 44, 44)
+                                .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(changeIedBTN)
+                                .addGap(160, 160, 160))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(selectFileBTN))
+                    .addComponent(icodersclLBL))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(icodersclLBL)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectFileBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changeIedBTN)
+                    .addComponent(selectedIedLBL))
+                .addContainerGap(531, Short.MAX_VALUE))
+        );
 
-        selectFileBTN.setText("select file");
-        selectFileBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectFileBTNActionPerformed(evt);
-            }
-        });
-
-        startBTN.setText("start Server");
-        startBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startBTNActionPerformed(evt);
-            }
-        });
-
-        portTB.setText("102");
-
-        ipTB.setText("127.0.0.1");
-
-        jLabel1.setText("ip");
-
-        jLabel5.setText("port");
-
-        connectedLBL.setText("not connected");
-
-        jLabel6.setText(":");
-
-        stopBTN.setText("stop Server");
-        stopBTN.setEnabled(false);
-        stopBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stopBTNActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setText("connect to:");
-
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        netInfosTA.setEditable(false);
-        netInfosTA.setColumns(20);
-        netInfosTA.setRows(5);
-        netInfosTA.setText("IP: 0.0.0.0\nIP-SUBNET: 0.0.0.0\nIP-GATEWAY: 0.0.0.0");
-        jScrollPane2.setViewportView(netInfosTA);
+        jSplitPane3.setLeftComponent(jPanel3);
 
         netDevicesTA.setEditable(false);
         netDevicesTA.setColumns(20);
@@ -279,116 +310,128 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel9.setText("Network Devices:");
 
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        netInfosTA.setEditable(false);
+        netInfosTA.setColumns(20);
+        netInfosTA.setRows(5);
+        netInfosTA.setText("IP: 0.0.0.0\nIP-SUBNET: 0.0.0.0\nIP-GATEWAY: 0.0.0.0");
+        jScrollPane2.setViewportView(netInfosTA);
+
         jLabel15.setText("address settings in file:");
 
-        javax.swing.GroupLayout networkPNLLayout = new javax.swing.GroupLayout(networkPNL);
-        networkPNL.setLayout(networkPNLLayout);
-        networkPNLLayout.setHorizontalGroup(
-            networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(networkPNLLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(networkPNLLayout.createSequentialGroup()
-                        .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(networkPNLLayout.createSequentialGroup()
-                                .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(networkPNLLayout.createSequentialGroup()
-                        .addComponent(startBTN)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(stopBTN))
-                    .addComponent(connectedLBL))
-                .addContainerGap(327, Short.MAX_VALUE))
-            .addGroup(networkPNLLayout.createSequentialGroup()
-                .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addGap(0, 0, Short.MAX_VALUE))
+        connectedLBL.setText("not connected");
+
+        startBTN.setText("start");
+        startBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startBTNActionPerformed(evt);
+            }
+        });
+
+        stopBTN.setText("stop");
+        stopBTN.setEnabled(false);
+        stopBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopBTNActionPerformed(evt);
+            }
+        });
+
+        portTB.setText("102");
+
+        jLabel6.setText(":");
+
+        ipTB.setText("127.0.0.1");
+
+        jLabel1.setText("ip");
+
+        jLabel5.setText("port");
+
+        jLabel10.setText("connect to:");
+
+        createServer.setSelected(true);
+        createServer.setText("create server");
+        createServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createServerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(connectedLBL)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(1, 1, 1)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel1))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(startBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(stopBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(createServer))))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
+                        .addGap(156, 156, 156))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addGap(124, 124, 124)))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
-        networkPNLLayout.setVerticalGroup(
-            networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(networkPNLLayout.createSequentialGroup()
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(networkPNLLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(networkPNLLayout.createSequentialGroup()
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(networkPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startBTN)
-                    .addComponent(stopBTN))
+                    .addComponent(stopBTN)
+                    .addComponent(createServer))
                 .addGap(18, 18, 18)
                 .addComponent(connectedLBL)
                 .addGap(37, 37, 37)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(icodersclLBL)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(selectedIedLBL)
-                        .addGap(44, 44, 44)
-                        .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(changeIedBTN))
-                    .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(selectFileBTN)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(networkPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(icodersclLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectFileBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeIedBTN)
-                    .addComponent(selectedIedLBL))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(networkPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jSplitPane3.setRightComponent(jPanel4);
 
         javax.swing.GroupLayout connectTABLayout = new javax.swing.GroupLayout(connectTAB);
         connectTAB.setLayout(connectTABLayout);
@@ -396,20 +439,24 @@ public class Gui extends javax.swing.JFrame {
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectTABLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addComponent(jSplitPane3)
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         connectTABLayout.setVerticalGroup(
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectTABLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(jSplitPane3)
+                .addGap(35, 35, 35))
         );
 
         mainFrame.addTab("connect", connectTAB);
 
-        changeIedTAB.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jSplitPane2.setBorder(null);
+        jSplitPane2.setForeground(new java.awt.Color(255, 255, 255));
+
+        reportDatasetTP.setEditable(false);
+        jScrollPane6.setViewportView(reportDatasetTP);
 
         changeValuesBTN.setText("change server manual");
         changeValuesBTN.addActionListener(new java.awt.event.ActionListener() {
@@ -417,8 +464,29 @@ public class Gui extends javax.swing.JFrame {
                 changeValuesBTNActionPerformed(evt);
             }
         });
-        changeIedTAB.add(changeValuesBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 170, 70));
-        changeIedTAB.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(218, 13, -1, -1));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                    .addComponent(changeValuesBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(changeValuesBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jSplitPane2.setLeftComponent(jPanel5);
 
         selectReferenceReportBTN.setText("select Reference");
         selectReferenceReportBTN.addActionListener(new java.awt.event.ActionListener() {
@@ -674,30 +742,34 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(reportPNLLayout.createSequentialGroup()
                 .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(reportPNLLayout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(IntegrityReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel4))
                             .addGroup(reportPNLLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(referenceReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(valueReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(selectReferenceReportBTN))
-                            .addGroup(reportPNLLayout.createSequentialGroup()
-                                .addGap(70, 70, 70)
+                                .addContainerGap()
+                                .addComponent(radioButtonsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(reportPNLLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel4)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                                    .addGroup(reportPNLLayout.createSequentialGroup()
+                                        .addGap(59, 59, 59)
+                                        .addComponent(IntegrityReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(reportPNLLayout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(referenceReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(valueReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(selectReferenceReportBTN))
+                                    .addGroup(reportPNLLayout.createSequentialGroup()
+                                        .addGap(70, 70, 70)
+                                        .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(0, 219, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPNLLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         reportPNLLayout.setVerticalGroup(
             reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -719,7 +791,7 @@ public class Gui extends javax.swing.JFrame {
                         .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 386, Short.MAX_VALUE)
                 .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -875,7 +947,7 @@ public class Gui extends javax.swing.JFrame {
                     .addGroup(datasetPNLLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(381, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         datasetPNLLayout.setVerticalGroup(
             datasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -886,41 +958,35 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(deleteDatasetRB))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
                 .addComponent(startDatasetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
 
         jTabbedPane4.addTab("dataset", datasetPNL);
 
-        changeIedTAB.add(jTabbedPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 830, 610));
+        jSplitPane2.setRightComponent(jTabbedPane4);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout changeIedTABLayout = new javax.swing.GroupLayout(changeIedTAB);
+        changeIedTAB.setLayout(changeIedTABLayout);
+        changeIedTABLayout.setHorizontalGroup(
+            changeIedTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(changeIedTABLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSplitPane2)
+                .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        changeIedTABLayout.setVerticalGroup(
+            changeIedTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(changeIedTABLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSplitPane2)
+                .addContainerGap())
         );
-
-        changeIedTAB.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 345, 232));
-
-        jLabel14.setText("client:");
-        changeIedTAB.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        reportDatasetTP.setEditable(false);
-        jScrollPane6.setViewportView(reportDatasetTP);
-
-        changeIedTAB.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 360, 450));
-
-        jLabel27.setText("server:");
-        changeIedTAB.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
 
         mainFrame.addTab("change IED", changeIedTAB);
 
+        jSplitPane1.setBorder(null);
         jSplitPane1.setDividerLocation(300);
 
         jLabel3.setText("Values changed by simulator:");
@@ -942,15 +1008,16 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(saveCsvBTN))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1027, Short.MAX_VALUE)))
+                .addGap(44, 44, 44))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(saveCsvBTN)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -958,10 +1025,10 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(saveCsvBTN)
-                .addGap(19, 19, 19))
+                .addGap(13, 13, 13))
         );
 
         jSplitPane1.setRightComponent(jPanel7);
@@ -970,7 +1037,7 @@ public class Gui extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1036,7 +1103,7 @@ public class Gui extends javax.swing.JFrame {
                             .addComponent(jLabel22))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(simulateRampReferenceTB, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                            .addComponent(simulateRampReferenceTB, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(simulateRampFcCB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -1096,7 +1163,7 @@ public class Gui extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(simulateRampStartBTN)
                     .addComponent(simulateRampStopBTN))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ramp", jPanel2);
@@ -1160,7 +1227,7 @@ public class Gui extends javax.swing.JFrame {
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addComponent(simulatePulsFcCB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 134, Short.MAX_VALUE))
+                                .addGap(0, 137, Short.MAX_VALUE))
                             .addComponent(simulatePulsReferenceTB)))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1222,7 +1289,7 @@ public class Gui extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(simulatePulsStartBTN)
                     .addComponent(simulatePulsStopBTN))
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("puls", jPanel12);
@@ -1232,16 +1299,13 @@ public class Gui extends javax.swing.JFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -1256,8 +1320,8 @@ public class Gui extends javax.swing.JFrame {
         simulateTABLayout.setVerticalGroup(
             simulateTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(simulateTABLayout.createSequentialGroup()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         mainFrame.addTab("simulate", simulateTAB);
@@ -1278,8 +1342,8 @@ public class Gui extends javax.swing.JFrame {
                         .addComponent(jLabel26))
                     .addGroup(logTABLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(76, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1298, Short.MAX_VALUE)))
+                .addGap(76, 76, 76))
         );
         logTABLayout.setVerticalGroup(
             logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1287,23 +1351,46 @@ public class Gui extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel26)
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                .addGap(53, 53, 53))
         );
 
         mainFrame.addTab("log", logTAB);
+
+        jMenu1.setText("Help");
+
+        jMenuItem1.setText("internal help");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+        jMenuItem1.getAccessibleContext().setAccessibleName("help");
+
+        jMenuItem3.setLabel("open github repository");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFrame)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(mainFrame)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(mainFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         mainFrame.setEnabledAt(1, false);
@@ -1314,10 +1401,16 @@ public class Gui extends javax.swing.JFrame {
 
     private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
         try {
-            GuiTree changevalues = new GuiTree(server.serverModel);
+            GuiTree changevalues = new GuiTree();
             LOGGER_GUI.info("change values manual \n");
-        } catch (UnknownHostException ex) {
-            LOGGER_GUI.error("unknmown host", ex);
+        } catch (UnknownHostException e) {
+            LOGGER_GUI.error("unknmown host", e);
+        } catch (NullPointerException e) {
+            LOGGER_GUI.error("something went wrong", e);
+        } catch (ServiceError ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_changeValuesBTNActionPerformed
 
@@ -1384,7 +1477,11 @@ public class Gui extends javax.swing.JFrame {
         //stop button in connect
         try {
             client.quit();
-            server.quit();
+            try {
+                server.quit();
+            } catch (NullPointerException ex) {
+
+            }
 
             startBTN.setEnabled(true);
             stopBTN.setEnabled(false);
@@ -1404,38 +1501,53 @@ public class Gui extends javax.swing.JFrame {
 
     private void startBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBTNActionPerformed
         //start button in connect
-        try {
-            int remotePort = Integer.parseInt(portTB.getText());
-            if (remotePort < 1 || remotePort > 0xFFFF) {
-                throw new NumberFormatException("port must be in range [1, 65535]");
-            }
-            if ("127.0.0.1".equals(ipTB.getText()) || "localhost".equals(ipTB.getText())) {
-                if (iedPath == null) {
-                    connectedLBL.setText("select a file");
-                    connectedLBL.setForeground(Color.black);
 
-                    LOGGER_GUI.error("no file selected\n");
-                }
+        int remotePort = Integer.parseInt(portTB.getText());
+        if (remotePort < 1 || remotePort > 0xFFFF) {
+            throw new NumberFormatException("port must be in range [1, 65535]");
+        }
+        if ("127.0.0.1".equals(ipTB.getText()) || "localhost".equals(ipTB.getText())) {
+            if (iedPath == null) {
+                connectedLBL.setText("select a file");
+                connectedLBL.setForeground(Color.black);
+
+                LOGGER_GUI.error("no file selected\n");
+            }
+        }
+        try {
+            if (createServer.isSelected()) {
+                server = new Server(iedPath, remotePort);
+                mainFrame.setEnabledAt(2, true);
+                connectedLBL.setText("server started");
+                connectedLBL.setForeground(Color.BLUE);
+                LOGGER_GUI.info("server started\n");
             }
             try {
-                server = new Server(iedPath, remotePort);
                 client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
-
-            } catch (java.net.BindException | java.lang.NoSuchMethodError ex) {
-                connectedLBL.setText("port already in use");
-                connectedLBL.setForeground(Color.red);
+            } catch (NullPointerException ex) {
+                try {
+                    client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), null);
+                    connectedLBL.setText("client connected");
+                    connectedLBL.setForeground(Color.black);
+                    LOGGER_GUI.error("client connected");
+                } catch (ConnectException exx) {
+                    connectedLBL.setText("no server avaible");
+                    connectedLBL.setForeground(Color.red);
+                    LOGGER_GUI.error("no server found");
+                } catch (IOException ex1) {
+                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex1);
+                } catch (SclParseException ex1) {
+                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
-
-            //btn hide machen
-            startBTN.setEnabled(false);
-            stopBTN.setEnabled(true);
-
-            mainFrame.setEnabledAt(1, true);
-            mainFrame.setEnabledAt(2, true);
-
-            connectedLBL.setText("server started");
-            connectedLBL.setForeground(Color.BLUE);
-            LOGGER_GUI.info("server started\n");
+        } catch (java.net.BindException | java.lang.NoSuchMethodError ex) {
+            connectedLBL.setText("port already in use");
+            connectedLBL.setForeground(Color.red);
+            LOGGER_GUI.error("port already in use");
+        } catch (UnknownHostException e) {
+            connectedLBL.setText("invalid ip");
+            connectedLBL.setForeground(Color.red);
+            LOGGER_GUI.error("invalid ip entered");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number", e);
         } catch (IOException | SclParseException ex) {
@@ -1443,9 +1555,11 @@ public class Gui extends javax.swing.JFrame {
         } catch (NullPointerException ex) {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(Color.red);
-
             LOGGER_GUI.error("no ied selected", ex);
         }
+        mainFrame.setEnabledAt(1, true);
+        startBTN.setEnabled(false);
+        stopBTN.setEnabled(true);
     }//GEN-LAST:event_startBTNActionPerformed
 
     private void setAllRbsFalse() {
@@ -1618,7 +1732,7 @@ public class Gui extends javax.swing.JFrame {
             sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-           // simulateRampStopBTNActionPerformed(null);
+            // simulateRampStopBTNActionPerformed(null);
         }
 
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
@@ -1726,6 +1840,37 @@ public class Gui extends javax.swing.JFrame {
         LOGGER_GUI.info("stopped ramp simulator\n");
     }//GEN-LAST:event_simulateRampStopBTNActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+
+        try {
+            if (help == null) {
+                help = new HelpWindow();
+                help.setVisible(true);
+            } else if (!help.isActive()) {
+                help = new HelpWindow();
+                help.setVisible(true);
+            }
+        } catch (Exception ex) {
+            System.out.println("error opening help window");
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URL("https://github.com/mandybandy/openiec61850Simulator").toURI());
+        } catch (MalformedURLException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void createServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createServerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createServerActionPerformed
+
     private void createNetDeviceList() {
 
         try {
@@ -1756,130 +1901,134 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JLabel IedLBL;
-    public static javax.swing.JLabel IntegrityLBL;
-    public static javax.swing.JPanel IntegrityReportPNL;
-    public static javax.swing.JRadioButton cancelReservationRB;
-    public static javax.swing.JButton changeIedBTN;
-    public javax.swing.JPanel changeIedTAB;
-    public static javax.swing.JButton changeValuesBTN;
-    public static javax.swing.JPanel connectTAB;
-    public static javax.swing.JLabel connectedLBL;
-    public static javax.swing.JComboBox<String> createDatasetFcCB;
-    public static javax.swing.JTextField createDatasetNumberOfEntriesTB;
-    public static javax.swing.JRadioButton createDatasetRB;
-    public static javax.swing.JTextField createDatasetRefTB;
-    public static javax.swing.ButtonGroup datasetBG;
-    public static javax.swing.JPanel datasetPNL;
-    public static javax.swing.JRadioButton deleteDatasetRB;
-    public static javax.swing.JRadioButton disableReportRB;
-    public static javax.swing.JRadioButton enableReportRB;
-    public static javax.swing.JPanel fcDatasetPNL;
-    public static javax.swing.JLabel icodersclLBL;
-    public static javax.swing.JTextField iedPathTB;
-    public static javax.swing.JTextField integrityPeriodTB;
-    public static javax.swing.JTextField ipTB;
-    public static javax.swing.JLabel jLabel1;
-    public static javax.swing.JLabel jLabel10;
-    public static javax.swing.JLabel jLabel11;
-    public static javax.swing.JLabel jLabel12;
-    public static javax.swing.JLabel jLabel13;
-    public static javax.swing.JLabel jLabel14;
-    public static javax.swing.JLabel jLabel15;
-    public static javax.swing.JLabel jLabel16;
-    public static javax.swing.JLabel jLabel17;
-    public static javax.swing.JLabel jLabel18;
-    public static javax.swing.JLabel jLabel19;
-    public static javax.swing.JLabel jLabel2;
-    public static javax.swing.JLabel jLabel20;
-    public static javax.swing.JLabel jLabel21;
-    public static javax.swing.JLabel jLabel22;
-    public static javax.swing.JLabel jLabel23;
-    public static javax.swing.JLabel jLabel24;
-    public static javax.swing.JLabel jLabel25;
-    public static javax.swing.JLabel jLabel26;
-    public static javax.swing.JLabel jLabel27;
-    public static javax.swing.JLabel jLabel3;
-    public static javax.swing.JLabel jLabel4;
-    public static javax.swing.JLabel jLabel5;
-    public static javax.swing.JLabel jLabel6;
-    public static javax.swing.JLabel jLabel7;
-    public static javax.swing.JLabel jLabel8;
-    public static javax.swing.JLabel jLabel9;
-    public static javax.swing.JPanel jPanel1;
-    public static javax.swing.JPanel jPanel10;
-    public static javax.swing.JPanel jPanel12;
-    public static javax.swing.JPanel jPanel2;
-    public static javax.swing.JPanel jPanel4;
-    public static javax.swing.JPanel jPanel7;
-    public static javax.swing.JPanel jPanel8;
-    public static javax.swing.JPanel jPanel9;
-    public static javax.swing.JScrollPane jScrollPane2;
-    public static javax.swing.JScrollPane jScrollPane3;
-    public static javax.swing.JScrollPane jScrollPane4;
-    public static javax.swing.JScrollPane jScrollPane5;
-    public static javax.swing.JScrollPane jScrollPane6;
-    public static javax.swing.JSplitPane jSplitPane1;
-    public static javax.swing.JTabbedPane jTabbedPane1;
-    public static javax.swing.JTabbedPane jTabbedPane4;
-    public static javax.swing.JPanel logTAB;
-    public static javax.swing.JTabbedPane mainFrame;
-    public static javax.swing.JTextPane masterLogTP;
-    public static javax.swing.JTextArea netDevicesTA;
-    public static javax.swing.JTextArea netInfosTA;
-    public static javax.swing.JPanel networkPNL;
-    public static javax.swing.JPanel numberOfEntriesDatasetPNL;
+    private static javax.swing.JLabel IedLBL;
+    private static javax.swing.JLabel IntegrityLBL;
+    private static javax.swing.JPanel IntegrityReportPNL;
+    private static javax.swing.JRadioButton cancelReservationRB;
+    private  javax.swing.JButton changeIedBTN;
+    private javax.swing.JPanel changeIedTAB;
+    private  javax.swing.JButton changeValuesBTN;
+    private  javax.swing.JPanel connectTAB;
+    private  javax.swing.JLabel connectedLBL;
+    public static  javax.swing.JComboBox<String> createDatasetFcCB;
+    private  javax.swing.JTextField createDatasetNumberOfEntriesTB;
+    private  javax.swing.JRadioButton createDatasetRB;
+    public static  javax.swing.JTextField createDatasetRefTB;
+    private  javax.swing.JCheckBox createServer;
+    private  javax.swing.ButtonGroup datasetBG;
+    private  javax.swing.JPanel datasetPNL;
+    private  javax.swing.JRadioButton deleteDatasetRB;
+    private  javax.swing.JRadioButton disableReportRB;
+    private  javax.swing.JRadioButton enableReportRB;
+    private  javax.swing.JPanel fcDatasetPNL;
+    private  javax.swing.JLabel icodersclLBL;
+    private  javax.swing.JTextField iedPathTB;
+    private  javax.swing.JTextField integrityPeriodTB;
+    public static  javax.swing.JTextField ipTB;
+    private  javax.swing.JLabel jLabel1;
+    private  javax.swing.JLabel jLabel10;
+    private  javax.swing.JLabel jLabel11;
+    private  javax.swing.JLabel jLabel12;
+    private  javax.swing.JLabel jLabel13;
+    private  javax.swing.JLabel jLabel15;
+    private  javax.swing.JLabel jLabel16;
+    private  javax.swing.JLabel jLabel17;
+    private  javax.swing.JLabel jLabel18;
+    private  javax.swing.JLabel jLabel19;
+    private  javax.swing.JLabel jLabel20;
+    private  javax.swing.JLabel jLabel21;
+    private  javax.swing.JLabel jLabel22;
+    private  javax.swing.JLabel jLabel23;
+    private  javax.swing.JLabel jLabel24;
+    private  javax.swing.JLabel jLabel25;
+    private  javax.swing.JLabel jLabel26;
+    private  javax.swing.JLabel jLabel3;
+    private  javax.swing.JLabel jLabel4;
+    private  javax.swing.JLabel jLabel5;
+    private  javax.swing.JLabel jLabel6;
+    private  javax.swing.JLabel jLabel7;
+    private  javax.swing.JLabel jLabel8;
+    private  javax.swing.JLabel jLabel9;
+    private  javax.swing.JMenu jMenu1;
+    private  javax.swing.JMenuBar jMenuBar1;
+    private  javax.swing.JMenuItem jMenuItem1;
+    private  javax.swing.JMenuItem jMenuItem3;
+    private  javax.swing.JPanel jPanel1;
+    private  javax.swing.JPanel jPanel12;
+    private  javax.swing.JPanel jPanel2;
+    private  javax.swing.JPanel jPanel3;
+    private  javax.swing.JPanel jPanel4;
+    private  javax.swing.JPanel jPanel5;
+    private  javax.swing.JPanel jPanel7;
+    private  javax.swing.JPanel jPanel8;
+    private  javax.swing.JPanel jPanel9;
+    private  javax.swing.JScrollPane jScrollPane2;
+    private  javax.swing.JScrollPane jScrollPane3;
+    private  javax.swing.JScrollPane jScrollPane4;
+    private  javax.swing.JScrollPane jScrollPane5;
+    private  javax.swing.JScrollPane jScrollPane6;
+    private  javax.swing.JSplitPane jSplitPane1;
+    private  javax.swing.JSplitPane jSplitPane2;
+    private  javax.swing.JSplitPane jSplitPane3;
+    private  javax.swing.JTabbedPane jTabbedPane1;
+    private  javax.swing.JTabbedPane jTabbedPane4;
+    private  javax.swing.JPanel logTAB;
+    public static  javax.swing.JTabbedPane mainFrame;
+    private  javax.swing.JTextPane masterLogTP;
+    public static  javax.swing.JTextArea netDevicesTA;
+    private  javax.swing.JTextArea netInfosTA;
+    private  javax.swing.JPanel numberOfEntriesDatasetPNL;
     public static javax.swing.JTextField portTB;
-    public static javax.swing.JPanel radioButtonsReportPNL;
-    public static javax.swing.JPanel referenceDatasetPNL;
-    public static javax.swing.JLabel referenceLBL;
-    public static javax.swing.JPanel referenceReportPNL;
-    public static javax.swing.JTextField referenceTB;
-    public static javax.swing.ButtonGroup reportBG;
-    public static javax.swing.JTextPane reportDatasetTP;
-    public static javax.swing.JPanel reportPNL;
-    public static javax.swing.JButton reportStartBTN;
-    public static javax.swing.JRadioButton reserveReportRB;
-    public static javax.swing.JLabel reserveTimeLBL;
-    public static javax.swing.JPanel reserveTimeReportPNL;
-    public static javax.swing.JTextField reserveTimeTB;
-    public static javax.swing.JToggleButton saveCsvBTN;
-    public static javax.swing.JButton selectFileBTN;
-    public static javax.swing.JButton selectReferenceDatasetBTN;
-    public static javax.swing.JButton selectReferencePulsBTN;
-    public static javax.swing.JButton selectReferenceRampBTN;
-    public static javax.swing.JButton selectReferenceReportBTN;
-    public static javax.swing.JLabel selectedIedLBL;
-    public static javax.swing.JRadioButton sendGeneralInterrogationReportRB;
-    public static javax.swing.JRadioButton setDatasetReportRB;
-    public static javax.swing.JRadioButton setIntegrityReportRB;
-    public static javax.swing.JRadioButton setTriggerReportRB;
-    public static javax.swing.JTextPane simLogTP;
-    public static javax.swing.JComboBox<String> simulatePulsFcCB;
-    public static javax.swing.JTextField simulatePulsMaxTB;
-    public static javax.swing.JTextField simulatePulsMinTB;
-    public static javax.swing.JTextField simulatePulsReferenceTB;
-    public static javax.swing.JToggleButton simulatePulsStartBTN;
-    public static javax.swing.JButton simulatePulsStopBTN;
-    public static javax.swing.JTextField simulatePulsTimeOffTB;
-    public static javax.swing.JTextField simulatePulsTimeOnTB;
-    public static javax.swing.JComboBox<String> simulateRampFcCB;
-    public static javax.swing.JTextField simulateRampFromTB;
-    public static javax.swing.JTextField simulateRampReferenceTB;
-    public static javax.swing.JButton simulateRampStartBTN;
-    public static javax.swing.JTextField simulateRampStepsTB;
-    public static javax.swing.JButton simulateRampStopBTN;
-    public static javax.swing.JTextField simulateRampTimeTB;
-    public static javax.swing.JTextField simulateRampToTB;
-    public javax.swing.JPanel simulateTAB;
-    public static javax.swing.JButton startBTN;
-    public static javax.swing.JButton startDatasetBTN;
-    public static javax.swing.JButton stopBTN;
-    public static javax.swing.JLabel triggerOptionsLBL;
-    public static javax.swing.JPanel triggerOptionsReportPNL;
-    public static javax.swing.JTextField triggerOptionsTB;
-    public static javax.swing.JLabel valueLBL;
-    public static javax.swing.JPanel valueReportPNL;
-    public static javax.swing.JTextField valueTB;
+    private  javax.swing.JPanel radioButtonsReportPNL;
+    private  javax.swing.JPanel referenceDatasetPNL;
+    private  javax.swing.JLabel referenceLBL;
+    private  javax.swing.JPanel referenceReportPNL;
+    public static  javax.swing.JTextField referenceTB;
+    private  javax.swing.ButtonGroup reportBG;
+    private  javax.swing.JTextPane reportDatasetTP;
+    private  javax.swing.JPanel reportPNL;
+    private  javax.swing.JButton reportStartBTN;
+    private  javax.swing.JRadioButton reserveReportRB;
+    private  javax.swing.JLabel reserveTimeLBL;
+    private  javax.swing.JPanel reserveTimeReportPNL;
+    private  javax.swing.JTextField reserveTimeTB;
+    private  javax.swing.JToggleButton saveCsvBTN;
+    private  javax.swing.JButton selectFileBTN;
+    private  javax.swing.JButton selectReferenceDatasetBTN;
+    private  javax.swing.JButton selectReferencePulsBTN;
+    private  javax.swing.JButton selectReferenceRampBTN;
+    private  javax.swing.JButton selectReferenceReportBTN;
+    private  javax.swing.JLabel selectedIedLBL;
+    private  javax.swing.JRadioButton sendGeneralInterrogationReportRB;
+    private  javax.swing.JRadioButton setDatasetReportRB;
+    private  javax.swing.JRadioButton setIntegrityReportRB;
+    private  javax.swing.JRadioButton setTriggerReportRB;
+    private  javax.swing.JTextPane simLogTP;
+    public static  javax.swing.JComboBox<String> simulatePulsFcCB;
+    private  javax.swing.JTextField simulatePulsMaxTB;
+    private  javax.swing.JTextField simulatePulsMinTB;
+    public static  javax.swing.JTextField simulatePulsReferenceTB;
+    private  javax.swing.JToggleButton simulatePulsStartBTN;
+    private  javax.swing.JButton simulatePulsStopBTN;
+    private  javax.swing.JTextField simulatePulsTimeOffTB;
+    private  javax.swing.JTextField simulatePulsTimeOnTB;
+    public static  javax.swing.JComboBox<String> simulateRampFcCB;
+    private  javax.swing.JTextField simulateRampFromTB;
+    public static  javax.swing.JTextField simulateRampReferenceTB;
+    private  javax.swing.JButton simulateRampStartBTN;
+    private  javax.swing.JTextField simulateRampStepsTB;
+    private  javax.swing.JButton simulateRampStopBTN;
+    private  javax.swing.JTextField simulateRampTimeTB;
+    private  javax.swing.JTextField simulateRampToTB;
+    private javax.swing.JPanel simulateTAB;
+    private  javax.swing.JButton startBTN;
+    private  javax.swing.JButton startDatasetBTN;
+    private  javax.swing.JButton stopBTN;
+    private  javax.swing.JLabel triggerOptionsLBL;
+    private  javax.swing.JPanel triggerOptionsReportPNL;
+    private  javax.swing.JTextField triggerOptionsTB;
+    private  javax.swing.JLabel valueLBL;
+    private  javax.swing.JPanel valueReportPNL;
+    private  javax.swing.JTextField valueTB;
     // End of variables declaration//GEN-END:variables
 }
