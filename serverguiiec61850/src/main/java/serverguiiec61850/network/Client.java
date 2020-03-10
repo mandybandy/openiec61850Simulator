@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * create client
  *
  * @author Philipp Mandl
  */
@@ -51,7 +52,7 @@ public class Client {
         this.serverModel = serverModel;
 
         InetAddress address;
-        if (host == "localhost") {
+        if ("localhost".equals(host)) {
             host = "127.0.0.1";
         }
         address = InetAddress.getByName(host);
@@ -95,7 +96,6 @@ public class Client {
         for (int i = 0; i < dataSetMembers.size(); i++) {
             if (dataSetMembers.get(i) == null) {
                 LOGGER_CLIENT.debug("a member is not defined");
-                //throw new MemberIsNullException();
             }
         }
         DataSet dataSet = new DataSet(reference, dataSetMembers);
@@ -113,11 +113,12 @@ public class Client {
      */
     public void deletedataset(String reference) throws ServiceError, IOException {
         DataSet dataSet = serverModel.getDataSet(reference);
+        LOGGER_CLIENT.debug("deleting data set..");
+
         if (dataSet == null) {
             //gibs nd
             LOGGER_CLIENT.error("dataset not found error while deleting dataset");
         }
-        LOGGER_CLIENT.debug("Deleting data set..");
         association.deleteDataSet(dataSet);
 
         LOGGER_CLIENT.debug("deleted dataset");
@@ -299,8 +300,13 @@ public class Client {
 
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
-            rcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
-            List<ServiceError> serviceErrors = association.setRcbValues(rcb, false, false, false, false, false, true, false, false);
+            try {
+                rcb.getIntgPd().setValue(Long.parseLong(integrityPeriodString));
+                List<ServiceError> serviceErrors = association.setRcbValues(rcb, false, false, false, false, false, true, false, false);
+            } catch (NumberFormatException e) {
+                LOGGER_CLIENT.error("invalid value entered, enter number");
+
+            }
             LOGGER_CLIENT.debug("integrity " + integrityPeriodString + " set on " + reference);
         } else {
             LOGGER_CLIENT.error("report not found, error while changing integrity");

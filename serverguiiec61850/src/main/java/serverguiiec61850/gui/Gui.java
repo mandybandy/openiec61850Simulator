@@ -1444,7 +1444,7 @@ public class Gui extends javax.swing.JFrame {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(Color.red);
 
-            LOGGER_GUI.error("", ex);
+            LOGGER_GUI.error("no ied selected", ex);
         }
     }//GEN-LAST:event_startBTNActionPerformed
 
@@ -1553,7 +1553,7 @@ public class Gui extends javax.swing.JFrame {
                 LOGGER_GUI.warn("no function selected\n");
             }
         } catch (ServiceError | IOException e) {
-            LOGGER_GUI.error("", e);
+            LOGGER_GUI.error("error on report control", e);
         }
     }//GEN-LAST:event_reportStartBTNActionPerformed
 
@@ -1608,8 +1608,9 @@ public class Gui extends javax.swing.JFrame {
             to = 0;
             steps = 0;
             LOGGER_GUI.error("a non number entered in ramp simulator", e);
+            simulateRampStopBTNActionPerformed(null);
         }
-        enabled=true;
+        enabled = true;
         simulateRampStartBTN.setEnabled(false);
         simulateRampStopBTN.setEnabled(true);
         try {
@@ -1617,6 +1618,7 @@ public class Gui extends javax.swing.JFrame {
             sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+           // simulateRampStopBTNActionPerformed(null);
         }
 
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
@@ -1637,6 +1639,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("a non number entered in pulse simulator", e);
             offTime = 0;
             onTime = 0;
+            simulatePulsStopBTNActionPerformed(null);
         }
         enabled = true;
         simulatePulsStartBTN.setEnabled(false);
@@ -1648,6 +1651,7 @@ public class Gui extends javax.swing.JFrame {
             sim.pulseSimulator(referencePuls, fcString, min, max, onTime, offTime);
         } catch (InterruptedException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            //simulatePulsStopBTNActionPerformed(null);
         }
 
     }//GEN-LAST:event_simulatePulsStartBTNActionPerformed
@@ -1660,28 +1664,36 @@ public class Gui extends javax.swing.JFrame {
         LOGGER_GUI.info("stopped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
 
-    private void selectReference(java.awt.event.ActionEvent evt) {
-        try {
-            RefSelect select = new RefSelect(server.serverModel);
-        } catch (UnknownHostException ex) {
-            LOGGER_GUI.error("unknown host", ex);
-        }
-    }
-
     private void selectReferenceReportBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceReportBTNActionPerformed
-        selectReference(evt);
+        try {
+            RefSelect select = new RefSelect(server.serverModel, true);
+        } catch (UnknownHostException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_selectReferenceReportBTNActionPerformed
 
     private void selectReferenceDatasetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceDatasetBTNActionPerformed
-        selectReference(evt);
+        try {
+            RefSelect select = new RefSelect(server.serverModel, true);
+        } catch (UnknownHostException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_selectReferenceDatasetBTNActionPerformed
 
     private void selectReferenceRampBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceRampBTNActionPerformed
-        selectReference(evt);
+        try {
+            RefSelect select = new RefSelect(server.serverModel, false);
+        } catch (UnknownHostException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_selectReferenceRampBTNActionPerformed
 
     private void selectReferencePulsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferencePulsBTNActionPerformed
-        selectReference(evt);
+        try {
+            RefSelect select = new RefSelect(server.serverModel, false);
+        } catch (UnknownHostException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_selectReferencePulsBTNActionPerformed
 
     private void saveCsvBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCsvBTNActionPerformed
@@ -1700,8 +1712,8 @@ public class Gui extends javax.swing.JFrame {
                 try ( FileWriter fw = new FileWriter(f)) {
                     fw.write(s);
                 }
-            } catch (IOException ioe) {
-                LOGGER_GUI.error("Exception Caught : " + ioe.getMessage());
+            } catch (IOException e) {
+                LOGGER_GUI.error("Exception Caught : " + e.getMessage());
             }
         }
     }//GEN-LAST:event_saveCsvBTNActionPerformed
@@ -1731,12 +1743,8 @@ public class Gui extends javax.swing.JFrame {
             for (int i = 0; i < getIp(iedPath, iedName).size(); i++) {
                 netInfosTA.append(getIp(iedPath, iedName).get(i) + "\n");
             }
-        } catch (SAXException ex) {
-            LOGGER_GUI.error("", ex);
-        } catch (IOException ex) {
-            LOGGER_GUI.error("", ex);
-        } catch (ParserConfigurationException ex) {
-            LOGGER_GUI.error("", ex);
+        } catch (SAXException | IOException | ParserConfigurationException ex) {
+            LOGGER_GUI.error("could not create network infos", ex);
         }
     }
 

@@ -4,7 +4,6 @@ import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 
 /**
  * creates a keylistener
@@ -12,16 +11,21 @@ import javax.swing.JTabbedPane;
  * @author Philipp Mandl
  */
 public class KeyListenerGui extends JFrame implements KeyListener {
-    
+
     private HelpWindow help = null;
 
     /**
      * KeyListener
      */
     public KeyListenerGui() {
-        
+
         Frame[] frame = Gui.getFrames();
-        frame[0].addKeyListener(this);
+        KeyListener keyListener = null;
+        JFrame mainframe=(JFrame) frame[0];
+        mainframe.addKeyListener(keyListener);
+        mainframe.addKeyListener(this);
+        mainframe.setFocusable(true);
+        mainframe.setFocusTraversalKeysEnabled(false);
     }
 
     /**

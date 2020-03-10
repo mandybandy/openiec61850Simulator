@@ -3,13 +3,12 @@ package serverguiiec61850.gui;
 import com.beanit.openiec61850.BasicDataAttribute;
 import com.beanit.openiec61850.Fc;
 import java.io.IOException;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serverguiiec61850.network.Server;
 
 /**
- * erstellt einen neuen Simulator Thread
+ * creates simulator
  *
  * @author Philipp Mandl
  */
@@ -28,7 +27,7 @@ public class Simulator {
     }
 
     /**
-     * erstellt einen Rampen Simulator
+     * creates rampsimulator
      *
      * @param referenceRamp
      * @param fcString
@@ -45,7 +44,7 @@ public class Simulator {
     }
 
     /**
-     * erstellt einen Puls Simulator
+     * creates a puls simulator
      *
      * @param referencePuls
      * @param fcString
@@ -100,8 +99,7 @@ public class Simulator {
                     //offtime
                     Thread.sleep(offTime);
                 } catch (InterruptedException ex) {
-                    LOGGER_SIM.error("", ex);
-                    return;
+                    LOGGER_SIM.error("simulator interrupted", ex);
                 } catch (IOException ex) {
                     LOGGER_SIM.error("server not found");
                     return;
@@ -158,7 +156,7 @@ public class Simulator {
                             //wait time/steps
                             Thread.sleep(time / steps);
                         } catch (InterruptedException ex) {
-                            LOGGER_SIM.error("", ex);
+                            LOGGER_SIM.error("simulator interrupted", ex);
                         }
                     } catch (IOException ex) {
                         LOGGER_SIM.error("server not found");

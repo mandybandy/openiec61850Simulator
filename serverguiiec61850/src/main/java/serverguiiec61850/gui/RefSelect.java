@@ -35,6 +35,7 @@ import javax.swing.JPanel;
  */
 public final class RefSelect extends JFrame implements TreeSelectionListener {
 
+    private static boolean noFc;
     private static DataObjectTreeNode selectedNode;
     private static String fc = "";
     private static String reference = "";
@@ -50,11 +51,12 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
      * wie GuiTree
      *
      * @param serverModel
+     * @param noFc
      * @throws java.net.UnknownHostException
      */
-    public RefSelect(ServerModel serverModel) throws UnknownHostException {
+    public RefSelect(ServerModel serverModel, boolean noFc) throws UnknownHostException {
         super("select datanode");
-
+        this.noFc = noFc;
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 exit();
@@ -137,8 +139,16 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         //if (selectedNode.writable()) {
 
         for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
-            fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
-            reference = selectedNode.getNode().getReference().toString();
+            try {
+                fc = RefSelect.selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
+            } catch (Exception e) {
+                fc = null;
+            }
+            try {
+                reference = selectedNode.getNode().getReference().toString();
+            } catch (Exception e) {
+                reference = null;
+            }
             if (reference != null) {
                 if (fc.equals(fcList.get(fcCount))) {
                     validate();
@@ -146,32 +156,36 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                         if (("MX".equals(fc)) || ("ST".equals(fc))) {
                             JOptionPane.showMessageDialog(this, "you want to access a ST,MX constraint", "access warning", JOptionPane.WARNING_MESSAGE);
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "has children", "write warning", JOptionPane.WARNING_MESSAGE);
                     }
+                    Gui.referenceTB.setText(reference);
+                    Gui.createDatasetRefTB.setText(reference);
+                    Gui.createDatasetFcCB.setSelectedItem(fc);
+                    Gui.simulateRampReferenceTB.setText(reference);
+                    Gui.simulateRampFcCB.setSelectedItem(fc);
+                    Gui.simulatePulsReferenceTB.setText(reference);
+                    Gui.simulatePulsFcCB.setSelectedItem(fc);
+                    exit();
+                } else if (noFc) {
+                    Gui.referenceTB.setText(reference);
+                    Gui.createDatasetRefTB.setText(reference);
+                    Gui.simulateRampReferenceTB.setText(reference);
+                    Gui.simulatePulsReferenceTB.setText(reference);
+                    exit();
                 }
 
-                Gui.referenceTB.setText(reference);
-                Gui.createDatasetRefTB.setText(reference);
-                Gui.createDatasetFcCB.setSelectedItem(fc);
-                Gui.simulateRampReferenceTB.setText(reference);
-                Gui.simulateRampFcCB.setSelectedItem(fc);
-                Gui.simulatePulsReferenceTB.setText(reference);
-                Gui.simulatePulsFcCB.setSelectedItem(fc);
-                exit();
-            
-        }else {
+            } else {
                 JOptionPane.showMessageDialog(this, "no reference selected", "no reference", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+        }
+
     }
 
-}
-
-/**
- * schließt Fenster
- *
- */
-public void exit() {
+    /**
+     * schließt Fenster
+     *
+     */
+    public void exit() {
         setVisible(false);
         dispose();
     }

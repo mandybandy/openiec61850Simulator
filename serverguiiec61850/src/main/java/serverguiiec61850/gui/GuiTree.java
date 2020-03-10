@@ -280,10 +280,13 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         } catch (IOException e) {
             LOGGER_GUITREE.error("IOException on write", e);
             return;
+        } catch (NullPointerException e) {
+            LOGGER_GUITREE.error("invalid value, could not write data", e);
         }
         validate();
 
         LOGGER_GUITREE.info("wrote sucessfully");
+        reload();
     }
 
     /**

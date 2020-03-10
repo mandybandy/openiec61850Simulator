@@ -78,9 +78,9 @@ public class HelpWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        jLabel1.setText("reference: path were the data is");
+        jLabel1.setText("reference: pfad, wo die Datei liegt");
 
-        jLabel2.setText("fc: functional constraint, type of the data");
+        jLabel2.setText("fc: functional constraint");
 
         jLabel3.setText("Reports:");
 

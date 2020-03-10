@@ -134,12 +134,12 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="reference: path were the data is"/>
+                <Property name="text" type="java.lang.String" value="reference: pfad, wo die Datei liegt"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="fc: functional constraint, type of the data"/>
+                <Property name="text" type="java.lang.String" value="fc: functional constraint"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">

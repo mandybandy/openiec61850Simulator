@@ -117,10 +117,12 @@ public class Server {
     }
 
     /**
+     * writes value on server
      *
      * @param reference
      * @param fcString
      * @param valueString
+     * @throws java.io.IOException
      */
     public void writeValue(String reference, String fcString, String valueString) throws IOException, IllegalArgumentException {
         Fc fc = Fc.fromString(fcString);

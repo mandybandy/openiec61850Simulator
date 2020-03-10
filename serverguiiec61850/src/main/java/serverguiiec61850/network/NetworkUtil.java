@@ -11,20 +11,15 @@ import serverguiiec61850.gui.Gui;
 import static serverguiiec61850.gui.Gui.LOGGER_GUI;
 
 /**
+ * controls network functions
  *
  * @author Philipp Mandl
  */
 public class NetworkUtil {
 
     /**
-     *
-     * @return @throws java.net.UnknownHostException
-     */
-    public String getOwnerHostName() throws UnknownHostException {
-        return InetAddress.getLocalHost().getHostName();
-    }
-
-    /**
+     * returns a list consisting network device information
+     * 
      * @throws java.net.SocketException
      */
     public static void getNetDevice() throws SocketException {
