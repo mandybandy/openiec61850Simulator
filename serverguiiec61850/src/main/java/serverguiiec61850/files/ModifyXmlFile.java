@@ -174,4 +174,28 @@ public class ModifyXmlFile {
 
         return netInfos;
     }
+
+    public static String getDesc(String NodeType, String name,String ied) throws ParserConfigurationException, SAXException, IOException {
+        String desc = "";
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        String filepath = System.getProperty("user.dir") + "\\files\\icd\\"+ied;
+        Document doc = docBuilder.parse(filepath);
+        if (NodeType == null) {
+            return null;
+        }
+        NodeList iedList = doc.getElementsByTagName(NodeType);
+        for (int i = 0; i < iedList.getLength(); i++) {
+            Node childNode = iedList.item(i);
+            if (childNode.getAttributes() != null) {
+                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
+                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
+                    return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                }
+            }
+        }
+
+        return null;
+    }
 }
+

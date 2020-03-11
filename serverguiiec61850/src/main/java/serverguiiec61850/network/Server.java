@@ -44,8 +44,10 @@ import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServerSap;
 import com.beanit.openiec61850.ServiceError;
 import java.util.logging.Level;
+import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import static serverguiiec61850.gui.Gui.mainFrame;
 
 /**
@@ -101,12 +103,11 @@ public class Server {
                 mainFrame.setEnabledAt(2, false);
             }
         });
-
+//serverSap.setValues(bdas);
         serverModel = serverSap.getModelCopy();
         serverSap.startListening(new EventListener());
         LOGGER_SERVER.info("server started.");
-
-    }
+           }
 
     private class EventListener implements ServerEventListener {
 
