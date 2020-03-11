@@ -1518,27 +1518,37 @@ public class Gui extends javax.swing.JFrame {
             if (createServer.isSelected()) {
                 server = new Server(iedPath, remotePort);
                 mainFrame.setEnabledAt(2, true);
+                mainFrame.setEnabledAt(1, true);
                 connectedLBL.setText("server started");
                 connectedLBL.setForeground(Color.BLUE);
                 LOGGER_GUI.info("server started\n");
             }
             try {
                 client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
+                startBTN.setEnabled(false);
+                stopBTN.setEnabled(true);
             } catch (NullPointerException ex) {
                 try {
                     client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), null);
                     connectedLBL.setText("client connected");
                     connectedLBL.setForeground(Color.black);
                     LOGGER_GUI.error("client connected");
-                } catch (ConnectException exx) {
+                    startBTN.setEnabled(false);
+                    stopBTN.setEnabled(true);
+                    mainFrame.setEnabledAt(1, true);
+                } catch (ConnectException e) {
                     connectedLBL.setText("no server avaible");
                     connectedLBL.setForeground(Color.red);
                     LOGGER_GUI.error("no server found");
-                } catch (IOException ex1) {
-                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex1);
-                } catch (SclParseException ex1) {
-                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex1);
+                } catch (IOException e) {
+                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, e);
+                } catch (SclParseException e) {
+                    connectedLBL.setText("invalid scl file");
+                    connectedLBL.setForeground(Color.red);
+                    LOGGER_GUI.error("no server found");
                 }
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (java.net.BindException | java.lang.NoSuchMethodError ex) {
             connectedLBL.setText("port already in use");
@@ -1550,16 +1560,16 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("invalid ip entered");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number", e);
-        } catch (IOException | SclParseException ex) {
+        } catch (SclParseException ex) {
             LOGGER_GUI.error("scl parse exception", ex);
         } catch (NullPointerException ex) {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(Color.red);
             LOGGER_GUI.error("no ied selected", ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
-        mainFrame.setEnabledAt(1, true);
-        startBTN.setEnabled(false);
-        stopBTN.setEnabled(true);
+
     }//GEN-LAST:event_startBTNActionPerformed
 
     private void setAllRbsFalse() {
@@ -1643,7 +1653,7 @@ public class Gui extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             //not a number
             time = 0;
-            LOGGER_GUI.error("a non number entered in report", e);
+            LOGGER_GUI.error("invalid number entered in report", e);
         }
 
         try {
@@ -1721,7 +1731,7 @@ public class Gui extends javax.swing.JFrame {
             from = 0;
             to = 0;
             steps = 0;
-            LOGGER_GUI.error("a non number entered in ramp simulator", e);
+            LOGGER_GUI.error("invalid number entered in ramp simulator", e);
             simulateRampStopBTNActionPerformed(null);
         }
         enabled = true;
@@ -1750,7 +1760,7 @@ public class Gui extends javax.swing.JFrame {
             offTime = Long.parseLong(simulatePulsTimeOffTB.getText());
             onTime = Long.parseLong(simulatePulsTimeOnTB.getText());
         } catch (NumberFormatException e) {
-            LOGGER_GUI.error("a non number entered in pulse simulator", e);
+LOGGER_GUI.error("invLID number entered in pulse simulator", e);
             offTime = 0;
             onTime = 0;
             simulatePulsStopBTNActionPerformed(null);
@@ -1888,6 +1898,7 @@ public class Gui extends javax.swing.JFrame {
             for (int i = 0; i < getIp(iedPath, iedName).size(); i++) {
                 netInfosTA.append(getIp(iedPath, iedName).get(i) + "\n");
             }
+            
         } catch (SAXException | IOException | ParserConfigurationException ex) {
             LOGGER_GUI.error("could not create network infos", ex);
         }

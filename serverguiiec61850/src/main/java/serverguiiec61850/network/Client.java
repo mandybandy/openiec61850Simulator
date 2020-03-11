@@ -54,9 +54,9 @@ public class Client {
      * @throws java.io.IOException
      * @throws com.beanit.openiec61850.SclParseException
      */
-    public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException {
+    public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException,java.net.ConnectException {
         this.serverModel = serverModel;
-
+        
         InetAddress address;
         if ("localhost".equals(host)) {
             host = "127.0.0.1";

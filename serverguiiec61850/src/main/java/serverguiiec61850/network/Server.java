@@ -89,7 +89,7 @@ public class Server {
         }
         LOGGER_SERVER.info("file passed parsing.");
         serverSap = new ServerSap(portServer, 0, null, serverModels.get(0), null);
-
+        
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
