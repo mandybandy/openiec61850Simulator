@@ -29,13 +29,12 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.network.Server;
-import static serverguiiec61850.files.ModifyXmlFile.getIp;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static serverguiiec61850.files.ModifyXmlFile.splitIed;
+import serverguiiec61850.files.ModifyXmlFile;
 import serverguiiec61850.network.NetworkUtil;
 
 /**
@@ -53,7 +52,7 @@ public class Gui extends javax.swing.JFrame {
      * path where the modified xml is
      */
     public static String iedPath = System.getProperty("user.dir") + "\\files\\icd\\everyIed.xml";
-
+    
     private Server server;
     private Client client;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -62,15 +61,17 @@ public class Gui extends javax.swing.JFrame {
      * simulator enable state
      */
     public static boolean enabled = true;
-
+    
     HelpWindow help = null;
+    
+    ModifyXmlFile xml = null;
 
     /**
      * creates new form gui
      */
     public Gui() {
         super("IEC61850 Simulator");
-
+        
         try {
             // Set System L&F
             UIManager.setLookAndFeel(
@@ -1396,7 +1397,7 @@ public class Gui extends javax.swing.JFrame {
 
     private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
         try {
-            GuiTree changevalues = new GuiTree();
+            GuiTree changevalues = new GuiTree(xml);
             LOGGER_GUI.info("change values manual \n");
         } catch (UnknownHostException e) {
             LOGGER_GUI.error("unknmown host", e);
@@ -1420,7 +1421,7 @@ public class Gui extends javax.swing.JFrame {
             iedPath = chooser.getSelectedFile().getPath();
             iedPathName = chooser.getSelectedFile().getName();
         }
-
+        
         netInfosTA.setText(null);
         try {
 //            iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
@@ -1442,15 +1443,15 @@ public class Gui extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
-
+        
         int rueckgabeWert = chooser.showDialog(this, "select a SCD/ICD file");
-
+        
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             LOGGER_GUI.info("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
         }
-
+        
         File dir = new File(iedPath).getParentFile();
         if (dir.isDirectory()) {
             String[] entries = dir.list();
@@ -1459,13 +1460,20 @@ public class Gui extends javax.swing.JFrame {
                 aktFile.delete();
             }
         }
-
+        
+        xml = new ModifyXmlFile(iedPathTB.getText());
         try {
-            splitIed(iedPathTB.getText());
-            changeIedBTNActionPerformed(null);
-        } catch (TransformerException | IOException | SAXException | ParserConfigurationException ex) {
+            xml.splitIed();
+        } catch (TransformerException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
+        changeIedBTNActionPerformed(null);
     }//GEN-LAST:event_selectFileBTNActionPerformed
 
     private void stopBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBTNActionPerformed
@@ -1475,21 +1483,21 @@ public class Gui extends javax.swing.JFrame {
             try {
                 server.quit();
             } catch (NullPointerException ex) {
-
+                
             }
-
+            
             startBTN.setEnabled(true);
             stopBTN.setEnabled(false);
             mainFrame.setEnabledAt(1, false);
             mainFrame.setEnabledAt(2, false);
             connectedLBL.setText("server stopped");
             connectedLBL.setForeground(Color.black);
-
+            
             LOGGER_GUI.info("\n server stopped\n");
         } catch (Exception e) {
             connectedLBL.setText("error");
             connectedLBL.setForeground(Color.red);
-
+            
             LOGGER_GUI.error("error while closing server and client", e);
         }
     }//GEN-LAST:event_stopBTNActionPerformed
@@ -1505,7 +1513,7 @@ public class Gui extends javax.swing.JFrame {
             if (iedPath == null) {
                 connectedLBL.setText("select a file");
                 connectedLBL.setForeground(Color.black);
-
+                
                 LOGGER_GUI.error("no file selected\n");
             }
         }
@@ -1566,7 +1574,7 @@ public class Gui extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_startBTNActionPerformed
-
+    
     private void setAllRbsFalse() {
         reserveReportRB.setSelected(false);
         cancelReservationRB.setSelected(false);
@@ -1577,7 +1585,7 @@ public class Gui extends javax.swing.JFrame {
         setIntegrityReportRB.setSelected(false);
         sendGeneralInterrogationReportRB.setSelected(false);
     }
-
+    
     private void setAllReportPnlsFalse() {
         IntegrityReportPNL.setVisible(false);
         valueReportPNL.setVisible(false);
@@ -1585,7 +1593,7 @@ public class Gui extends javax.swing.JFrame {
         reserveTimeReportPNL.setVisible(false);
         referenceReportPNL.setVisible(false);
     }
-
+    
     private void setAllDatasetPnlsFalse() {
         referenceDatasetPNL.setVisible(false);
         fcDatasetPNL.setVisible(false);
@@ -1641,7 +1649,7 @@ public class Gui extends javax.swing.JFrame {
         String triggerOptionsString = triggerOptionsTB.getText();
         String integrityPeriod = integrityPeriodTB.getText();
         String reference = referenceTB.getText();
-
+        
         short time;
         try {
             time = Short.parseShort(reserveTimeTB.getText());
@@ -1650,7 +1658,7 @@ public class Gui extends javax.swing.JFrame {
             time = 0;
             LOGGER_GUI.error("invalid number entered in report", e);
         }
-
+        
         try {
             if (reserveReportRB.isSelected()) {
                 client.reserveReport(reference, time);
@@ -1707,10 +1715,10 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_startDatasetBTNActionPerformed
 
     private void simulateRampStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateRampStartBTNActionPerformed
-
+        
         String referenceRamp = simulateRampReferenceTB.getText();
         String fcString = simulateRampFcCB.getSelectedItem().toString();
-
+        
         int from;
         int to;
         long time;
@@ -1743,10 +1751,10 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
 
     private void simulatePulsStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulatePulsStartBTNActionPerformed
-
+        
         String referencePuls = simulatePulsReferenceTB.getText();
         String fcString = simulatePulsFcCB.getSelectedItem().toString();
-
+        
         String min = simulatePulsMinTB.getText();
         String max = simulatePulsMaxTB.getText();
         long offTime;
@@ -1763,7 +1771,7 @@ public class Gui extends javax.swing.JFrame {
         enabled = true;
         simulatePulsStartBTN.setEnabled(false);
         simulatePulsStopBTN.setEnabled(true);
-
+        
         LOGGER_GUI.info("started pulse simulator\n");
         Simulator sim = new Simulator(server);
         try {
@@ -1779,7 +1787,7 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStartBTN.setEnabled(true);
         simulatePulsStopBTN.setEnabled(false);
         enabled = false;
-
+        
         LOGGER_GUI.info("stopped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
 
@@ -1820,9 +1828,9 @@ public class Gui extends javax.swing.JFrame {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Specify a file to save");
-
+        
         int rueckgabeWert = chooser.showSaveDialog(this);
-
+        
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
@@ -1841,12 +1849,12 @@ public class Gui extends javax.swing.JFrame {
         simulateRampStartBTN.setEnabled(true);
         simulateRampStopBTN.setEnabled(false);
         enabled = false;
-
+        
         LOGGER_GUI.info("stopped ramp simulator\n");
     }//GEN-LAST:event_simulateRampStopBTNActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
+        
         try {
             if (help == null) {
                 help = new HelpWindow();
@@ -1871,28 +1879,32 @@ public class Gui extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    
     private void createNetDeviceList() {
-
+        
         try {
             netDevicesTA.setText(null);
             NetworkUtil.getNetDevice();
         } catch (SocketException ex) {
             LOGGER_GUI.error("socket error", ex);
         }
-
+        
     }
-
+    
     private void createNetInfoList(String iedName) {
         try {
+            xml.setIed(iedName);
             netInfosTA.setEditable(false);
-            for (int i = 0; i < getIp(iedPath, iedName).size(); i++) {
-                netInfosTA.append(getIp(iedPath, iedName).get(i) + "\n");
+            for (int i = 0; i < xml.getIp().size(); i++) {
+                netInfosTA.append(xml.getIp().get(i) + "\n");
             }
             netInfosTA.setCaretPosition(0);
-
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            LOGGER_GUI.error("could not create network infos", ex);
+        } catch (SAXException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -7,6 +7,7 @@
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.ClientSap;
+import com.beanit.openiec61850.ModelNode;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.clientgui.BasicDataBind;
@@ -40,11 +41,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
+import serverguiiec61850.files.ModifyXmlFile;
 
 /**
  * creates a new client which is able to change all values manually
@@ -59,6 +64,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private static final Logger LOGGER_GUITREE = LoggerFactory.getLogger(Simulator.class);
 
     private DataTreeNode selectedNode;
+    private ModifyXmlFile xml;
 
     /**
      * Gui change values
@@ -66,8 +72,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      * @throws java.net.UnknownHostException
      * @throws com.beanit.openiec61850.ServiceError
      */
-    public GuiTree() throws UnknownHostException, ServiceError, IOException {
+    public GuiTree(ModifyXmlFile xml) throws UnknownHostException, ServiceError, IOException {
         super("change values");
+        this.xml=xml;
         //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -314,12 +321,21 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     private void showDataDetails(DataTreeNode node, String pre, Counter y) {
         if (node.getData() != null) {
-            BasicDataBind<?> data = node.getData();
-            JLabel nameLabel = data.getNameLabel();
-            nameLabel.setText(pre + ": ");
-            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
-            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
-            y.increment();
+            try {
+                BasicDataBind<?> data = node.getData();
+                JLabel nameLabel = data.getNameLabel();
+                //String desc = xml.getDesc(node.toString());
+                nameLabel.setText(pre + ": ");
+                addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
+                addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
+                y.increment();
+            } catch (ParserConfigurationException ex) {
+                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             for (int i = 0; i < node.getChildCount(); i++) {
                 y.increment();

@@ -53,6 +53,7 @@ public class Client {
      * @throws java.net.UnknownHostException
      * @throws java.io.IOException
      * @throws com.beanit.openiec61850.SclParseException
+     * @throws java.net.ConnectException
      */
     public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException,java.net.ConnectException {
         this.serverModel = serverModel;
