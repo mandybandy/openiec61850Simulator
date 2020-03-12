@@ -7,7 +7,6 @@
 package serverguiiec61850.gui;
 
 import com.beanit.openiec61850.ClientSap;
-import com.beanit.openiec61850.ModelNode;
 import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.ServiceError;
 import com.beanit.openiec61850.clientgui.BasicDataBind;
@@ -41,13 +40,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.logging.Level;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.files.ModifyXmlFile;
 
@@ -69,12 +66,13 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     /**
      * Gui change values
      *
+     * @param xml
      * @throws java.net.UnknownHostException
      * @throws com.beanit.openiec61850.ServiceError
      */
     public GuiTree(ModifyXmlFile xml) throws UnknownHostException, ServiceError, IOException {
         super("change values");
-        this.xml=xml;
+        this.xml = xml;
         //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -255,8 +253,152 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         ServerModelParser parser = new ServerModelParser(serverModel);
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
+        //tree.getComponent(i).setName(tree.getComponent(i).getName()+xml.getDesc(tree.getComponent(i).getName()));
+        try {
+            DataObjectTreeNode root = ((DataObjectTreeNode) ((DefaultTreeModel) tree.getModel()).getRoot());
+//            if (!root.isLeaf()) {
+//                for (int i = 0; i < root.getChildCount(); i++) {
+//                    DataObjectTreeNode node1 = (DataObjectTreeNode) root.getChildAt(i);
+//                    if (!node1.isLeaf()) {
+//                        for (int u = 0; u < node1.getChildCount(); u++) {
+//                            DataObjectTreeNode node2 = (DataObjectTreeNode) node1.getChildAt(u);
+//                            if (!node2.isLeaf()) {
+//                                for (int z = 0; z < node2.getChildCount(); z++) {
+//                                    DataObjectTreeNode node3 = (DataObjectTreeNode) node2.getChildAt(z);
+//                                    if (!node3.isLeaf()) {
+//                                        for (int t = 0; t < node3.getChildCount(); t++) {
+//                                            DataObjectTreeNode node4 = (DataObjectTreeNode) node3.getChildAt(t);
+//                                            if (!node4.isLeaf()) {
+//                                                for (int r = 0; r < node4.getChildCount(); r++) {
+//                                                    DataObjectTreeNode node5 = (DataObjectTreeNode) node4.getChildAt(r);
+//                                                    if (!node5.isLeaf()) {
+//                                                        for (int e = 0; e < node5.getChildCount(); e++) {
+//                                                            DataObjectTreeNode node6 = (DataObjectTreeNode) node5.getChildAt(e);
+//                                                            if (!node6.isLeaf()) {
+//                                                                for (int w = 0; w < node6.getChildCount(); w++) {
+//                                                                    DataObjectTreeNode node7 = (DataObjectTreeNode) node6.getChildAt(w);
+//                                                                    if (!node7.isLeaf()) {
+//                                                                        for (int a = 0; a < node7.getChildCount(); a++) {
+//                                                                            DataObjectTreeNode node8 = (DataObjectTreeNode) node7.getChildAt(a);
+//                                                                            if (!node8.isLeaf()) {
+//
+//                                                                            } else {
+//                                                                                String nodedesc = xml.getDesc((String) node8.getUserObject());
+//                                                                                if ((!"".equals(nodedesc))) {
+//                                                                                    Object obj = (String) node8.getUserObject() + nodedesc;
+//                                                                                    node8.setUserObject(obj);
+//                                                                                }
+//                                                                            }
+//                                                                        }
+//                                                                    } else {
+//                                                                        String nodedesc = xml.getDesc((String) node7.getUserObject());
+//                                                                        if ((!"".equals(nodedesc))) {
+//                                                                            Object obj = (String) node7.getUserObject() + nodedesc;
+//                                                                            node7.setUserObject(obj);
+//                                                                        }
+//                                                                    }
+//                                                                }
+//                                                            } else {
+//                                                                String nodedesc = xml.getDesc((String) node6.getUserObject());
+//                                                                if ((!"".equals(nodedesc))) {
+//                                                                    Object obj = (String) node6.getUserObject() + nodedesc;
+//                                                                    node6.setUserObject(obj);
+//                                                                }
+//                                                            }
+//                                                        }
+//                                                    } else {
+//                                                        String nodedesc = xml.getDesc((String) node5.getUserObject());
+//                                                        if ((!"".equals(nodedesc))) {
+//                                                            Object obj = (String) node5.getUserObject() + nodedesc;
+//                                                            node5.setUserObject(obj);
+//                                                        }
+//
+//                                                    }
+//                                                }
+//                                            } else {
+//                                                String nodedesc = xml.getDesc((String) node4.getUserObject());
+//                                                if ((!"".equals(nodedesc))) {
+//                                                    Object obj = (String) node4.getUserObject() + nodedesc;
+//                                                    node4.setUserObject(obj);
+//                                                }
+//                                            }
+//                                        }
+//
+//                                    } else {
+//                                        String nodedesc = xml.getDesc((String) node3.getUserObject());
+//                                        if ((!"".equals(nodedesc))) {
+//                                            Object obj = (String) node3.getUserObject() + nodedesc;
+//                                            node3.setUserObject(obj);
+//                                        }
+//                                    }
+//                                }
+//                            } else {
+//                                String nodedesc = xml.getDesc((String) node2.getUserObject());
+//                                if ((!"".equals(nodedesc))) {
+//                                    Object obj = (String) node2.getUserObject() + nodedesc;
+//                                    node2.setUserObject(obj);
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        String nodedesc = xml.getDesc((String) node1.getUserObject());
+//                        if ((!"".equals(nodedesc))) {
+//                            Object obj = (String) node1.getUserObject() + nodedesc;
+//                            node1.setUserObject(obj);
+//                        }
+//                    }
+//                }
+//            }
+
+            ArrayList<String> nodes = new ArrayList<>();
+
+            for (int i = 0; i < root.getChildCount(); i++) {
+                DataObjectTreeNode node1 = (DataObjectTreeNode) root.getChildAt(i);
+                for (int u = 0; u < node1.getChildCount(); u++) {
+                    DataObjectTreeNode node2 = (DataObjectTreeNode) node1.getChildAt(u);
+                    for (int z = 0; z < node2.getChildCount(); z++) {
+                        DataObjectTreeNode node3 = (DataObjectTreeNode) node2.getChildAt(z);
+                        for (int t = 0; t < node3.getChildCount(); t++) {
+                            DataObjectTreeNode node4 = (DataObjectTreeNode) node3.getChildAt(t);
+                            for (int r = 0; r < node4.getChildCount(); r++) {
+                                DataObjectTreeNode node5 = (DataObjectTreeNode) node4.getChildAt(r);
+                                for (int e = 0; e < node5.getChildCount(); e++) {
+                                    DataObjectTreeNode node6 = (DataObjectTreeNode) node5.getChildAt(e);
+                                    for (int w = 0; w < node6.getChildCount(); w++) {
+                                        DataObjectTreeNode node7 = (DataObjectTreeNode) node6.getChildAt(w);
+                                        if (!node7.isLeaf()) {
+                                            for (int a = 0; a < node7.getChildCount(); a++) {
+                                                DataObjectTreeNode node8 = (DataObjectTreeNode) node7.getChildAt(a);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < nodes.gsize(); i++) {
+                DataTreeNode node = (DataTreeNode)root;
+                node=node.
+                String nodedesc = xml.getDesc((String) node.getUserObject());
+
+                if ((!"".equals(nodedesc))) {
+                    Object obj = (String) nodes.get(i) + nodedesc;
+                    node.setUserObject(obj);
+                }
+            }
+
+        } catch (Exception e) {
+            LOGGER_GUITREE.error("error", e);
+        }
+
+        tree.setModel(tree.getModel());
+
         validate();
-        LOGGER_GUITREE.debug("values can now be changed by gui");
+
+        LOGGER_GUITREE.debug(
+                "values can now be changed by gui");
 
     }
 
@@ -321,21 +463,13 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     private void showDataDetails(DataTreeNode node, String pre, Counter y) {
         if (node.getData() != null) {
-            try {
-                BasicDataBind<?> data = node.getData();
-                JLabel nameLabel = data.getNameLabel();
-                //String desc = xml.getDesc(node.toString());
-                nameLabel.setText(pre + ": ");
-                addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
-                addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
-                y.increment();
-            } catch (ParserConfigurationException ex) {
-                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SAXException ex) {
-                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(GuiTree.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            BasicDataBind<?> data = node.getData();
+            JLabel nameLabel = data.getNameLabel();
+            //String desc = xml.getDesc(node.toString());
+            nameLabel.setText(pre + ": ");
+            addDetailsComponent(nameLabel, 0, y.getValue(), 1, 1, 0, 0);
+            addDetailsComponent(data.getValueField(), 1, y.getValue(), 2, 1, 1, 0);
+            y.increment();
         } else {
             for (int i = 0; i < node.getChildCount(); i++) {
                 y.increment();

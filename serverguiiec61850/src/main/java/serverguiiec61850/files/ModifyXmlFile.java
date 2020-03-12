@@ -35,7 +35,7 @@ import serverguiiec61850.gui.Gui;
  * modify xml files, xml file controler
  */
 public class ModifyXmlFile {
-    
+
     private Document doc;
     private String ied;
 
@@ -66,7 +66,7 @@ public class ModifyXmlFile {
              * @throws javax.xml.parsers.ParserConfigurationException
              * @throws org.xml.sax.SAXException
              */
-            
+
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(ModifyXmlFile.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,20 +103,20 @@ public class ModifyXmlFile {
             //SCL mehr.
             // es werden der Adressblock, der DataTypeTemplates Block und die IED Namen benötigt
             file.createNewFile();
-            
+
             Document iedxml = docBuilder.newDocument();
-            
+
             Element root = iedxml.createElement("SCL");
             iedxml.appendChild(root);
-            
+
             Node scl = doc.getElementsByTagName("SCL").item(0);
             iedxml.importNode(scl, true);
-            
+
             for (int j = 0; j < scl.getAttributes().getLength(); j++) {
                 Node a = scl.getAttributes().item(j);
                 root.setAttribute(a.getNodeName(), a.getNodeValue());
             }
-            
+
             for (int iedNameCounter = 0; iedNameCounter < IedList.getLength(); iedNameCounter++) {
                 Node iedNameNode = IedList.item(i);
                 Node copyOfn = iedxml.importNode(iedNameNode, true);
@@ -128,21 +128,21 @@ public class ModifyXmlFile {
                 Node copyOfm = iedxml.importNode(dataTypeTemplatesNode, true);
                 root.appendChild(copyOfm);
             }
-            
+
             NodeList addressNodeList = doc.getElementsByTagName("Communication");
             for (int addressNodeCounter = 0; addressNodeCounter < addressNodeList.getLength(); addressNodeCounter++) {
                 Node m = addressNodeList.item(addressNodeCounter);
                 Node copyOfm = iedxml.importNode(m, true);
                 root.appendChild(copyOfm);
             }
-            
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(iedxml);
             StreamResult streamResult = new StreamResult(new File(path));
             transformer.transform(domSource, streamResult);
         }
-        
+
     }
 
     /**
@@ -170,7 +170,7 @@ public class ModifyXmlFile {
                 }
             }
             NodeList datatypenode;
-            
+
             datatypenode = address.getElementsByTagName("P");
             for (int pCounter = 0; pCounter < datatypenode.getLength(); pCounter++) {
                 Node node = datatypenode.item(pCounter);
@@ -190,7 +190,7 @@ public class ModifyXmlFile {
         } catch (NullPointerException e) {
             Gui.LOGGER_GUI.error("no address in file");
         }
-        
+
         return netInfos;
     }
 
@@ -209,26 +209,37 @@ public class ModifyXmlFile {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         String filepath = System.getProperty("user.dir") + "\\files\\icd\\" + this.ied;
         Document docdesc = docBuilder.parse(filepath);
-        
+
         NodeList doiList = docdesc.getElementsByTagName("DOI");
-        NodeList daiList = docdesc.getElementsByTagName("DAI");
+        NodeList lnList = docdesc.getElementsByTagName("LN");
         NodeList reportList = docdesc.getElementsByTagName("ReportControl");
-        
+
         for (int i = 0; i < doiList.getLength(); i++) {
             Node childNode = doiList.item(i);
             if (childNode.getAttributes() != null) {
                 Node nameAttribute = childNode.getAttributes().getNamedItem("name");
                 if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                    return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                    try {
+                        return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                    } catch (Exception e) {
+                        childNode = doiList.item(i);
+                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
+                    }
                 }
             }
         }
-        for (int i = 0; i < daiList.getLength(); i++) {
-            Node childNode = daiList.item(i);
+        for (int i = 0; i < lnList.getLength(); i++) {
+            Node childNode = lnList.item(i);
             if (childNode.getAttributes() != null) {
                 Node nameAttribute = childNode.getAttributes().getNamedItem("name");
                 if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                    return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                    childNode = lnList.item(i);
+                    try {
+                        return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                    } catch (Exception e) {
+                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
+
+                    }
                 }
             }
         }
@@ -237,14 +248,17 @@ public class ModifyXmlFile {
             if (childNode.getAttributes() != null) {
                 Node nameAttribute = childNode.getAttributes().getNamedItem("name");
                 if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                    return childNode.getChildNodes().item(1).getAttributes().getNamedItem("type").getNodeValue();
+                    try {
+                        return childNode.getChildNodes().item(1).getAttributes().getNamedItem("type").getNodeValue();
+                    } catch (Exception e) {
+                    }
                 }
             }
         }
-        
-        return null;
+
+        return "";
     }
-    
+
     public void setIed(String ied) {
         this.ied = ied;
     }
