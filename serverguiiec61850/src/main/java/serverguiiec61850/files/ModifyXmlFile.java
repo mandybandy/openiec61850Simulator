@@ -148,8 +148,6 @@ public class ModifyXmlFile {
     /**
      * returns a list consists of the network settings
      *
-     * @param filepath
-     * @param iedName
      * @return
      * @throws SAXException
      * @throws IOException
@@ -157,7 +155,6 @@ public class ModifyXmlFile {
      */
     public ArrayList<String> getIp() throws SAXException, IOException, ParserConfigurationException {
         ArrayList<String> netInfos = new ArrayList<>();
-        //String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\everyIed.xml";
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         try {
@@ -197,7 +194,6 @@ public class ModifyXmlFile {
     /**
      *
      * @param name
-     * @param ied
      * @return
      * @throws ParserConfigurationException
      * @throws SAXException
@@ -259,6 +255,10 @@ public class ModifyXmlFile {
         return "";
     }
 
+    /**
+     *
+     * @param ied
+     */
     public void setIed(String ied) {
         this.ied = ied;
     }
