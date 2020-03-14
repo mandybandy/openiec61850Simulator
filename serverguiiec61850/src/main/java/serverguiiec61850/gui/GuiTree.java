@@ -40,30 +40,31 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.files.ModifyXmlFile;
 
 /**
  * creates a new client which is able to change all values manually
  */
-public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener {
+public final class GuiTree extends JFrame implements ActionListener, TreeSelectionListener, Runnable {
 
     private static ServerModel serverModel;
-    public JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
+
+    /**
+     *
+     */
+    public static JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
     private static final Logger LOGGER_GUITREE = LoggerFactory.getLogger(Simulator.class);
 
     private ModifyXmlFile xml;
-    
+
     private DataTreeNode selectedNode;
 
     /**
@@ -75,7 +76,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     public GuiTree(ModifyXmlFile xml) throws UnknownHostException, ServiceError, IOException {
         super("change values");
-        this.xml=xml;
+        this.xml = xml;
         //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -256,15 +257,12 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         ServerModelParser parser = new ServerModelParser(serverModel);
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
-        DefaultTreeModel model=null;
+        DefaultTreeModel model = null;
         try {
-            DescAdder adder=new DescAdder(tree,xml);
-            model = adder.getTree();
+            DescAdder adder = new DescAdder((DefaultTreeModel) tree.getModel(), xml);
         } catch (Exception e) {
             LOGGER_GUITREE.error("error", e);
         }
-
-        tree.setModel(model);
 
         validate();
 
@@ -272,7 +270,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                 "values can now be changed by gui");
 
     }
-
 
     private void reload() {
         if (selectedNode.readable()) {
@@ -378,5 +375,13 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private void exit() {
         setVisible(false);
         dispose();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void run() {
+        
     }
 }

@@ -208,6 +208,7 @@ public class ModifyXmlFile {
 
         NodeList doiList = docdesc.getElementsByTagName("DOI");
         NodeList lnList = docdesc.getElementsByTagName("LN");
+        NodeList ln0List = docdesc.getElementsByTagName("LN0");
         NodeList reportList = docdesc.getElementsByTagName("ReportControl");
 
         for (int i = 0; i < doiList.getLength(); i++) {
@@ -224,11 +225,26 @@ public class ModifyXmlFile {
                 }
             }
         }
-        for (int i = 0; i < lnList.getLength(); i++) {
+        for (int i = 0; i < lnList.getLength() + ln0List.getLength(); i++) {
             Node childNode = lnList.item(i);
+            if (i > lnList.getLength()) {
+                childNode = ln0List.item(i - lnList.getLength());
+            }
             if (childNode.getAttributes() != null) {
-                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
-                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
+                String nameText = "";
+                String instText = "";
+                Node nameAttribute = childNode.getAttributes().getNamedItem("lnClass");
+                if (nameAttribute != null) {
+                    nameText = childNode.getAttributes().getNamedItem("lnClass").getNodeValue();
+                }
+                childNode = lnList.item(i);
+                Node instAttribute = childNode.getAttributes().getNamedItem("inst");
+                if (instAttribute != null) {
+                    instText = childNode.getAttributes().getNamedItem("inst").getNodeValue();
+                }
+                String nodeName = nameText + instText;
+
+                if (nodeName.equals(name)) {
                     childNode = lnList.item(i);
                     try {
                         return childNode.getAttributes().getNamedItem("desc").getNodeValue();

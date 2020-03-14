@@ -8,7 +8,8 @@ package serverguiiec61850.gui;
 import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JTree;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
@@ -20,18 +21,36 @@ import serverguiiec61850.files.ModifyXmlFile;
  */
 public class DescAdder {
 
-    public static final ArrayList<String> DESC_LIST = new ArrayList<>();
-    public static final ArrayList<String> NODE_LIST = new ArrayList<>();
+    private static final ArrayList<String> DESC_LIST = new ArrayList<>();
+    private static final ArrayList<String> NODE_LIST = new ArrayList<>();
 
     private ModifyXmlFile xml;
-    private DefaultTreeModel tree;
+    private DefaultTreeModel localTree;
 
-    public DescAdder(DefaultTreeModel tree, ModifyXmlFile xml) throws ParserConfigurationException, SAXException, IOException {
+    /**
+     *
+     * @param localtree
+     * @param xml
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public DescAdder(DefaultTreeModel localtree, ModifyXmlFile xml) throws ParserConfigurationException, SAXException, IOException {
         this.xml = xml;
-        this.tree = tree;
-        DataObjectTreeNode node = ((DataObjectTreeNode) this.tree.getRoot());
+        this.localTree = localtree;
 
-        modEl(node);
+        try {
+            DataObjectTreeNode node = ((DataObjectTreeNode) this.localTree.getRoot());
+            modEl(node);
+            GuiTree.tree.setModel(this.localTree);
+            run = false;
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(DescAdder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(DescAdder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DescAdder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void modEl(DataObjectTreeNode node) throws ParserConfigurationException, SAXException, IOException {
@@ -56,8 +75,14 @@ public class DescAdder {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public DefaultTreeModel getTree() {
-        return this.tree;
+        return this.localTree;
     }
+
+    private boolean run = true;
 
 }
