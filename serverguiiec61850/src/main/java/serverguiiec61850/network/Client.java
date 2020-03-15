@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import serverguiiec61850.gui.Gui;
 
 /**
  * create client
@@ -55,9 +56,9 @@ public class Client {
      * @throws com.beanit.openiec61850.SclParseException
      * @throws java.net.ConnectException
      */
-    public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException,java.net.ConnectException {
+    public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException, java.net.ConnectException {
         this.serverModel = serverModel;
-        
+
         InetAddress address;
         if ("localhost".equals(host)) {
             host = "127.0.0.1";
@@ -78,7 +79,7 @@ public class Client {
 
         LOGGER_CLIENT.info("reading model from file...");
         if (serverModel != null) {
-            serverModel = SclParser.parse(serverguiiec61850.gui.Gui.iedPath).get(0);
+            serverModel = SclParser.parse(Gui.iedPath).get(0);
             association.setServerModel(serverModel);
             LOGGER_CLIENT.debug("successfully read model");
         } else {
@@ -162,7 +163,7 @@ public class Client {
      * get report control block
      *
      * @param reference
-     * @return
+     * @return Rcb
      */
     public Rcb getRcb(String reference) {
         Brcb brcb = serverModel.getBrcb(reference);

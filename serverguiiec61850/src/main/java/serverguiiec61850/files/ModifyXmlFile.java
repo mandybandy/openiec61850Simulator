@@ -23,6 +23,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,6 +39,7 @@ public class ModifyXmlFile {
 
     private Document doc;
     private String ied;
+    private static final org.slf4j.Logger LOGGER_XML = LoggerFactory.getLogger(ModifyXmlFile.class);
 
     /**
      *
@@ -52,10 +54,10 @@ public class ModifyXmlFile {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             try {
                 this.doc = docBuilder.parse(filepath);
-            } catch (SAXException ex) {
-                Logger.getLogger(ModifyXmlFile.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(ModifyXmlFile.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException e) {
+                LOGGER_XML.error("", e);
+            } catch (IOException e) {
+                LOGGER_XML.error("", e);
             }
             /**
              * creates icd from scl, split into ieds
@@ -67,8 +69,8 @@ public class ModifyXmlFile {
              * @throws org.xml.sax.SAXException
              */
 
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(ModifyXmlFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException e) {
+            LOGGER_XML.error("", e);
         }
     }
 
@@ -90,8 +92,8 @@ public class ModifyXmlFile {
         //Info:IED Namen werden herausgefiltert
         NodeList IedList = doc.getElementsByTagName("IED");
         for (int i = 0; i < IedList.getLength(); i++) {
-            Gui.LOGGER_GUI.info(IedList.item(i).getAttributes().getNamedItem("name") + "   " + Integer.toString(i + 1) + ".IED");
-            Gui.LOGGER_GUI.info(IedList.item(i).getAttributes().getNamedItem("name").getTextContent());
+            LOGGER_XML.info(IedList.item(i).getAttributes().getNamedItem("name") + "   " + Integer.toString(i + 1) + ".IED");
+            LOGGER_XML.info(IedList.item(i).getAttributes().getNamedItem("name").getTextContent());
             String path = (System.getProperty("user.dir") + "\\files\\icd\\" + IedList.item(i).getAttributes().getNamedItem("name").getTextContent());
             File file = new File(path);
             //Info:alle alten IEDs löschen
@@ -148,7 +150,7 @@ public class ModifyXmlFile {
     /**
      * returns a list consists of the network settings
      *
-     * @return
+     * @return networkinfo list
      * @throws SAXException
      * @throws IOException
      * @throws ParserConfigurationException
@@ -189,86 +191,6 @@ public class ModifyXmlFile {
         }
 
         return netInfos;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    public String getDesc(String name) throws ParserConfigurationException, SAXException, IOException {
-        String desc = "";
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        String filepath = System.getProperty("user.dir") + "\\files\\icd\\" + this.ied;
-        Document docdesc = docBuilder.parse(filepath);
-
-        NodeList doiList = docdesc.getElementsByTagName("DOI");
-        NodeList lnList = docdesc.getElementsByTagName("LN");
-        NodeList ln0List = docdesc.getElementsByTagName("LN0");
-        NodeList reportList = docdesc.getElementsByTagName("ReportControl");
-
-        for (int i = 0; i < doiList.getLength(); i++) {
-            Node childNode = doiList.item(i);
-            if (childNode.getAttributes() != null) {
-                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
-                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                    try {
-                        return childNode.getAttributes().getNamedItem("desc").getNodeValue();
-                    } catch (Exception e) {
-                        childNode = doiList.item(i);
-                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < lnList.getLength() + ln0List.getLength(); i++) {
-            Node childNode = lnList.item(i);
-            if (i > lnList.getLength()) {
-                childNode = ln0List.item(i - lnList.getLength());
-            }
-            if (childNode.getAttributes() != null) {
-                String nameText = "";
-                String instText = "";
-                Node nameAttribute = childNode.getAttributes().getNamedItem("lnClass");
-                if (nameAttribute != null) {
-                    nameText = childNode.getAttributes().getNamedItem("lnClass").getNodeValue();
-                }
-                childNode = lnList.item(i);
-                Node instAttribute = childNode.getAttributes().getNamedItem("inst");
-                if (instAttribute != null) {
-                    instText = childNode.getAttributes().getNamedItem("inst").getNodeValue();
-                }
-                String nodeName = nameText + instText;
-
-                if (nodeName.equals(name)) {
-                    childNode = lnList.item(i);
-                    try {
-                        return childNode.getAttributes().getNamedItem("desc").getNodeValue();
-                    } catch (Exception e) {
-                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
-
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < reportList.getLength(); i++) {
-            Node childNode = reportList.item(i);
-            if (childNode.getAttributes() != null) {
-                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
-                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                    try {
-                        return childNode.getChildNodes().item(1).getAttributes().getNamedItem("type").getNodeValue();
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        }
-
-        return "";
     }
 
     /**

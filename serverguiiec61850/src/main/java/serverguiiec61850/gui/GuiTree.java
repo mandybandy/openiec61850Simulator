@@ -42,8 +42,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import serverguiiec61850.network.Client;
 import serverguiiec61850.files.ModifyXmlFile;
 
@@ -55,7 +57,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private static ServerModel serverModel;
 
     /**
-     *
+     * nodetree of
      */
     public static JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
@@ -66,17 +68,20 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private ModifyXmlFile xml;
 
     private DataTreeNode selectedNode;
+    private final String ied;
 
     /**
      * Gui change values
      *
      * @param xml
+     * @param ied
      * @throws java.net.UnknownHostException
      * @throws com.beanit.openiec61850.ServiceError
      */
-    public GuiTree(ModifyXmlFile xml) throws UnknownHostException, ServiceError, IOException {
+    public GuiTree(ModifyXmlFile xml, String ied) throws UnknownHostException, ServiceError, IOException {
         super("change values");
         this.xml = xml;
+        this.ied = ied;
         //Info: setze Icon 
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\iconSelecter.png");
         this.setIconImage(img.getImage());
@@ -109,7 +114,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         tree.setMinimumSize(new Dimension(100, 0));
         tree.addTreeSelectionListener(this);
         JScrollPane treeScrollPane = new JScrollPane(tree);
-        treeScrollPane.setMinimumSize(new Dimension(100, 0));
         treeScrollPane.setVisible(true);
 
         GridBagConstraints treeScrollPaneConstraint = new GridBagConstraints();
@@ -257,12 +261,17 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         ServerModelParser parser = new ServerModelParser(serverModel);
         tree.setModel(new DefaultTreeModel(parser.getModelTree()));
 
-        DefaultTreeModel model = null;
-        try {
-            DescAdder adder = new DescAdder((DefaultTreeModel) tree.getModel(), xml);
-        } catch (Exception e) {
-            LOGGER_GUITREE.error("error", e);
-        }
+        Thread describtionThread = new Thread() {
+            public void run() {
+                try {
+                    NodeDescription adder = new NodeDescription((DefaultTreeModel) tree.getModel(), xml, ied);
+                    LOGGER_GUITREE.info("got server descriptions");
+                } catch (IOException | ParserConfigurationException | SAXException e) {
+                    LOGGER_GUITREE.error("error", e);
+                }
+            }
+        };
+        describtionThread.start();
 
         validate();
 
@@ -382,6 +391,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      */
     @Override
     public void run() {
-        
+
     }
 }

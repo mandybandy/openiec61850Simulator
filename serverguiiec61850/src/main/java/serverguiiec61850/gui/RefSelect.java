@@ -138,7 +138,6 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     private void confirmBTNpressed(java.awt.event.ActionEvent evt) {
         String[] fcs = {"ST", "MX", "SP", "SV", "CF", "DC", "SG", "SE", "SR", "OR", "BL", "EX", "CO", "US", "MS", "RP", "BR", "LG", "ALL", "NONE"};
         List<String> fcList = Arrays.asList(fcs);
-        //if (selectedNode.writable()) {
 
         for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
             try {
@@ -160,8 +159,6 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                         }
                     }
                     Gui.referenceTB.setText(reference);
-                    Gui.createDatasetRefTB.setText(reference);
-                    Gui.createDatasetFcCB.setSelectedItem(fc);
                     Gui.simulateRampReferenceTB.setText(reference);
                     Gui.simulateRampFcCB.setSelectedItem(fc);
                     Gui.simulatePulsReferenceTB.setText(reference);
@@ -169,7 +166,6 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
                     exit();
                 } else if (noFc) {
                     Gui.referenceTB.setText(reference);
-                    Gui.createDatasetRefTB.setText(reference);
                     Gui.simulateRampReferenceTB.setText(reference);
                     Gui.simulatePulsReferenceTB.setText(reference);
                     exit();
@@ -184,7 +180,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
-     * close select window
+     * close reference select window
      *
      */
     public void exit() {

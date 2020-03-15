@@ -86,9 +86,9 @@ public class Simulator {
                 if ((bda == null) || bda.getChildren() != null) {
                     throw new ClassCastException();
                 }
-            } catch (ClassCastException ex) {
+            } catch (ClassCastException e) {
                 bda = null;
-                LOGGER_SIM.error("invalid reference or fc selected", ex);
+                LOGGER_SIM.error("invalid reference or fc selected", e);
                 Gui.enabled = false;
             }
         }
@@ -104,9 +104,9 @@ public class Simulator {
                     server.writeValue(referencePuls, fcString, min);
                     //offtime
                     Thread.sleep(offTime);
-                } catch (InterruptedException ex) {
-                    LOGGER_SIM.error("simulator interrupted", ex);
-                } catch (IOException ex) {
+                } catch (InterruptedException e) {
+                    LOGGER_SIM.error("simulator interrupted", e);
+                } catch (IOException e) {
                     LOGGER_SIM.error("server not found");
                     return;
                 } catch (IllegalArgumentException e) {
@@ -141,9 +141,9 @@ public class Simulator {
                 if ((bda == null) || bda.getChildren() != null) {
                     throw new ClassCastException();
                 }
-            } catch (ClassCastException ex) {
+            } catch (ClassCastException e) {
                 bda = null;
-                LOGGER_SIM.error("invalid reference or fc selected", ex);
+                LOGGER_SIM.error("invalid reference or fc selected", e);
                 start = false;
             }
 
@@ -161,13 +161,13 @@ public class Simulator {
                             try {
                                 //wait time/steps
                                 Thread.sleep(time / steps);
-                            } catch (InterruptedException ex) {
-                                LOGGER_SIM.error("simulator interrupted", ex);
+                            } catch (InterruptedException e) {
+                                LOGGER_SIM.error("simulator interrupted", e);
                             }
-                        } catch (IOException ex) {
+                        } catch (IOException e) {
                             LOGGER_SIM.error("server not found");
-                        } catch (IllegalArgumentException ex) {
-                            LOGGER_SIM.error(ex.getMessage());
+                        } catch (IllegalArgumentException e) {
+                            LOGGER_SIM.error(e.getMessage());
                         }
                     }
                 }

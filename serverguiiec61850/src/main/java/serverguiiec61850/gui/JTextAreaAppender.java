@@ -15,7 +15,6 @@ import ch.qos.logback.core.encoder.EchoEncoder;
 import ch.qos.logback.core.encoder.Encoder;
 import com.beanit.openiec61850.ServerAssociation;
 import java.util.Date;
-import java.util.logging.Level;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -119,8 +118,8 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
             SIMULATOR_LOG.select(SIMULATOR_LOG.getDocument().getLength(), SIMULATOR_LOG.getDocument().getLength());
             REPORT_DATASET_LOG.select(REPORT_DATASET_LOG.getDocument().getLength(), REPORT_DATASET_LOG.getDocument().getLength());
 
-        } catch (BadLocationException ex) {
-            java.util.logging.Logger.getLogger(JTextAreaAppender.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadLocationException e) {
+            System.out.println("error append logger infos");
         }
 
     }

@@ -21,7 +21,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.logging.Level;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,7 +51,7 @@ public class Gui extends javax.swing.JFrame {
      * path where the modified xml is
      */
     public static String iedPath = System.getProperty("user.dir") + "\\files\\icd\\everyIed.xml";
-    
+
     private Server server;
     private Client client;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -61,17 +60,18 @@ public class Gui extends javax.swing.JFrame {
      * simulator enable state
      */
     public static boolean enabled = true;
-    
+
     HelpWindow help = null;
-    
+
     ModifyXmlFile xml = null;
+    private String ied;
 
     /**
      * creates new form gui
      */
     public Gui() {
         super("IEC61850 Simulator");
-        
+
         try {
             // Set System L&F
             UIManager.setLookAndFeel(
@@ -88,8 +88,8 @@ public class Gui extends javax.swing.JFrame {
         //KeyListenerGui keyListenerGui = new KeyListenerGui();
         reserveReportRBActionPerformed(null);
         reserveReportRB.setSelected(true);
-        createDatasetRBActionPerformed(null);
-        createDatasetRB.setSelected(true);
+//        createDatasetRBActionPerformed(null);
+//        createDatasetRB.setSelected(true);
     }
 
     /**
@@ -165,21 +165,6 @@ public class Gui extends javax.swing.JFrame {
         enableReportRB = new javax.swing.JRadioButton();
         reserveReportRB = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        datasetPNL = new javax.swing.JPanel();
-        createDatasetRB = new javax.swing.JRadioButton();
-        deleteDatasetRB = new javax.swing.JRadioButton();
-        startDatasetBTN = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        referenceDatasetPNL = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        createDatasetRefTB = new javax.swing.JTextField();
-        fcDatasetPNL = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        createDatasetFcCB = new javax.swing.JComboBox<>();
-        numberOfEntriesDatasetPNL = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        createDatasetNumberOfEntriesTB = new javax.swing.JTextField();
-        selectReferenceDatasetBTN = new javax.swing.JButton();
         simulateTAB = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -420,8 +405,8 @@ public class Gui extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(96, 96, 96)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
@@ -794,174 +779,8 @@ public class Gui extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("report", reportPNL);
 
-        datasetPNL.setEnabled(false);
-
-        datasetBG.add(createDatasetRB);
-        createDatasetRB.setText("create dataset");
-        createDatasetRB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createDatasetRBActionPerformed(evt);
-            }
-        });
-
-        datasetBG.add(deleteDatasetRB);
-        deleteDatasetRB.setText("delete dataset");
-        deleteDatasetRB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteDatasetRBActionPerformed(evt);
-            }
-        });
-
-        startDatasetBTN.setText("do");
-        startDatasetBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startDatasetBTNActionPerformed(evt);
-            }
-        });
-
-        jLabel11.setText("reference");
-
-        createDatasetRefTB.setText("IED1/LogicalNode.underLN.value");
-
-        javax.swing.GroupLayout referenceDatasetPNLLayout = new javax.swing.GroupLayout(referenceDatasetPNL);
-        referenceDatasetPNL.setLayout(referenceDatasetPNLLayout);
-        referenceDatasetPNLLayout.setHorizontalGroup(
-            referenceDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(referenceDatasetPNLLayout.createSequentialGroup()
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(createDatasetRefTB, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        referenceDatasetPNLLayout.setVerticalGroup(
-            referenceDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(referenceDatasetPNLLayout.createSequentialGroup()
-                .addGroup(referenceDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(createDatasetRefTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 8, Short.MAX_VALUE))
-        );
-
-        jLabel12.setText("fc");
-
-        createDatasetFcCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ST","MX","SP","SV","CF","DC","SG","SE","SR","OR","BL","EX","CO","US","MS","RP","BR","LG", "GO", "GS","ALL","NONE" }));
-
-        javax.swing.GroupLayout fcDatasetPNLLayout = new javax.swing.GroupLayout(fcDatasetPNL);
-        fcDatasetPNL.setLayout(fcDatasetPNLLayout);
-        fcDatasetPNLLayout.setHorizontalGroup(
-            fcDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fcDatasetPNLLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel12)
-                .addGap(35, 35, 35)
-                .addComponent(createDatasetFcCB, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
-        );
-        fcDatasetPNLLayout.setVerticalGroup(
-            fcDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fcDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel12)
-                .addComponent(createDatasetFcCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel13.setText("number of entries");
-
-        createDatasetNumberOfEntriesTB.setText("5");
-
-        javax.swing.GroupLayout numberOfEntriesDatasetPNLLayout = new javax.swing.GroupLayout(numberOfEntriesDatasetPNL);
-        numberOfEntriesDatasetPNL.setLayout(numberOfEntriesDatasetPNLLayout);
-        numberOfEntriesDatasetPNLLayout.setHorizontalGroup(
-            numberOfEntriesDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(numberOfEntriesDatasetPNLLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jLabel13)
-                .addGap(18, 18, 18)
-                .addComponent(createDatasetNumberOfEntriesTB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        numberOfEntriesDatasetPNLLayout.setVerticalGroup(
-            numberOfEntriesDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(numberOfEntriesDatasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel13)
-                .addComponent(createDatasetNumberOfEntriesTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        selectReferenceDatasetBTN.setText("select reference");
-        selectReferenceDatasetBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectReferenceDatasetBTNActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(fcDatasetPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectReferenceDatasetBTN)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(referenceDatasetPNL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(numberOfEntriesDatasetPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(referenceDatasetPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fcDatasetPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectReferenceDatasetBTN))
-                .addGap(20, 20, 20)
-                .addComponent(numberOfEntriesDatasetPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout datasetPNLLayout = new javax.swing.GroupLayout(datasetPNL);
-        datasetPNL.setLayout(datasetPNLLayout);
-        datasetPNLLayout.setHorizontalGroup(
-            datasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datasetPNLLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(startDatasetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
-            .addGroup(datasetPNLLayout.createSequentialGroup()
-                .addGroup(datasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(datasetPNLLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(createDatasetRB)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteDatasetRB))
-                    .addGroup(datasetPNLLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        datasetPNLLayout.setVerticalGroup(
-            datasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(datasetPNLLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(datasetPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createDatasetRB)
-                    .addComponent(deleteDatasetRB))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
-                .addComponent(startDatasetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-        );
-
-        jTabbedPane4.addTab("dataset", datasetPNL);
-
         jSplitPane2.setRightComponent(jTabbedPane4);
+        jTabbedPane4.getAccessibleContext().setAccessibleName("report CONTROL");
 
         javax.swing.GroupLayout changeIedTABLayout = new javax.swing.GroupLayout(changeIedTAB);
         changeIedTAB.setLayout(changeIedTABLayout);
@@ -1396,18 +1215,24 @@ public class Gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
+//        Thread clientGui = new Thread() {
+//            public void run() {
         try {
-            GuiTree changevalues = new GuiTree(xml);
+            GuiTree changevalues = new GuiTree(xml, ied);
             LOGGER_GUI.info("change values manual \n");
         } catch (UnknownHostException e) {
             LOGGER_GUI.error("unknmown host", e);
         } catch (NullPointerException e) {
-            LOGGER_GUI.error("something went wrong", e);
-        } catch (ServiceError ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER_GUI.error("error", e);
+        } catch (ServiceError e) {
+            LOGGER_GUI.error("error", e);
+        } catch (IOException e) {
+            LOGGER_GUI.error("error", e);
         }
+//            }
+//        };
+//        clientGui.start();
+
     }//GEN-LAST:event_changeValuesBTNActionPerformed
 
     private void changeIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeIedBTNActionPerformed
@@ -1421,7 +1246,7 @@ public class Gui extends javax.swing.JFrame {
             iedPath = chooser.getSelectedFile().getPath();
             iedPathName = chooser.getSelectedFile().getName();
         }
-        
+
         netInfosTA.setText(null);
         try {
 //            iedPathName = iedPathName.substring(0, iedPathName.lastIndexOf("."));
@@ -1432,6 +1257,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("no addressblock found", e);
         }
         IedLBL.setText(iedPathName);
+        this.ied = IedLBL.getText();
         LOGGER_GUI.info("changed IED " + iedPathName + "\n");
     }//GEN-LAST:event_changeIedBTNActionPerformed
 
@@ -1443,15 +1269,15 @@ public class Gui extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
-        
+
         int rueckgabeWert = chooser.showDialog(this, "select a SCD/ICD file");
-        
+
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             LOGGER_GUI.info("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
         }
-        
+
         File dir = new File(iedPath).getParentFile();
         if (dir.isDirectory()) {
             String[] entries = dir.list();
@@ -1460,18 +1286,18 @@ public class Gui extends javax.swing.JFrame {
                 aktFile.delete();
             }
         }
-        
+
         xml = new ModifyXmlFile(iedPathTB.getText());
         try {
             xml.splitIed();
-        } catch (TransformerException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (IOException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (SAXException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (ParserConfigurationException e) {
+            LOGGER_GUI.error("error", e);
         }
         changeIedBTNActionPerformed(null);
     }//GEN-LAST:event_selectFileBTNActionPerformed
@@ -1482,22 +1308,24 @@ public class Gui extends javax.swing.JFrame {
             client.quit();
             try {
                 server.quit();
-            } catch (NullPointerException ex) {
-                
+            } catch (NullPointerException e) {
+
             }
-            
+
             startBTN.setEnabled(true);
             stopBTN.setEnabled(false);
+            selectFileBTN.setEnabled(true);
+            changeIedBTN.setEnabled(true);
             mainFrame.setEnabledAt(1, false);
             mainFrame.setEnabledAt(2, false);
             connectedLBL.setText("server stopped");
             connectedLBL.setForeground(Color.black);
-            
+
             LOGGER_GUI.info("\n server stopped\n");
         } catch (Exception e) {
             connectedLBL.setText("error");
             connectedLBL.setForeground(Color.red);
-            
+
             LOGGER_GUI.error("error while closing server and client", e);
         }
     }//GEN-LAST:event_stopBTNActionPerformed
@@ -1513,13 +1341,13 @@ public class Gui extends javax.swing.JFrame {
             if (iedPath == null) {
                 connectedLBL.setText("select a file");
                 connectedLBL.setForeground(Color.black);
-                
+
                 LOGGER_GUI.error("no file selected\n");
             }
         }
         try {
             if (createServer.isSelected()) {
-                server = new Server(iedPath, remotePort);
+                server = new Server(iedPath, remotePort, IedLBL.getText());
                 mainFrame.setEnabledAt(2, true);
                 mainFrame.setEnabledAt(1, true);
                 connectedLBL.setText("server started");
@@ -1530,30 +1358,34 @@ public class Gui extends javax.swing.JFrame {
                 client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
                 startBTN.setEnabled(false);
                 stopBTN.setEnabled(true);
-            } catch (NullPointerException ex) {
+                selectFileBTN.setEnabled(false);
+                changeIedBTN.setEnabled(false);
+            } catch (NullPointerException e) {
                 try {
                     client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), null);
                     connectedLBL.setText("client connected");
                     connectedLBL.setForeground(Color.black);
-                    LOGGER_GUI.error("client connected");
+                    LOGGER_GUI.error("only client connected");
                     startBTN.setEnabled(false);
                     stopBTN.setEnabled(true);
+                    selectFileBTN.setEnabled(false);
+                    changeIedBTN.setEnabled(false);
                     mainFrame.setEnabledAt(1, true);
-                } catch (ConnectException e) {
+                } catch (ConnectException ex) {
                     connectedLBL.setText("no server avaible");
                     connectedLBL.setForeground(Color.red);
                     LOGGER_GUI.error("no server found");
-                } catch (IOException e) {
-                    java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, e);
-                } catch (SclParseException e) {
+                } catch (IOException ex) {
+                    LOGGER_GUI.error("error", ex);
+                } catch (SclParseException ex) {
                     connectedLBL.setText("invalid scl file");
                     connectedLBL.setForeground(Color.red);
                     LOGGER_GUI.error("no server found");
                 }
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException e) {
+                LOGGER_GUI.error("error", e);
             }
-        } catch (java.net.BindException | java.lang.NoSuchMethodError ex) {
+        } catch (java.net.BindException | java.lang.NoSuchMethodError e) {
             connectedLBL.setText("port already in use");
             connectedLBL.setForeground(Color.red);
             LOGGER_GUI.error("port already in use");
@@ -1563,18 +1395,18 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("invalid ip entered");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number", e);
-        } catch (SclParseException ex) {
-            LOGGER_GUI.error("scl parse exception", ex);
-        } catch (NullPointerException ex) {
+        } catch (SclParseException e) {
+            LOGGER_GUI.error("scl parse exception", e);
+        } catch (NullPointerException e) {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(Color.red);
-            LOGGER_GUI.error("no ied selected", ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER_GUI.error("no ied selected", e);
+        } catch (IOException e) {
+            LOGGER_GUI.error("error", e);
         }
 
     }//GEN-LAST:event_startBTNActionPerformed
-    
+
     private void setAllRbsFalse() {
         reserveReportRB.setSelected(false);
         cancelReservationRB.setSelected(false);
@@ -1585,7 +1417,7 @@ public class Gui extends javax.swing.JFrame {
         setIntegrityReportRB.setSelected(false);
         sendGeneralInterrogationReportRB.setSelected(false);
     }
-    
+
     private void setAllReportPnlsFalse() {
         IntegrityReportPNL.setVisible(false);
         valueReportPNL.setVisible(false);
@@ -1593,13 +1425,12 @@ public class Gui extends javax.swing.JFrame {
         reserveTimeReportPNL.setVisible(false);
         referenceReportPNL.setVisible(false);
     }
-    
-    private void setAllDatasetPnlsFalse() {
-        referenceDatasetPNL.setVisible(false);
-        fcDatasetPNL.setVisible(false);
-        numberOfEntriesDatasetPNL.setVisible(false);
-    }
 
+//    private void setAllDatasetPnlsFalse() {
+//        referenceDatasetPNL.setVisible(false);
+//        fcDatasetPNL.setVisible(false);
+//        numberOfEntriesDatasetPNL.setVisible(false);
+//    }
     private void disableReportRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disableReportRBActionPerformed
         setAllReportPnlsFalse();
         referenceReportPNL.setVisible(true);
@@ -1649,7 +1480,7 @@ public class Gui extends javax.swing.JFrame {
         String triggerOptionsString = triggerOptionsTB.getText();
         String integrityPeriod = integrityPeriodTB.getText();
         String reference = referenceTB.getText();
-        
+
         short time;
         try {
             time = Short.parseShort(reserveTimeTB.getText());
@@ -1658,7 +1489,7 @@ public class Gui extends javax.swing.JFrame {
             time = 0;
             LOGGER_GUI.error("invalid number entered in report", e);
         }
-        
+
         try {
             if (reserveReportRB.isSelected()) {
                 client.reserveReport(reference, time);
@@ -1684,41 +1515,11 @@ public class Gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_reportStartBTNActionPerformed
 
-    private void createDatasetRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDatasetRBActionPerformed
-        referenceDatasetPNL.setVisible(true);
-        fcDatasetPNL.setVisible(true);
-        numberOfEntriesDatasetPNL.setVisible(true);
-    }//GEN-LAST:event_createDatasetRBActionPerformed
-
-    private void deleteDatasetRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDatasetRBActionPerformed
-        setAllDatasetPnlsFalse();
-        referenceDatasetPNL.setVisible(true);
-    }//GEN-LAST:event_deleteDatasetRBActionPerformed
-
-    private void startDatasetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDatasetBTNActionPerformed
-        String numberOfEntriesString = createDatasetNumberOfEntriesTB.getText();
-        String reference = createDatasetRefTB.getText();
-        String fc = createDatasetFcCB.getSelectedItem().toString();
-        try {
-            if (createDatasetRB.isSelected()) {
-                client.createdataset(reference, fc, numberOfEntriesString);
-            } else if (deleteDatasetRB.isSelected()) {
-                client.deletedataset(reference);
-            } else {
-                //nothing selected
-                LOGGER_GUI.warn("no function selected\n");
-            }
-        } catch (ServiceError | IOException e) {
-            LOGGER_GUI.error("service error ", e);
-        }
-
-    }//GEN-LAST:event_startDatasetBTNActionPerformed
-
     private void simulateRampStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateRampStartBTNActionPerformed
-        
+
         String referenceRamp = simulateRampReferenceTB.getText();
         String fcString = simulateRampFcCB.getSelectedItem().toString();
-        
+
         int from;
         int to;
         long time;
@@ -1743,18 +1544,18 @@ public class Gui extends javax.swing.JFrame {
         try {
             Simulator sim = new Simulator(server);
             sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);
-        } catch (InterruptedException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException e) {
+            LOGGER_GUI.error("error", e);
             // simulateRampStopBTNActionPerformed(null);
         }
 
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
 
     private void simulatePulsStartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulatePulsStartBTNActionPerformed
-        
+
         String referencePuls = simulatePulsReferenceTB.getText();
         String fcString = simulatePulsFcCB.getSelectedItem().toString();
-        
+
         String min = simulatePulsMinTB.getText();
         String max = simulatePulsMaxTB.getText();
         long offTime;
@@ -1771,13 +1572,13 @@ public class Gui extends javax.swing.JFrame {
         enabled = true;
         simulatePulsStartBTN.setEnabled(false);
         simulatePulsStopBTN.setEnabled(true);
-        
+
         LOGGER_GUI.info("started pulse simulator\n");
         Simulator sim = new Simulator(server);
         try {
             sim.pulseSimulator(referencePuls, fcString, min, max, onTime, offTime);
-        } catch (InterruptedException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException e) {
+            LOGGER_GUI.error("error", e);
             //simulatePulsStopBTNActionPerformed(null);
         }
 
@@ -1787,39 +1588,31 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStartBTN.setEnabled(true);
         simulatePulsStopBTN.setEnabled(false);
         enabled = false;
-        
+
         LOGGER_GUI.info("stopped pulse simulator\n");
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
 
     private void selectReferenceReportBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceReportBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, true);
-        } catch (UnknownHostException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException e) {
+            LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferenceReportBTNActionPerformed
-
-    private void selectReferenceDatasetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceDatasetBTNActionPerformed
-        try {
-            RefSelect select = new RefSelect(server.serverModel, true);
-        } catch (UnknownHostException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_selectReferenceDatasetBTNActionPerformed
 
     private void selectReferenceRampBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceRampBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, false);
-        } catch (UnknownHostException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException e) {
+            LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferenceRampBTNActionPerformed
 
     private void selectReferencePulsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferencePulsBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, false);
-        } catch (UnknownHostException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException e) {
+            LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferencePulsBTNActionPerformed
 
@@ -1828,9 +1621,9 @@ public class Gui extends javax.swing.JFrame {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Specify a file to save");
-        
+
         int rueckgabeWert = chooser.showSaveDialog(this);
-        
+
         if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
@@ -1849,12 +1642,12 @@ public class Gui extends javax.swing.JFrame {
         simulateRampStartBTN.setEnabled(true);
         simulateRampStopBTN.setEnabled(false);
         enabled = false;
-        
+
         LOGGER_GUI.info("stopped ramp simulator\n");
     }//GEN-LAST:event_simulateRampStopBTNActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         try {
             if (help == null) {
                 help = new HelpWindow();
@@ -1863,7 +1656,7 @@ public class Gui extends javax.swing.JFrame {
                 help = new HelpWindow();
                 help.setVisible(true);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
             System.out.println("error opening help window");
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -1871,26 +1664,26 @@ public class Gui extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/mandybandy/openiec61850Simulator").toURI());
-        } catch (MalformedURLException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (URISyntaxException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (IOException e) {
+            LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-    
+
     private void createNetDeviceList() {
-        
+
         try {
             netDevicesTA.setText(null);
             NetworkUtil.getNetDevice();
-        } catch (SocketException ex) {
-            LOGGER_GUI.error("socket error", ex);
+        } catch (SocketException e) {
+            LOGGER_GUI.error("socket error", e);
         }
-        
+
     }
-    
+
     private void createNetInfoList(String iedName) {
         try {
             xml.setIed(iedName);
@@ -1899,12 +1692,12 @@ public class Gui extends javax.swing.JFrame {
                 netInfosTA.append(xml.getIp().get(i) + "\n");
             }
             netInfosTA.setCaretPosition(0);
-        } catch (SAXException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (IOException e) {
+            LOGGER_GUI.error("error", e);
+        } catch (ParserConfigurationException e) {
+            LOGGER_GUI.error("error", e);
         }
     }
 
@@ -1925,26 +1718,16 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JButton changeValuesBTN;
     public static javax.swing.JPanel connectTAB;
     public static javax.swing.JLabel connectedLBL;
-    public static javax.swing.JComboBox<String> createDatasetFcCB;
-    public static javax.swing.JTextField createDatasetNumberOfEntriesTB;
-    public static javax.swing.JRadioButton createDatasetRB;
-    public static javax.swing.JTextField createDatasetRefTB;
     public static javax.swing.JCheckBox createServer;
     public static javax.swing.ButtonGroup datasetBG;
-    public static javax.swing.JPanel datasetPNL;
-    public static javax.swing.JRadioButton deleteDatasetRB;
     public static javax.swing.JRadioButton disableReportRB;
     public static javax.swing.JRadioButton enableReportRB;
-    public static javax.swing.JPanel fcDatasetPNL;
     public static javax.swing.JLabel icodersclLBL;
     public static javax.swing.JTextField iedPathTB;
     public static javax.swing.JTextField integrityPeriodTB;
     public static javax.swing.JTextField ipTB;
     public static javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel10;
-    public static javax.swing.JLabel jLabel11;
-    public static javax.swing.JLabel jLabel12;
-    public static javax.swing.JLabel jLabel13;
     public static javax.swing.JLabel jLabel15;
     public static javax.swing.JLabel jLabel16;
     public static javax.swing.JLabel jLabel17;
@@ -1968,7 +1751,6 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JMenuBar jMenuBar1;
     public static javax.swing.JMenuItem jMenuItem1;
     public static javax.swing.JMenuItem jMenuItem3;
-    public static javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel12;
     public static javax.swing.JPanel jPanel2;
     public static javax.swing.JPanel jPanel3;
@@ -1992,10 +1774,8 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JTextPane masterLogTP;
     public static javax.swing.JTextArea netDevicesTA;
     public static javax.swing.JTextArea netInfosTA;
-    public static javax.swing.JPanel numberOfEntriesDatasetPNL;
     public static javax.swing.JTextField portTB;
     public static javax.swing.JPanel radioButtonsReportPNL;
-    public static javax.swing.JPanel referenceDatasetPNL;
     public static javax.swing.JLabel referenceLBL;
     public static javax.swing.JPanel referenceReportPNL;
     public static javax.swing.JTextField referenceTB;
@@ -2009,7 +1789,6 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JTextField reserveTimeTB;
     public static javax.swing.JToggleButton saveCsvBTN;
     public static javax.swing.JButton selectFileBTN;
-    public static javax.swing.JButton selectReferenceDatasetBTN;
     public static javax.swing.JButton selectReferencePulsBTN;
     public static javax.swing.JButton selectReferenceRampBTN;
     public static javax.swing.JButton selectReferenceReportBTN;
@@ -2037,7 +1816,6 @@ public class Gui extends javax.swing.JFrame {
     public static javax.swing.JTextField simulateRampToTB;
     public javax.swing.JPanel simulateTAB;
     public static javax.swing.JButton startBTN;
-    public static javax.swing.JButton startDatasetBTN;
     public static javax.swing.JButton stopBTN;
     public static javax.swing.JLabel triggerOptionsLBL;
     public static javax.swing.JPanel triggerOptionsReportPNL;
