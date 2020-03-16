@@ -1,0 +1,22 @@
+-classpath
+'C:/Users/Philipp/.m2/repository/jcalender/jcalender/1.4/jcalender-1.4.jar;C:/Users/Philipp/.m2/repository/jasn1/jasn1/1.11.0/jasn1-1.11.0.jar;C:/Users/Philipp/.m2/repository/logback-classic/logback-classic/1.2.3/logback-classic-1.2.3.jar;C:/Users/Philipp/.m2/repository/logback-core/logback-core/1.2.3/logback-core-1.2.3.jar;C:/Users/Philipp/.m2/repository/slf4j-api/slf4j-api/1.7.25/slf4j-api-1.7.25.jar;C:/Users/Philipp/.m2/repository/unknown/binary/AbsoluteLayout/SNAPSHOT/AbsoluteLayout-SNAPSHOT.jar;C:/Users/Philipp/.m2/repository/openiec61850/openiec61850/1.8.0/openiec61850-1.8.0.jar;C:/Users/Philipp/.m2/repository/jcalendar/jcalendar/1.4/jcalendar-1.4.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'F:/diplomarbeit/project/openiec61850Simulator/guiIec61850/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2020. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'F:/diplomarbeit/project/openiec61850Simulator/guiIec61850/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'gui61850 1.0 API'
+-use
+-version
+-windowtitle
+'gui61850 1.0 API'
