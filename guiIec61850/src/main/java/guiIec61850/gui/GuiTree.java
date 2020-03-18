@@ -102,7 +102,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         this.xml = xml;
         this.ied = ied;
         //Info: setze Icon 
-        ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\iconSelecter.png");
+        ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icons\\iconSelecter.png");
         this.setIconImage(img.getImage());
 
         addWindowListener(new WindowAdapter() {

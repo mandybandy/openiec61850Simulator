@@ -85,7 +85,7 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("look and feel not avaible", e);
         }
         initComponents();
-        ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icon.png");
+        ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icons\\icon.png");
         this.setIconImage(img.getImage());
         createNetDeviceList();
         JTextAreaAppender masterappender = new JTextAreaAppender(masterLogTP, simLogTP, reportDatasetTP);

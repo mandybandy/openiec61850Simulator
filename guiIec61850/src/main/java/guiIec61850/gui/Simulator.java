@@ -9,6 +9,8 @@ package guiIec61850.gui;
 import com.beanit.openiec61850.BasicDataAttribute;
 import static com.beanit.openiec61850.Fc.fromString;
 import static guiIec61850.gui.Gui.enabled;
+import static guiIec61850.gui.Gui.simulateRampStartBTN;
+import static guiIec61850.gui.Gui.simulateRampStopBTN;
 import java.io.IOException;
 import org.slf4j.Logger;
 import guiIec61850.network.Server;
@@ -176,6 +178,8 @@ public class Simulator {
                 }
             } else {
                 simulate = false;
+                simulateRampStartBTN.setEnabled(false);
+                simulateRampStopBTN.setEnabled(true);
             }
         }
     }

@@ -27,7 +27,7 @@ public class HelpWindow extends javax.swing.JFrame {
             }
         });
 
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\helpicon.png");
+        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\icons\\helpicon.png");
         this.setIconImage(img.getImage());
         initComponents();
     }
