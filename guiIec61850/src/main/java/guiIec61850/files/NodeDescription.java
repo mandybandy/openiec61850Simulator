@@ -32,15 +32,11 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class NodeDescription {
 
-    /**
-     *
-     */
-    public static final org.slf4j.Logger LOGGER_NODEDESCRIPTION = getLogger(NodeDescription.class);
+    private static final org.slf4j.Logger LOGGER_NODEDESCRIPTION = getLogger(NodeDescription.class);
 
     private static final ArrayList<String> DESC_LIST = new ArrayList<>();
     private static final ArrayList<String> NODE_LIST = new ArrayList<>();
 
-    private ModifyXmlFile xml;
     private DefaultTreeModel localTree;
     private final String ied;
 
@@ -54,7 +50,6 @@ public class NodeDescription {
      * @throws IOException
      */
     public NodeDescription(DefaultTreeModel localtree, ModifyXmlFile xml, String ied) throws ParserConfigurationException, SAXException, IOException {
-        this.xml = xml;
         this.localTree = localtree;
         this.ied = ied;
 

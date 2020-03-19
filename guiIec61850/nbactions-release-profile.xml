@@ -13,6 +13,7 @@
                 <exec.args>-classpath %classpath serverguiiec61850.gui.Gui</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>C:\Users\phili\OneDrive\Desktop\openiec61850Simulator\serverguiiec61850</exec.workingdir>
+                <jshell.run.enable>true</jshell.run.enable>
             </properties>
         </action>
         <action>
@@ -29,6 +30,7 @@
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
                 <exec.workingdir>C:\Users\phili\OneDrive\Desktop\openiec61850Simulator\serverguiiec61850</exec.workingdir>
+                <jshell.run.enable>true</jshell.run.enable>
             </properties>
         </action>
         <action>

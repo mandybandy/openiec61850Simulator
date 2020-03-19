@@ -77,7 +77,6 @@ public class Server {
     public ServerModel serverModel;
 
     private static final Logger LOGGER_SERVER = getLogger(Server.class);
-    private final String ied;
 
     /**
      * server
@@ -91,7 +90,6 @@ public class Server {
      */
     public Server(String sclPath, int portServer, String ied) throws IOException, SclParseException, NullPointerException {
         serverSap = null;
-        this.ied = ied;
 
         List<ServerModel> serverModels = null;
         try {

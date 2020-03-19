@@ -38,7 +38,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 /**
  * create client
  *
- * @author Philipp Mandl
  */
 public class Client {
 

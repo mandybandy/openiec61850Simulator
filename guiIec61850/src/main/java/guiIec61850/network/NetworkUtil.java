@@ -11,10 +11,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import static guiIec61850.gui.Gui.LOGGER_GUI;
 import static guiIec61850.gui.Gui.netDevicesTA;
 import static java.net.NetworkInterface.getNetworkInterfaces;
 import static java.util.Collections.list;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * controls network functions
@@ -23,6 +23,7 @@ import static java.util.Collections.list;
  */
 public class NetworkUtil {
 
+       private static final org.slf4j.Logger LOGGER_NETWORKUTIL = getLogger(NetworkUtil.class);
     /**
      * returns a list consisting network device information
      *
@@ -35,9 +36,9 @@ public class NetworkUtil {
         list(nets).forEach((netint) -> {
             Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
             list(inetAddresses).stream().filter((inetAddress) -> (netint.getInetAddresses().hasMoreElements())).forEachOrdered((inetAddress) -> {
-                LOGGER_GUI.info("Display name:" + netint.getDisplayName());
-                LOGGER_GUI.info("Name: " + netint.getName());
-                LOGGER_GUI.info("InetAddress: " + inetAddress);
+                LOGGER_NETWORKUTIL.info("Display name:" + netint.getDisplayName());
+                LOGGER_NETWORKUTIL.info("Name: " + netint.getName());
+                LOGGER_NETWORKUTIL.info("InetAddress: " + inetAddress);
                 String netdevice = ("display name:" + netint.getDisplayName() + "\n" + "name: " + netint.getName() + "\n" + "address: " + inetAddress + "\n \n");
                 netDevs.add(netdevice);
             });

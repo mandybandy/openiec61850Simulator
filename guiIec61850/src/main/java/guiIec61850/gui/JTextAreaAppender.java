@@ -25,6 +25,7 @@ import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import guiIec61850.network.Client;
+import guiIec61850.network.NetworkUtil;
 import guiIec61850.network.Server;
 import static java.lang.System.out;
 import static org.slf4j.LoggerFactory.getILoggerFactory;
@@ -45,6 +46,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private static final Logger LOGGER_SIM = getLogger(Simulator.class);
     private static final Logger LOGGER_GUITREE = getLogger(GuiTree.class);
     private static final Logger LOGGER_NODEDESCRIPTION = getLogger(NodeDescription.class);
+    private static final Logger LOGGER_NETWORKUTIL = getLogger(NetworkUtil.class);
 
     private final Encoder<ILoggingEvent> ENCODER = new EchoEncoder<ILoggingEvent>();
     private final JTextPane MASTER_LOG;
@@ -67,6 +69,7 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         LOGGER_SIM.warn("Initialization of Client Console...");
         LOGGER_GUITREE.warn("Initialization of Client Console...");
         LOGGER_NODEDESCRIPTION.warn("Initialization of Client Console...");
+        LOGGER_NETWORKUTIL.warn("Initialization of Client Console...");
 
         this.MASTER_LOG = masterLog;
         this.SIMULATOR_LOG = simulatorLog;

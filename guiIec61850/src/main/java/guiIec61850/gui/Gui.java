@@ -19,7 +19,6 @@ import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,7 +32,6 @@ import org.slf4j.Logger;
 import guiIec61850.files.ModifyXmlFile;
 import guiIec61850.network.NetworkUtil;
 import static java.lang.System.getProperty;
-import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import java.util.logging.Level;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -43,14 +41,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * main window
- *
  */
 public class Gui extends javax.swing.JFrame {
 
     /**
      * logger in class Gui
      */
-    public static final Logger LOGGER_GUI = getLogger(Gui.class);
+    private static final Logger LOGGER_GUI = getLogger(Gui.class);
 
     /**
      * path where the modified xml is
@@ -59,8 +56,7 @@ public class Gui extends javax.swing.JFrame {
 
     private Server server;
     private Client client;
-    ScheduledExecutorService executorService = newSingleThreadScheduledExecutor();
-
+    
     /**
      * simulator enable state
      */
@@ -441,7 +437,7 @@ public class Gui extends javax.swing.JFrame {
         reportDatasetTP.setEditable(false);
         jScrollPane6.setViewportView(reportDatasetTP);
 
-        changeValuesBTN.setText("change server manual");
+        changeValuesBTN.setText("change values");
         changeValuesBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changeValuesBTNActionPerformed(evt);
@@ -481,7 +477,7 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
-        reportStartBTN.setText("do");
+        reportStartBTN.setText("start");
         reportStartBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reportStartBTNActionPerformed(evt);
@@ -751,7 +747,7 @@ public class Gui extends javax.swing.JFrame {
                                         .addGroup(reportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(triggerOptionsReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(reserveTimeReportPNL, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 219, Short.MAX_VALUE))
+                        .addGap(0, 216, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPNLLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(reportStartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -811,7 +807,7 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel3.setText("Values changed by simulator:");
 
-        saveCsvBTN.setText("save .csv");
+        saveCsvBTN.setText("save");
         saveCsvBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveCsvBTNActionPerformed(evt);
@@ -1156,14 +1152,13 @@ public class Gui extends javax.swing.JFrame {
         logTABLayout.setHorizontalGroup(
             logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logTABLayout.createSequentialGroup()
-                .addGroup(logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logTABLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel26))
-                    .addGroup(logTABLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1298, Short.MAX_VALUE)))
-                .addGap(76, 76, 76))
+                .addGap(28, 28, 28)
+                .addComponent(jLabel26)
+                .addContainerGap(1365, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logTABLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
         logTABLayout.setVerticalGroup(
             logTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1444,11 +1439,6 @@ public class Gui extends javax.swing.JFrame {
         referenceReportPNL.setVisible(false);
     }
 
-//    private void setAllDatasetPnlsFalse() {
-//        referenceDatasetPNL.setVisible(false);
-//        fcDatasetPNL.setVisible(false);
-//        numberOfEntriesDatasetPNL.setVisible(false);
-//    }
     private void disableReportRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disableReportRBActionPerformed
         setAllReportPnlsFalse();
         referenceReportPNL.setVisible(true);

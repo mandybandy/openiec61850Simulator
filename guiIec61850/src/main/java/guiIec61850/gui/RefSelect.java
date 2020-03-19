@@ -10,14 +10,12 @@ import com.beanit.openiec61850.ServerModel;
 import com.beanit.openiec61850.clientgui.DataObjectTreeCellRenderer;
 import com.beanit.openiec61850.clientgui.DataObjectTreeNode;
 import com.beanit.openiec61850.clientgui.ServerModelParser;
-import com.beanit.openiec61850.clientgui.SettingsFrame;
 import guiIec61850.files.NodeDescription;
 import static guiIec61850.gui.Gui.referenceTB;
 import static guiIec61850.gui.Gui.simulatePulsFcCB;
 import static guiIec61850.gui.Gui.simulatePulsReferenceTB;
 import static guiIec61850.gui.Gui.simulateRampFcCB;
 import static guiIec61850.gui.Gui.simulateRampReferenceTB;
-import static guiIec61850.gui.GuiTree.tree;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.BOTH;
@@ -64,9 +62,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
 
     private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
     private final JPanel detailsPanel = new JPanel();
-    private final GridBagLayout detailsLayout = new GridBagLayout();
 
-    private final SettingsFrame settingsFrame = new SettingsFrame();
     private final boolean noFc;
 
     /**

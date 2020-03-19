@@ -23,12 +23,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import static guiIec61850.gui.Gui.LOGGER_GUI;
 import static java.lang.System.getProperty;
 import static java.nio.file.Files.delete;
 import static java.nio.file.Paths.get;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
+import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -38,7 +38,7 @@ public class ModifyXmlFile {
 
     private Document doc;
     private String ied;
-    private static final org.slf4j.Logger LOGGER_XML = getLogger(ModifyXmlFile.class);
+    private static final Logger LOGGER_XML = getLogger(ModifyXmlFile.class);
 
     /**
      * Modifies XML file
@@ -48,7 +48,7 @@ public class ModifyXmlFile {
     public ModifyXmlFile(String filepath) {
         try {
             if (filepath == null) {
-                LOGGER_GUI.error("no file selected");
+                LOGGER_XML.error("no file selected");
             }
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -92,8 +92,6 @@ public class ModifyXmlFile {
     public void splitIed() throws TransformerConfigurationException, TransformerException, IOException, SAXException, ParserConfigurationException {
 
         //Info: wurde erstellt für eine Datei mit allen IEDs die aber gekürzt ist
-        //String filepath =null;
-        //String filepath = System.getProperty("user.dir") + "\\src\\main\\java\\serverguiiec61850\\files\\icd\\everyIed.xml";
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         //Info:IED Namen werden herausgefiltert
@@ -192,9 +190,9 @@ public class ModifyXmlFile {
                 }
             }
         } catch (DOMException e) {
-            LOGGER_GUI.error("DOM exception");
+            LOGGER_XML.error("DOM exception");
         } catch (NullPointerException e) {
-            LOGGER_GUI.error("no address in file");
+            LOGGER_XML.error("no address in file");
         }
 
         return netInfos;
