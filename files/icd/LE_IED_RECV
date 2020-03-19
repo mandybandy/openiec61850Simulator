@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><SCL xmlns="http://www.iec.ch/61850/2006/SCL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iec.ch/61850/2006/SCL"><IED name="LE_IED_RECV">
+		<Services>
+			<DynAssociation/>
+			<GetDirectory/>
+			<GetDataObjectDefinition/>
+			<GetDataSetValue/>
+			<DataSetDirectory/>
+			<ReadWrite/>
+			<FileHandling/>
+			<ConfDataSet max="4"/>
+			<ConfReportControl max="12"/>
+			<ReportSettings bufTime="Dyn" cbName="Conf" datSet="Conf" intgPd="Dyn" optFields="Conf" rptID="Dyn"/>
+			<ConfLogControl max="1"/>
+			<GetCBValues/>
+			<GOOSE max="2"/>
+		</Services>
+		<AccessPoint name="S1">
+			<Server>
+				<Authentication/>
+				<LDevice inst="MUnn">
+					<LN0 inst="" lnClass="LLN0" lnType="LN0">
+					</LN0>
+					<LN inst="1" lnClass="MMXU" lnType="exampleMMXU">
+			            <Inputs>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="1" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="2" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="3" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="4" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="1" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="2" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="3" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="4" prefix=""/>
+			            </Inputs>
+					</LN>
+				</LDevice>
+			</Server>
+		</AccessPoint>
+	</IED><IED name="LE_IED_RECV">
+		<Services>
+			<DynAssociation/>
+			<GetDirectory/>
+			<GetDataObjectDefinition/>
+			<GetDataSetValue/>
+			<DataSetDirectory/>
+			<ReadWrite/>
+			<FileHandling/>
+			<ConfDataSet max="4"/>
+			<ConfReportControl max="12"/>
+			<ReportSettings bufTime="Dyn" cbName="Conf" datSet="Conf" intgPd="Dyn" optFields="Conf" rptID="Dyn"/>
+			<ConfLogControl max="1"/>
+			<GetCBValues/>
+			<GOOSE max="2"/>
+		</Services>
+		<AccessPoint name="S1">
+			<Server>
+				<Authentication/>
+				<LDevice inst="MUnn">
+					<LN0 inst="" lnClass="LLN0" lnType="LN0">
+					</LN0>
+					<LN inst="1" lnClass="MMXU" lnType="exampleMMXU">
+			            <Inputs>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="1" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="2" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="3" prefix=""/>
+							<ExtRef daName="instMag" doName="Amp" iedName="LE_IED" ldInst="MUnn" lnClass="TCTR" lnInst="4" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="1" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="2" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="3" prefix=""/>
+							<ExtRef daName="instMag" doName="Vol" iedName="LE_IED" ldInst="MUnn" lnClass="TVTR" lnInst="4" prefix=""/>
+			            </Inputs>
+					</LN>
+				</LDevice>
+			</Server>
+		</AccessPoint>
+	</IED><DataTypeTemplates>
+
+		<LNodeType id="IEC_61850_9_2LELLN0" lnClass="LLN0">
+			<DO name="Mod" type="IEC_61850_9_2LEINC"/>
+		</LNodeType>
+		<LNodeType id="IEC_61850_9_2LETCTR" lnClass="TCTR">
+			<DO name="Amp" type="IEC_61850_9_2LESAVAmp"/>
+		</LNodeType>
+		<LNodeType id="IEC_61850_9_2LETVTR" lnClass="TVTR">
+			<DO name="Vol" type="IEC_61850_9_2LESAVVol"/>
+		</LNodeType>
+
+
+		<LNodeType id="LN0" lnClass="LLN0">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="NamPlt" type="myLPL"/>
+		</LNodeType>
+		<LNodeType id="LPHDa" lnClass="LPHD">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="NamPlt" type="myLPL"/>
+			<DO name="PhyNam" type="myDPL"/>
+			<DO name="PhyHealth" type="myINS"/>
+			<DO name="Proxy" type="mySPS"/>
+		</LNodeType>
+		<LNodeType id="CSWIa" lnClass="CSWI">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="Pos" type="myPos"/>
+			<DO name="GrpAl" type="mySPS"/>
+		</LNodeType>
+		<LNodeType id="MMXUa" lnClass="MMXU">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Beh" type="myHealth"/>
+			<DO name="Health" type="myBeh"/>
+			<DO name="Amps" type="myMV"/>
+			<DO name="Volts" type="myMV"/>
+		</LNodeType>
+		<LNodeType id="exampleMMXU" lnClass="MMXU">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Beh" type="myHealth"/>
+			<DO name="Health" type="myBeh"/>
+			<DO name="A" type="simpleWYE"/>
+		</LNodeType>
+		<LNodeType id="exampleRMXU" lnClass="RMXU">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Beh" type="myHealth"/>
+			<DO name="Health" type="myBeh"/>
+			<DO name="AmpLocPhsA" type="simpleSAV"/>
+			<DO name="AmpLocPhsB" type="simpleSAV"/>
+			<DO name="AmpLocPhsC" type="simpleSAV"/>
+		</LNodeType>
+		<LNodeType id="CILOa" lnClass="CILO">
+			<DO name="Mod" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="Health" type="myINS"/>
+			<DO name="EnaOpen" type="mySPS"/>
+			<DO name="EnaClose" type="mySPS"/>
+		</LNodeType>
+		<LNodeType id="TVTRa" lnClass="TVTR">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="Vol" type="mySAV"/>
+		</LNodeType>
+		<LNodeType id="RSYNa" lnClass="RSYN">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="NamPlt" type="myLPL"/>
+			<DO name="Rel" type="mySPS"/>
+		</LNodeType>
+
+
+		<DOType cdc="SAV" id="IEC_61850_9_2LESAVAmp">
+			<DA bType="Struct" fc="MX" name="instMag" type="IEC_61850_9_2LEAV"/>
+			<DA bType="Quality" fc="MX" name="q"/>
+			<DA bType="Struct" fc="CF" name="sVC" type="IEC_61850_9_2LEsVCAmp"/>
+		</DOType>
+		<DOType cdc="SAV" id="IEC_61850_9_2LESAVVol">
+			<DA bType="Struct" fc="MX" name="instMag" type="IEC_61850_9_2LEAV"/>
+			<DA bType="Quality" fc="MX" name="q"/>
+			<DA bType="Struct" fc="CF" name="sVC" type="IEC_61850_9_2LEsVCVol"/>
+		</DOType>
+		<DOType cdc="INC" id="IEC_61850_9_2LEINC">
+			<DA bType="INT32" fc="CO" name="ctlVal"/>
+			<DA bType="INT32" dchg="true" fc="ST" name="stVal"/>
+			<DA bType="Quality" dchg="true" fc="ST" name="q"/>
+			<DA bType="Timestamp" dchg="true" fc="ST" name="t"/>
+		</DOType>
+
+
+		<DOType cdc="INC" id="myMod">
+			<DA bType="Enum" fc="CO" name="ctlVal" type="Mod"/>
+			<DA bType="Enum" dchg="true" fc="ST" name="stVal" type="Mod"/>
+			<DA bType="Quality" dchg="true" fc="ST" name="q"/>
+			<DA bType="Timestamp" dchg="true" fc="ST" name="t"/>
+		</DOType>
+		<DOType cdc="INS" id="myHealth">
+			<DA bType="Enum" dchg="true" fc="ST" name="stVal" type="Health"/>
+		</DOType>
+		<DOType cdc="INS" id="myBeh">
+			<DA bType="Enum" dchg="true" fc="ST" name="stVal" type="Beh"/>
+		</DOType>
+		<DOType cdc="INS" id="myINS">
+			<DA bType="INT32" dchg="true" fc="ST" name="stVal"/>
+		</DOType>
+		<DOType cdc="LPL" id="myLPL">
+			<DA bType="VisString255" fc="EX" name="ldNs">
+				<Val>IEC61850-7-4:2003</Val>
+			</DA>
+			<DA bType="VisString255" fc="DC" name="configRev">
+				<Val>Rev 3.45</Val>
+			</DA>
+		</DOType>
+		<DOType cdc="DPL" id="myDPL">
+			<DA bType="VisString255" fc="DC" name="vendor">
+				<Val>myVendorName</Val>
+			</DA>
+			<DA bType="VisString255" fc="DC" name="hwRev">
+				<Val>Rev 1.23</Val>
+			</DA>
+		</DOType>
+		<DOType cdc="DPC" id="myPos">
+			<DA bType="Dbpos" dchg="true" fc="ST" name="stVal" type="Dbpos"/>
+			<DA bType="Quality" fc="ST" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="ST" name="t"/>
+			<DA bType="BOOLEAN" fc="CO" name="ctlVal"/>
+		</DOType>
+		<DOType cdc="SPS" id="mySPS">
+			<DA bType="INT32" dchg="true" fc="ST" name="stVal">
+				 <Val>178</Val>
+			</DA>
+			<DA bType="Quality" fc="ST" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="ST" name="t"/>
+		</DOType>
+		<DOType cdc="MV" id="myMV">
+			<DA bType="Struct" dchg="true" fc="MX" name="mag" type="myAnalogValue"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="MX" name="t"/>
+			<DA bType="Struct" dchg="true" fc="CF" name="sVC" type="ScaledValueConfig"/>
+			<DA bType="INT32" fc="MX" name="int1" qchg="true"/>
+			<DA bType="INT32" fc="MX" name="int2" qchg="true"/>
+			<DA bType="INT32" fc="MX" name="int3" qchg="true"/>
+		</DOType>
+		<DOType cdc="MV" id="simpleMV">
+			<DA bType="FLOAT32" dchg="true" fc="MX" name="mag"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="MX" name="t"/>
+			<DA bType="Struct" dchg="true" fc="CF" name="sVC" type="ScaledValueConfig"/>
+		</DOType>
+		<DOType cdc="CMV" id="simpleCMV">
+			<DA bType="Struct" dchg="true" fc="MX" name="cVal" type="simpleVector"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="MX" name="t"/>
+			<SDO name="testSecondLayerSDO" type="mySPS"/>
+			<DA bType="INT32" dchg="true" fc="ST" name="testInteger">
+				 <Val>-1234</Val>
+			</DA>
+			<DA bType="BOOLEAN" dchg="true" fc="ST" name="testBoolean">
+				 <Val>1</Val>
+			</DA>
+		</DOType>
+		<DOType cdc="WYE" id="simpleWYE">
+			<SDO name="phsA" type="simpleCMV"/>
+			<SDO name="phsB" type="simpleCMV"/>
+			<SDO name="phsC" type="simpleCMV"/>
+			<!--<DA name="phsA" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
+			<DA name="phsB" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
+			<DA name="phsC" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>-->
+		</DOType>
+		<DOType cdc="CMV" id="myCMV">
+			<DA bType="Struct" dchg="true" fc="MX" name="cVal" type="myVector"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+			<DA bType="Timestamp" fc="MX" name="t"/>
+		</DOType>
+		<DOType cdc="SEQ" id="mySEQ">
+			<SDO name="MUnn" type="myCMV"/>
+			<SDO name="c2" type="myCMV"/>
+			<SDO name="c3" type="myCMV"/>
+			<DA bType="Enum" fc="MX" name="seqT" type="seqT"/>
+		</DOType>
+		<DOType cdc="SAV" id="mySAV">
+			<DA bType="Struct" fc="MX" name="instMag" type="myAnalogValue"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+		</DOType>
+		<DOType cdc="SAV" id="simpleSAV">
+			<DA bType="Struct" fc="MX" name="instMag" type="myAnalogValue"/>
+			<DA bType="Quality" fc="MX" name="q" qchg="true"/>
+		</DOType>
+		<DAType id="myAnalogValue">
+			<BDA bType="FLOAT32" name="f">
+				 <Val>1.024</Val>
+			</BDA>
+		</DAType>
+		<DAType id="ScaledValueConfig">
+			<BDA bType="FLOAT32" name="scaleFactor"/>
+			<BDA bType="FLOAT32" name="offset"/>
+		</DAType>
+		<DAType id="myVector">
+			<BDA bType="Struct" name="mag" type="myAnalogValue"/>
+			<BDA bType="Struct" name="ang" type="myAnalogValue"/>
+		</DAType>
+		<DAType id="simpleVector">
+			<BDA bType="Struct" name="mag" type="myAnalogValue"/>
+			<BDA bType="Struct" name="ang" type="myAnalogValue"/>
+		</DAType>
+
+
+		<DAType id="IEC_61850_9_2LEAV">
+			<BDA bType="INT32" name="i"/>
+		</DAType>
+		<DAType id="IEC_61850_9_2LEsVCAmp">
+			<BDA bType="FLOAT32" name="scaleFactor">
+				<Val>0.001</Val>
+			</BDA>
+			<BDA bType="FLOAT32" name="offset">
+				<Val>0</Val>
+			</BDA>
+		</DAType>
+		<DAType id="IEC_61850_9_2LEsVCVol">
+			<BDA bType="FLOAT32" name="scaleFactor">
+				<Val>0.01</Val>
+			</BDA>
+			<BDA bType="FLOAT32" name="offset">
+				<Val>0</Val>
+			</BDA>
+		</DAType>
+
+		<EnumType id="ACDdir">
+			<EnumVal ord="0">unknown</EnumVal>
+			<EnumVal ord="1">forward</EnumVal>
+			<EnumVal ord="2">backward</EnumVal>
+			<EnumVal ord="3">both</EnumVal>
+		</EnumType>
+		<EnumType id="seqT">
+			<EnumVal ord="0">pos-neg-zero</EnumVal>
+			<EnumVal ord="1">dir-quad-zero</EnumVal>
+		</EnumType>
+		<EnumType id="Dbpos">
+			<EnumVal ord="0">intermediate</EnumVal>
+			<EnumVal ord="1">off</EnumVal>
+			<EnumVal ord="2">on</EnumVal>
+			<EnumVal ord="3">bad</EnumVal>
+		</EnumType>
+		<EnumType id="Tcmd">
+			<EnumVal ord="0">stop</EnumVal>
+			<EnumVal ord="1">lower</EnumVal>
+			<EnumVal ord="2">higher</EnumVal>
+			<EnumVal ord="3">reserved</EnumVal>
+		</EnumType>
+		<EnumType id="Beh">
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+		<EnumType id="Mod">
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+		<EnumType id="Health">
+			<EnumVal ord="1">Ok</EnumVal>
+			<EnumVal ord="2">Warning</EnumVal>
+			<EnumVal ord="3">Alarm</EnumVal>
+		</EnumType>
+	</DataTypeTemplates><Communication>
+		<SubNetwork name="W01" type="8-MMS">
+			<Text>Station bus</Text>
+			<BitRate unit="b/s">10</BitRate>
+			<ConnectedAP apName="S1" iedName="LE_IED">
+				<Address>
+					<P type="IP">10.0.0.11</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+				<GSE cbName="SyckResult" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-02</P>
+						<P type="APPID">3001</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<GSE cbName="MMXUResult" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-02</P>
+						<P type="APPID">3001</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<PhysConn type="Plug">
+					<P type="Type">FOC</P>
+					<P type="Plug">ST</P>
+				</PhysConn>
+			</ConnectedAP>
+			<ConnectedAP apName="S1" iedName="LE_IED">
+				<Address>
+					<P type="IP">10.0.0.1</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+				<GSE cbName="ItlPositions" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-04</P>
+						<P type="APPID">3000</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<GSE cbName="AnotherPositions" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-04</P>
+						<P type="APPID">3000</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<GSE cbName="MSVCB02" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-04</P>
+						<P type="APPID">3000</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<SMV cbName="MSVCB01" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-04-00-01</P>
+						<P type="APPID">4000</P>
+						<P type="VLAN-ID">123</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</SMV>
+				<SMV cbName="Volt" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-04-00-01</P>
+						<P type="APPID">4000</P>
+						<P type="VLAN-ID">123</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</SMV>
+				<SMV cbName="rmxuCB" ldInst="MUnn">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-04-00-01</P>
+						<P type="APPID">4000</P>
+						<P type="VLAN-ID">123</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</SMV>
+			</ConnectedAP>
+			<ConnectedAP apName="S1" iedName="E1Q1BP2">
+				<Address>
+					<P type="IP">10.0.0.2</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+			</ConnectedAP>
+			<ConnectedAP apName="S1" iedName="E1Q1BP3">
+				<Address>
+					<P type="IP">10.0.0.3</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+			</ConnectedAP>
+		</SubNetwork>
+	</Communication></SCL>
