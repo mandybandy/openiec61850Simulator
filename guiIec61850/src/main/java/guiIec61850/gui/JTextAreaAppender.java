@@ -32,10 +32,7 @@ import static org.slf4j.LoggerFactory.getILoggerFactory;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * logback appender for JTextArea (swing component) ger.wiedergibt die logs in
- * Gui
- *
- * @author Philipp Mandl
+ * logback appender for JTextArea
  */
 public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
 
@@ -54,12 +51,11 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private final JTextPane REPORT_DATASET_LOG;
 
     /**
-     * konstruktor for appender
+     * constructor for appender
      *
-     * @param masterLog
-     * @param simulatorLog
-     * @param reportdatasetLog
-     * @SuppressWarnings("LeakingThisInConstructor")
+     * @param masterLog JTextPane log
+     * @param simulatorLog JTextPane simulator 
+     * @param reportdatasetLog JTextPane change ied 
      */
     public JTextAreaAppender(JTextPane masterLog, JTextPane simulatorLog, JTextPane reportdatasetLog) {
         LOGGER_SERVER.warn("Initialization of Server Console...");
@@ -101,9 +97,9 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     }
 
     /**
-     * runs by logger event
+     * runs by log event
      *
-     * @param event
+     * @param event loggingEvent
      */
     @Override
     public void append(ILoggingEvent event) {

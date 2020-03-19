@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.3.9
+Built-By: Philipp Mandl
+Build-Jdk: 13.0.1
+Class-Path: files/lib/jcalender-1.4.jar files/lib/jasn1-1.11.0.jar files/lib/logback-class
+ ic-1.2.3.jar files/lib/logback-core-1.2.3.jar files/lib/slf4j-api-1.7.25.jar files/lib/Ab
+ soluteLayout-SNAPSHOT.jar files/lib/openiec61850-1.8.0.jar files/lib/jcalendar-1.4.
+ jar
+Main-Class: guiIec61850.gui.Gui

@@ -23,8 +23,6 @@ import static javax.xml.parsers.DocumentBuilderFactory.newInstance;
 
 /**
  * sets the values from scl, getvalues not implemented
- *
- * @author Philipp
  */
 public class SetIedValue {
 
@@ -37,13 +35,13 @@ public class SetIedValue {
     private final Server server;
 
     /**
-     *
-     * @param localtree
-     * @param ied
-     * @param server
-     * @throws org.xml.sax.SAXException
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws java.io.IOException
+     *sets values
+     * @param localtree server model
+     * @param ied string ied
+     * @param server server
+     * @throws org.xml.sax.SAXException sax error
+     * @throws javax.xml.parsers.ParserConfigurationException parser error
+     * @throws java.io.IOException io error
      */
     public SetIedValue(ServerModel localtree, String ied, Server server) throws SAXException, ParserConfigurationException, IOException {
         this.localTree = localtree;
@@ -59,7 +57,7 @@ public class SetIedValue {
         for (int i = 0; i < bdaList.size(); i++) {
             BasicDataAttribute bda = bdaList.get(i);
             bda = bdaList.get(i);
-            //TODO: getValue
+            //TODO: getValue if you want to get scl val
 //                this.server.setBdaValue(bda, "");
 //                bdas.add(bda);
         }

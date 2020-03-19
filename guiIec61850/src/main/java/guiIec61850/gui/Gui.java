@@ -8,36 +8,42 @@ package guiIec61850.gui;
 
 import com.beanit.openiec61850.SclParseException;
 import com.beanit.openiec61850.ServiceError;
-import java.awt.Color;
-import java.awt.Desktop;
+import guiIec61850.files.ModifyXmlFile;
+import guiIec61850.network.Client;
+import static guiIec61850.network.NetworkUtil.getNetDevice;
+import guiIec61850.network.Server;
+import static java.awt.Color.BLUE;
+import static java.awt.Color.black;
+import static java.awt.Color.red;
+import static java.awt.Desktop.getDesktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
+import static java.lang.Short.parseShort;
+import static java.lang.System.getProperty;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import org.xml.sax.SAXException;
-import guiIec61850.network.Client;
-import guiIec61850.network.Server;
 import javax.swing.ImageIcon;
-import javax.swing.UnsupportedLookAndFeelException;
-import org.slf4j.Logger;
-import guiIec61850.files.ModifyXmlFile;
-import guiIec61850.network.NetworkUtil;
-import static java.lang.System.getProperty;
-import java.util.logging.Level;
+import javax.swing.JFileChooser;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
+import static javax.swing.JFileChooser.FILES_ONLY;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 import static javax.swing.UIManager.setLookAndFeel;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
+import org.xml.sax.SAXException;
 
 /**
  * main window
@@ -325,7 +331,7 @@ public class Gui extends javax.swing.JFrame {
 
         jLabel6.setText(":");
 
-        ipTB.setText("127.0.0.1");
+        ipTB.setText("localhost");
 
         jLabel1.setText("ip");
 
@@ -1231,10 +1237,8 @@ public class Gui extends javax.swing.JFrame {
                 changevalues = new GuiTree(xml, ied);
                 LOGGER_GUI.info("change values manual \n");
                 changevalues.setEna(false);
-            } catch (ServiceError ex) {
-                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ServiceError | IOException ex) {
+                LOGGER_GUI.error("error", ex);
             }
         } catch (ServiceError e) {
             LOGGER_GUI.error("ServiceError", e);
@@ -1246,11 +1250,11 @@ public class Gui extends javax.swing.JFrame {
     private void changeIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeIedBTNActionPerformed
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir") + "\\files\\icd\\"));
+        chooser.setCurrentDirectory(new java.io.File(getProperty("user.dir") + "\\files\\icd\\"));
         // Dialog zum Oeffnen von Dateien anzeigen
         int rueckgabeWert = chooser.showDialog(this, "select IED");
         String iedPathName = "no IED selected";
-        if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
+        if (rueckgabeWert == APPROVE_OPTION) {
             iedPath = chooser.getSelectedFile().getPath();
             iedPathName = chooser.getSelectedFile().getName();
         }
@@ -1271,13 +1275,13 @@ public class Gui extends javax.swing.JFrame {
         // JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File(iedPathTB.getText()).getParentFile());
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setFileSelectionMode(FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("scd,scl,icd,xml files (*.scd,*.scl,*.icd,*.xml)", "scd", "scl", "icd", "xml");
         chooser.setFileFilter(filter);
 
         int rueckgabeWert = chooser.showDialog(this, "select a SCD/ICD file");
 
-        if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
+        if (rueckgabeWert == APPROVE_OPTION) {
             LOGGER_GUI.info("The path of the file is: " + chooser.getSelectedFile().getPath());
             iedPathTB.setText(chooser.getSelectedFile().getPath());
             LOGGER_GUI.info("changed SCD/ICD file, new file: " + chooser.getSelectedFile().getName() + "\n");
@@ -1295,13 +1299,7 @@ public class Gui extends javax.swing.JFrame {
         xml = new ModifyXmlFile(iedPathTB.getText());
         try {
             xml.splitIed();
-        } catch (TransformerException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (IOException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (SAXException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (ParserConfigurationException e) {
+        } catch (TransformerException | IOException | SAXException | ParserConfigurationException e) {
             LOGGER_GUI.error("error", e);
         }
         changeIedBTNActionPerformed(null);
@@ -1324,12 +1322,12 @@ public class Gui extends javax.swing.JFrame {
             mainFrame.setEnabledAt(1, false);
             mainFrame.setEnabledAt(2, false);
             connectedLBL.setText("server stopped");
-            connectedLBL.setForeground(Color.black);
+            connectedLBL.setForeground(black);
 
             LOGGER_GUI.info("\n server stopped\n");
         } catch (Exception e) {
             connectedLBL.setText("error");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
 
             LOGGER_GUI.error("error while closing server and client, please restart program");
         }
@@ -1339,21 +1337,21 @@ public class Gui extends javax.swing.JFrame {
         //start button in connect
         int remotePort;
         try {
-            remotePort = Integer.parseInt(portTB.getText());
+            remotePort = parseInt(portTB.getText());
         } catch (NumberFormatException e) {
             connectedLBL.setText("port must be a number");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
             return;
         }
         if (remotePort < 1 || remotePort > 0xFFFF) {
             connectedLBL.setText("port must be in range [1, 65535]");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
             throw new NumberFormatException("port must be in range [1, 65535]");
         }
         if ("127.0.0.1".equals(ipTB.getText()) || "localhost".equals(ipTB.getText())) {
             if (iedPath == null) {
                 connectedLBL.setText("select a file");
-                connectedLBL.setForeground(Color.black);
+                connectedLBL.setForeground(black);
 
                 LOGGER_GUI.error("no file selected\n");
             }
@@ -1364,20 +1362,20 @@ public class Gui extends javax.swing.JFrame {
                 mainFrame.setEnabledAt(2, true);
                 mainFrame.setEnabledAt(1, true);
                 connectedLBL.setText("server started");
-                connectedLBL.setForeground(Color.BLUE);
+                connectedLBL.setForeground(BLUE);
                 LOGGER_GUI.info("server started\n");
             }
             try {
-                client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), server.serverModel);
+                client = new Client(ipTB.getText(), parseInt(portTB.getText()), server.serverModel);
                 startBTN.setEnabled(false);
                 stopBTN.setEnabled(true);
                 selectFileBTN.setEnabled(false);
                 changeIedBTN.setEnabled(false);
             } catch (NullPointerException | ConnectException e) {
                 try {
-                    client = new Client(ipTB.getText(), Integer.parseInt(portTB.getText()), null);
+                    client = new Client(ipTB.getText(), parseInt(portTB.getText()), null);
                     connectedLBL.setText("client connected");
-                    connectedLBL.setForeground(Color.black);
+                    connectedLBL.setForeground(black);
                     LOGGER_GUI.error("only client connected");
                     startBTN.setEnabled(false);
                     stopBTN.setEnabled(true);
@@ -1386,13 +1384,13 @@ public class Gui extends javax.swing.JFrame {
                     mainFrame.setEnabledAt(1, true);
                 } catch (ConnectException ex) {
                     connectedLBL.setText("no server avaible");
-                    connectedLBL.setForeground(Color.red);
+                    connectedLBL.setForeground(red);
                     LOGGER_GUI.error("no server found");
                 } catch (IOException ex) {
                     LOGGER_GUI.error("error", ex);
                 } catch (SclParseException ex) {
                     connectedLBL.setText("invalid scl file");
-                    connectedLBL.setForeground(Color.red);
+                    connectedLBL.setForeground(red);
                     LOGGER_GUI.error("no server found");
                 }
             } catch (IOException e) {
@@ -1400,11 +1398,11 @@ public class Gui extends javax.swing.JFrame {
             }
         } catch (java.net.BindException | java.lang.NoSuchMethodError e) {
             connectedLBL.setText("port already in use");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
             LOGGER_GUI.error("port already in use");
         } catch (UnknownHostException e) {
             connectedLBL.setText("invalid ip");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
             LOGGER_GUI.error("invalid ip entered");
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number");
@@ -1412,24 +1410,13 @@ public class Gui extends javax.swing.JFrame {
             LOGGER_GUI.error("scl parse exception");
         } catch (NullPointerException e) {
             connectedLBL.setText("no ied selected");
-            connectedLBL.setForeground(Color.red);
+            connectedLBL.setForeground(red);
             LOGGER_GUI.error("no ied selected");
         } catch (IOException e) {
             LOGGER_GUI.error("error", e);
         }
 
     }//GEN-LAST:event_startBTNActionPerformed
-
-    private void setAllRbsFalse() {
-        reserveReportRB.setSelected(false);
-        cancelReservationRB.setSelected(false);
-        disableReportRB.setSelected(false);
-        enableReportRB.setSelected(false);
-        setTriggerReportRB.setSelected(false);
-        setDatasetReportRB.setSelected(false);
-        setIntegrityReportRB.setSelected(false);
-        sendGeneralInterrogationReportRB.setSelected(false);
-    }
 
     private void setAllReportPnlsFalse() {
         IntegrityReportPNL.setVisible(false);
@@ -1491,7 +1478,7 @@ public class Gui extends javax.swing.JFrame {
 
         short time;
         try {
-            time = Short.parseShort(reserveTimeTB.getText());
+            time = parseShort(reserveTimeTB.getText());
         } catch (NumberFormatException e) {
             //not a number
             time = 0;
@@ -1534,10 +1521,10 @@ public class Gui extends javax.swing.JFrame {
         int steps;
         LOGGER_GUI.info("ramp simulator started: ");
         try {
-            time = Long.parseLong(simulateRampTimeTB.getText());
-            steps = Integer.parseInt(simulateRampStepsTB.getText());
-            from = Integer.parseInt(simulateRampFromTB.getText());
-            to = Integer.parseInt(simulateRampToTB.getText());
+            time = parseLong(simulateRampTimeTB.getText());
+            steps = parseInt(simulateRampStepsTB.getText());
+            from = parseInt(simulateRampFromTB.getText());
+            to = parseInt(simulateRampToTB.getText());
         } catch (NumberFormatException e) {
             time = 0;
             from = 0;
@@ -1569,8 +1556,8 @@ public class Gui extends javax.swing.JFrame {
         long offTime;
         long onTime;
         try {
-            offTime = Long.parseLong(simulatePulsTimeOffTB.getText());
-            onTime = Long.parseLong(simulatePulsTimeOnTB.getText());
+            offTime = parseLong(simulatePulsTimeOffTB.getText());
+            onTime = parseLong(simulatePulsTimeOnTB.getText());
         } catch (NumberFormatException e) {
             LOGGER_GUI.error("invalid number entered in pulse simulator", e);
             offTime = 0;
@@ -1632,7 +1619,7 @@ public class Gui extends javax.swing.JFrame {
 
         int rueckgabeWert = chooser.showSaveDialog(this);
 
-        if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
+        if (rueckgabeWert == APPROVE_OPTION) {
             File fileToSave = chooser.getSelectedFile();
             try {
                 String s = simLogTP.getText();
@@ -1671,12 +1658,10 @@ public class Gui extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         try {
-            Desktop.getDesktop().browse(new URL("https://github.com/mandybandy/openiec61850Simulator").toURI());
+            getDesktop().browse(new URL("https://github.com/mandybandy/openiec61850Simulator").toURI());
         } catch (MalformedURLException e) {
             LOGGER_GUI.error("error", e);
-        } catch (URISyntaxException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (IOException e) {
+        } catch (URISyntaxException | IOException e) {
             LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -1685,7 +1670,7 @@ public class Gui extends javax.swing.JFrame {
 
         try {
             netDevicesTA.setText(null);
-            NetworkUtil.getNetDevice();
+            getNetDevice();
         } catch (SocketException e) {
             LOGGER_GUI.error("socket error");
         }
@@ -1700,11 +1685,7 @@ public class Gui extends javax.swing.JFrame {
                 netInfosTA.append(xml.getIp().get(i) + "\n");
             }
             netInfosTA.setCaretPosition(0);
-        } catch (SAXException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (IOException e) {
-            LOGGER_GUI.error("error", e);
-        } catch (ParserConfigurationException e) {
+        } catch (SAXException | IOException | ParserConfigurationException e) {
             LOGGER_GUI.error("error", e);
         }
     }

@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * modify xml files, xml file controler
+ * modify xml files, XML file controler
  */
 public class ModifyXmlFile {
 
@@ -41,9 +41,9 @@ public class ModifyXmlFile {
     private static final Logger LOGGER_XML = getLogger(ModifyXmlFile.class);
 
     /**
-     * Modifies XML file
+     * modify XML file
      *
-     * @param filepath
+     * @param filepath filepath
      */
     public ModifyXmlFile(String filepath) {
         try {
@@ -54,40 +54,23 @@ public class ModifyXmlFile {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             try {
                 this.doc = docBuilder.parse(filepath);
-            } catch (SAXException | IOException e) {
+            }
+            catch (SAXException | IOException e) {
                 LOGGER_XML.error("", e);
             }
-            /**
-             * creates icd from scl, split into ieds
-             *
-             * @param filepath
-             * @throws TransformerConfigurationException
-             * @throws java.io.IOException
-             * @throws javax.xml.parsers.ParserConfigurationException
-             * @throws org.xml.sax.SAXException
-             */
-            /**
-             * creates icd from scl, split into ieds
-             *
-             * @param filepath
-             * @throws TransformerConfigurationException
-             * @throws java.io.IOException
-             * @throws javax.xml.parsers.ParserConfigurationException
-             * @throws org.xml.sax.SAXException
-             */
-
-        } catch (ParserConfigurationException e) {
+        }
+        catch (ParserConfigurationException e) {
             LOGGER_XML.error("", e);
         }
     }
 
     /**
-     * creates icd from scl, split into ieds
+     * creates icd from scl file, split into IEDs
      *
-     * @throws TransformerConfigurationException
-     * @throws java.io.IOException
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws org.xml.sax.SAXException
+     * @throws TransformerConfigurationException transformer error
+     * @throws java.io.IOException io error
+     * @throws javax.xml.parsers.ParserConfigurationException parser error
+     * @throws org.xml.sax.SAXException saxe error
      */
     public void splitIed() throws TransformerConfigurationException, TransformerException, IOException, SAXException, ParserConfigurationException {
 
@@ -155,10 +138,10 @@ public class ModifyXmlFile {
     /**
      * returns a list consists of the network settings
      *
-     * @return networkinfo list
-     * @throws SAXException
-     * @throws IOException
-     * @throws ParserConfigurationException
+     * @return networkinfo list 
+     * @throws SAXException sax error
+     * @throws IOException io error
+     * @throws ParserConfigurationException parser error
      */
     public ArrayList<String> getIp() throws SAXException, IOException, ParserConfigurationException {
         ArrayList<String> netInfos = new ArrayList<>();
@@ -189,9 +172,11 @@ public class ModifyXmlFile {
                     netInfos.add("IP-GATEWAY: " + node.getFirstChild().getNodeValue());
                 }
             }
-        } catch (DOMException e) {
+        }
+        catch (DOMException e) {
             LOGGER_XML.error("DOM exception");
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             LOGGER_XML.error("no address in file");
         }
 
@@ -199,9 +184,9 @@ public class ModifyXmlFile {
     }
 
     /**
-     * sets Iedy
+     * sets IED in class
      *
-     * @param ied
+     * @param ied string ied
      */
     public void setIed(String ied) {
         this.ied = ied;

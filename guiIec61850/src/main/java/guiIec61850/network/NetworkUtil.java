@@ -18,16 +18,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * controls network functions
- *
- * @author Philipp Mandl
  */
 public class NetworkUtil {
 
-       private static final org.slf4j.Logger LOGGER_NETWORKUTIL = getLogger(NetworkUtil.class);
+    private static final org.slf4j.Logger LOGGER_NETWORKUTIL = getLogger(NetworkUtil.class);
+
     /**
      * returns a list consisting network device information
      *
-     * @throws java.net.SocketException
+     * @throws java.net.SocketException socket error
      */
     public static void getNetDevice() throws SocketException {
 

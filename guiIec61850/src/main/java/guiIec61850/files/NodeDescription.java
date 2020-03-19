@@ -26,9 +26,7 @@ import static javax.xml.parsers.DocumentBuilderFactory.newInstance;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * gets and sets the Node Description
- *
- * @author Philip Mandl
+ * gets and sets the node description
  */
 public class NodeDescription {
 
@@ -42,12 +40,12 @@ public class NodeDescription {
 
     /**
      *
-     * @param localtree
-     * @param xml
-     * @param ied
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param localtree tree model
+     * @param xml ModifyXmlFile
+     * @param ied string ied name
+     * @throws ParserConfigurationException parser error
+     * @throws SAXException sax error
+     * @throws IOException io error
      */
     public NodeDescription(DefaultTreeModel localtree, ModifyXmlFile xml, String ied) throws ParserConfigurationException, SAXException, IOException {
         this.localTree = localtree;
@@ -106,7 +104,7 @@ public class NodeDescription {
     /**
      * gets JTree
      *
-     * @return JTree
+     * @return JTree tree 
      */
     public DefaultTreeModel getTree() {
         return this.localTree;
@@ -115,11 +113,11 @@ public class NodeDescription {
     /**
      * gets description of node
      *
-     * @param name
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @param name string node name 
+     * @return string description 
+     * @throws ParserConfigurationException parser error 
+     * @throws SAXException sax error 
+     * @throws IOException io error 
      */
     public String getDesc(String name) throws ParserConfigurationException, SAXException, IOException {
         try {

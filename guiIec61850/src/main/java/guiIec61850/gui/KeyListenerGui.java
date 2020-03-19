@@ -15,9 +15,7 @@ import static java.lang.System.out;
 import javax.swing.JFrame;
 
 /**
- * creates a keylistener not used yet
- *
- * @author Philipp Mandl
+ * creates a keylistener (not used yet)
  */
 public class KeyListenerGui implements KeyListener {
 
@@ -37,9 +35,9 @@ public class KeyListenerGui implements KeyListener {
     }
 
     /**
-     * on keyReleased
+     * runs by releasing a btn
      *
-     * @param e
+     * @param e KeyEvent
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -61,16 +59,16 @@ public class KeyListenerGui implements KeyListener {
     }
 
     /**
-     *
-     * @param e
+     *runs by typing a btn
+     * @param e keyEevent
      */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     /**
-     *
-     * @param e
+     *runs by pressing a btn
+     * @param e keyEevent
      */
     @Override
     public void keyPressed(KeyEvent e) {

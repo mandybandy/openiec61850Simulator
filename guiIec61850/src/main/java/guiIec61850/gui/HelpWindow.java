@@ -8,16 +8,16 @@ package guiIec61850.gui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import static java.lang.System.getProperty;
 import javax.swing.ImageIcon;
 
 /**
  * local help window
- *
  */
 public class HelpWindow extends javax.swing.JFrame {
 
     /**
-     * Creates new form HelpWindow
+     * creates new form HelpWindow
      */
     public HelpWindow() {
         super("help");
@@ -27,7 +27,7 @@ public class HelpWindow extends javax.swing.JFrame {
             }
         });
 
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "\\files\\icons\\helpicon.png");
+        ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icons\\helpicon.png");
         this.setIconImage(img.getImage());
         initComponents();
     }

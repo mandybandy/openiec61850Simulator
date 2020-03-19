@@ -58,16 +58,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 //import serverguiiec61850.gui.SetIedVal;
 
 /**
- * create server
- *
- * @author Philipp Mandl
+ * server
  */
 public class Server {
 
     /**
      * ServerSAP
-     *
-     * @throws IOException
      */
     public ServerSap serverSap;
 
@@ -79,14 +75,13 @@ public class Server {
     private static final Logger LOGGER_SERVER = getLogger(Server.class);
 
     /**
-     * server
+     * creates server
      *
-     * @param sclPath
-     * @param portServer
-     * @param ied
-     * @throws java.io.IOException
-     * @throws com.beanit.openiec61850.SclParseException
-     * @SuppressWarnings("Possible0PointerException")
+     * @param sclPath string sclpath
+     * @param portServer int port
+     * @param ied string ied name
+     * @throws java.io.IOException io error
+     * @throws com.beanit.openiec61850.SclParseException parse error
      */
     public Server(String sclPath, int portServer, String ied) throws IOException, SclParseException, NullPointerException {
         serverSap = null;
@@ -95,7 +90,8 @@ public class Server {
         try {
             serverModels = parse(sclPath);
 
-        } catch (SclParseException e) {
+        }
+        catch (SclParseException e) {
             LOGGER_SERVER.error("file failed parsing.");
         }
         LOGGER_SERVER.info("file passed parsing.");
@@ -135,12 +131,12 @@ public class Server {
     }
 
     /**
-     * writes value on server
+     * writes values on server
      *
-     * @param reference
-     * @param fcString
-     * @param valueString
-     * @throws java.io.IOException
+     * @param reference string reference
+     * @param fcString string fc
+     * @param valueString string value
+     * @throws java.io.IOException io error
      */
     public void writeValue(String reference, String fcString, String valueString) throws IOException, IllegalArgumentException {
         Fc fc = fromString(fcString);
@@ -169,7 +165,8 @@ public class Server {
 
         try {
             association.setDataValues(((FcModelNode) bda.getParent()));
-        } catch (ServiceError e) {
+        }
+        catch (ServiceError e) {
             LOGGER_SERVER.error("error", e);
         }
 
@@ -278,15 +275,16 @@ public class Server {
                 throw new IllegalArgumentException();
             }
 
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             LOGGER_SERVER.error("invalid entry for " + bda.getName());
         }
     }
 
     /**
-     * returns servermodel
+     * returns server model
      *
-     * @return ServerModel
+     * @return ServerModel server model
      */
     public ServerModel getModel() {
         return this.serverModel;

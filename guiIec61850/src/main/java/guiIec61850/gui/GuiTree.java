@@ -73,9 +73,9 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private static ServerModel serverModel;
 
     /**
-     * nodetree of
+     * nodetree of GuiTree
      */
-    public static JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
+    public static JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("connecting..."));
     private final JPanel detailsPanel = new JPanel();
     private final GridBagLayout detailsLayout = new GridBagLayout();
 
@@ -85,16 +85,19 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     private DataTreeNode selectedNode;
     private final String ied;
+
+    /**
+     *controls GuiTree window
+     */
     public boolean guiTreeEnabled;
 
     /**
-     * Gui change values
+     * gui change values
      *
-     * @param xml
-     * @param ied
-     * @throws java.net.UnknownHostException
-     * @throws com.beanit.openiec61850.ServiceError
-     * @SuppressWarnings("LeakingThisInConstructor")
+     * @param xml ModifyXmlFile
+     * @param ied string ied 
+     * @throws java.net.UnknownHostException unknown host 
+     * @throws com.beanit.openiec61850.ServiceError service error
      */
     public GuiTree(ModifyXmlFile xml, String ied) throws UnknownHostException, ServiceError, IOException {
         super("change values");
@@ -171,15 +174,15 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     }
 
     /**
-     * controls buttonevents
+     * controls button events
      *
-     * @param arg0
+     * @param e button event
      */
     @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if ("reload".equalsIgnoreCase(arg0.getActionCommand())) {
+    public void actionPerformed(ActionEvent e) {
+        if ("reload".equalsIgnoreCase(e.getActionCommand())) {
             reload();
-        } else if ("write".equalsIgnoreCase(arg0.getActionCommand())) {
+        } else if ("write".equalsIgnoreCase(e.getActionCommand())) {
             write();
         }
     }
@@ -187,7 +190,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     /**
      * rebuilds tree
      *
-     * @param e
+     * @param e TreeSelectionEvent
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
@@ -251,7 +254,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     /**
      * connects new client
      *
-     * @throws java.net.UnknownHostException
+     * @throws java.net.UnknownHostException unknown host
      */
     private void connect() throws UnknownHostException {
 
@@ -335,7 +338,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     /**
      * shows data details
-     *
      */
     private void showDataDetails(DataTreeNode node, Counter y) {
         if (node.getData() != null) {
@@ -356,7 +358,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     /**
      * shows details of node
-     *
      */
     private void showDataDetails(DataTreeNode node, String pre, Counter y) {
         if (node.getData() != null) {
@@ -380,7 +381,6 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
 
     /**
      * adds details
-     *
      */
     private void addDetailsComponent(Component c, int x, int y, int width, int height, double weightx, double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -406,6 +406,10 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         this.guiTreeEnabled = true;
     }
     
+    /**
+     *sets boolean that guitree is opened
+     * @param ena state
+     */
     public void setEna(boolean ena){
         this.guiTreeEnabled=ena;
     }

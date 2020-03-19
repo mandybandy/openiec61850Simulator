@@ -20,15 +20,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * creates simulator
- *
- * @author Philipp Mandl
  */
 public class Simulator {
 
     private static final Logger LOGGER_SIM = getLogger(Simulator.class);
 
     /**
-     * simulate state var
+     * is true if simulation is active
      */
     public static boolean simulate = false;
     Server server;
@@ -40,13 +38,13 @@ public class Simulator {
     /**
      * creates a ramp simulator
      *
-     * @param referenceRamp
-     * @param fcString
-     * @param from
-     * @param to
-     * @param time
-     * @param steps
-     * @throws InterruptedException
+     * @param referenceRamp string reference
+     * @param fcString string fc
+     * @param from int low value
+     * @param to int high value 
+     * @param time long time 
+     * @param steps int steps 
+     * @throws InterruptedException interuption
      */
     public void rampSimulator(String referenceRamp, String fcString, int from, int to, long time, int steps) throws InterruptedException {
         simulate = true;
@@ -55,15 +53,15 @@ public class Simulator {
     }
 
     /**
-     * creates a puls simulator
+     * creates a pulse simulator
      *
-     * @param referencePuls
-     * @param fcString
-     * @param min
-     * @param max
-     * @param onTime
-     * @param offTime
-     * @throws InterruptedException
+     * @param referencePuls string reference
+     * @param fcString string fc
+     * @param min int low value 
+     * @param max int high value 
+     * @param onTime long on time
+     * @param offTime long off time 
+     * @throws InterruptedException interuption
      */
     public void pulseSimulator(String referencePuls, String fcString, String min, String max, long onTime, long offTime) throws InterruptedException {
         simulate = true;
@@ -85,7 +83,7 @@ public class Simulator {
             this.onTime = onTime;
             this.offTime = offTime;
 
-            BasicDataAttribute bda = null;
+            BasicDataAttribute bda;
             try {
                 bda = (BasicDataAttribute) server.serverModel.findModelNode(referencePulse, fromString(fcString));
                 if ((bda == null) || bda.getChildren() != null) {

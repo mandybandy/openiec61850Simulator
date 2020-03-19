@@ -11,7 +11,6 @@ import com.beanit.openiec61850.Brcb;
 import com.beanit.openiec61850.ClientAssociation;
 import com.beanit.openiec61850.ClientSap;
 import com.beanit.openiec61850.DataSet;
-import com.beanit.openiec61850.Fc;
 import static com.beanit.openiec61850.Fc.fromString;
 import com.beanit.openiec61850.FcModelNode;
 import com.beanit.openiec61850.ModelNode;
@@ -36,30 +35,29 @@ import static java.net.InetAddress.getByName;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * create client
- *
+ * client
  */
 public class Client {
 
     private final ServerModel serverModel;
 
     /**
-     * Client
+     * clientinformations
      */
     public static volatile ClientAssociation association;
 
     private static final Logger LOGGER_CLIENT = getLogger(Client.class);
 
     /**
-     * create client
+     * creates client
      *
-     * @param host
-     * @param port
-     * @param serverModel
-     * @throws java.net.UnknownHostException
-     * @throws java.io.IOException
-     * @throws com.beanit.openiec61850.SclParseException
-     * @throws java.net.ConnectException
+     * @param host string host ip
+     * @param port int port 
+     * @param serverModel server model
+     * @throws java.net.UnknownHostException unknown host
+     * @throws java.io.IOException io error 
+     * @throws com.beanit.openiec61850.SclParseException parse error 
+     * @throws java.net.ConnectException connection refused
      */
     public Client(String host, int port, ServerModel serverModel) throws UnknownHostException, IOException, SclParseException, java.net.ConnectException {
         this.serverModel = serverModel;
@@ -96,13 +94,13 @@ public class Client {
     /**
      * creates dataset
      *
-     * @param reference
-     * @param fcString
-     * @param numberOfEntriesString
-     * @throws com.beanit.openiec61850.ServiceError
-     * @throws java.io.IOException
+     * @param reference string reference 
+     * @param fcString string fc 
+     * @param numberOfEntriesString string number of entries
+     * @throws com.beanit.openiec61850.ServiceError service error 
+     * @throws java.io.IOException io error
      */
-    //ToDo: funktioniert ned mit den unteren Elementen
+    //ToDo: funktioniert ned mit den unteren Elementen not in function
     public void createdataset(String reference, String fcString, String numberOfEntriesString) throws ServiceError, IOException {
         int numDataSetEntries = parseInt(numberOfEntriesString);
 
@@ -110,14 +108,14 @@ public class Client {
         for (int datasetCounter = 0; datasetCounter < numDataSetEntries; datasetCounter++) {
             dataSetMembers.add(askForFcModelNode(reference, fcString));
         }
-        //falls ein Member leer ist
+        //if a member is empty
         for (int i = 0; i < dataSetMembers.size(); i++) {
             if (dataSetMembers.get(i) == null) {
                 LOGGER_CLIENT.debug("a member is not defined");
             }
         }
         DataSet dataSet = new DataSet(reference, dataSetMembers);
-        LOGGER_CLIENT.debug("Creating data set..");
+        LOGGER_CLIENT.debug("creating data set..");
         association.createDataSet(dataSet);
         LOGGER_CLIENT.debug("created dataset");
     }
@@ -125,9 +123,9 @@ public class Client {
     /**
      * deletes dataset
      *
-     * @param reference
-     * @throws com.beanit.openiec61850.ServiceError
-     * @throws java.io.IOException
+     * @param reference string reference 
+     * @throws com.beanit.openiec61850.ServiceError service error 
+     * @throws java.io.IOException io error
      */
     public void deletedataset(String reference) throws ServiceError, IOException {
         DataSet dataSet = serverModel.getDataSet(reference);
@@ -165,10 +163,10 @@ public class Client {
     }
 
     /**
-     * get report control block
+     * returns report control block
      *
-     * @param reference
-     * @return Rcb
+     * @param reference string reference
+     * @return Rcb report control block
      */
     public Rcb getRcb(String reference) {
         Brcb brcb = serverModel.getBrcb(reference);
@@ -186,10 +184,10 @@ public class Client {
     /**
      * reserve report
      *
-     * @param reference
-     * @param time
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference 
+     * @param time short reserve time 
+     * @throws ServiceError service error 
+     * @throws IOException io error
      */
     public void reserveReport(String reference, short time) throws ServiceError, IOException {
         LOGGER_CLIENT.debug("Reserving RCB..");
@@ -207,9 +205,9 @@ public class Client {
     /**
      * cancel reservation
      *
-     * @param reference
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference
+     * @throws ServiceError service error
+     * @throws IOException io error
      */
     public void cancelReservation(String reference) throws ServiceError, IOException {
         LOGGER_CLIENT.debug("Canceling RCB reservation..");
@@ -225,9 +223,9 @@ public class Client {
     /**
      * enable report
      *
-     * @param reference
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference 
+     * @throws ServiceError service error 
+     * @throws IOException io error
      */
     public void enableReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
@@ -242,10 +240,10 @@ public class Client {
 
     /**
      * disable report
-     *
-     * @param reference
-     * @throws ServiceError
-     * @throws IOException
+     * 
+     * @param reference string reference 
+     * @throws ServiceError service error 
+     * @throws IOException io error
      */
     public void disableReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
@@ -261,12 +259,12 @@ public class Client {
     /**
      * set trigger on report
      *
-     * @param reference
-     * @param datasetValue
-     * @throws ServiceError
-     * @throws IOException
+     * @param datasetValue data set value
+     * @param reference string reference 
+     * @throws ServiceError service error 
+     * @throws IOException io error
      */
-    public void setTriggerReport(String reference, String datasetValue) throws ServiceError, IOException {
+    public void setDatasetReport(String reference, String datasetValue) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
             rcb.getDatSet().setValue(datasetValue);
@@ -274,19 +272,19 @@ public class Client {
             serviceErrors = association.setRcbValues(rcb, false, true, false, false, false, false, false, false);
             LOGGER_CLIENT.debug("value " + datasetValue + " set on: " + reference);
         } else {
-            LOGGER_CLIENT.error("report not found, error while setting trigger");
+            LOGGER_CLIENT.error("report not found, error while set dataset");
         }
     }
 
     /**
      * set dataset
      *
-     * @param reference
-     * @param triggerOptionsString
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference 
+     * @param triggerOptionsString string trigger options 
+     * @throws ServiceError service error
+     * @throws IOException io error 
      */
-    public void setDatasetReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
+    public void setTriggerReport(String reference, String triggerOptionsString) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
         if (rcb != null) {
             String[] triggerOptionsStrings = triggerOptionsString.split(",");
@@ -302,17 +300,17 @@ public class Client {
             }
             LOGGER_CLIENT.debug("dataset trigger " + triggerOptionsString + " set on " + reference);
         } else {
-            LOGGER_CLIENT.error("report not found, error while setting Dataset");
+            LOGGER_CLIENT.error("report not found, error while set trigger");
         }
     }
 
     /**
      * set integrity on report
      *
-     * @param reference
-     * @param integrityPeriodString
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference 
+     * @param integrityPeriodString string integrity
+     * @throws ServiceError service error
+     * @throws IOException io error
      */
     public void setIntegrityReport(String reference, String integrityPeriodString) throws ServiceError, IOException, NumberFormatException {
 
@@ -331,9 +329,9 @@ public class Client {
     /**
      * send GI (general interrogation)
      *
-     * @param reference
-     * @throws ServiceError
-     * @throws IOException
+     * @param reference string reference
+     * @throws ServiceError service error
+     * @throws IOException io error
      */
     public void sendGeneralInterrogationReport(String reference) throws ServiceError, IOException {
         Rcb rcb = getRcb(reference);
@@ -347,7 +345,6 @@ public class Client {
     }
 
     private FcModelNode askForFcModelNode(String reference, String fcString) {
-        Fc fc = fromString(fcString);
 
         ModelNode modelNode = serverModel.findModelNode(reference, fromString(fcString));
         if (modelNode == null) {
@@ -363,8 +360,7 @@ public class Client {
     }
 
     /**
-     * closing client
-     *
+     * stops client
      */
     public void quit() {
         LOGGER_CLIENT.debug("** stopping client");

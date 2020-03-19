@@ -13,9 +13,7 @@ import static javax.swing.text.StyleConstants.setFontSize;
 import static javax.swing.text.StyleConstants.setForeground;
 
 /**
- * controls all style stuff for the logs
- *
- * @author Philipp Mandl
+ * controls style for the logs
  */
 public class StyleConstant {
 

@@ -51,8 +51,6 @@ import org.xml.sax.SAXException;
 
 /**
  * creates a gui for selecting reference and fc
- *
- * @author Philipp Mandl
  */
 public final class RefSelect extends JFrame implements TreeSelectionListener {
 
@@ -60,17 +58,17 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     private static String fc = "";
     private static String reference = "";
 
-    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("No server connected"));
+    private final JTree tree = new javax.swing.JTree(new DefaultMutableTreeNode("connecting..."));
     private final JPanel detailsPanel = new JPanel();
 
     private final boolean noFc;
 
     /**
-     * similar to guitree, but just only for selecting fc and reference
+     * similar to guitree, but only for selecting fc and reference
      *
-     * @param serverModel
-     * @param noFc
-     * @throws java.net.UnknownHostException
+     * @param serverModel serverModel
+     * @param noFc fcavavaible
+     * @throws java.net.UnknownHostException unknown host
      */
     public RefSelect(ServerModel serverModel, boolean noFc) throws UnknownHostException {
         super("select datanode");
@@ -81,7 +79,6 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
             }
         });
 
-        //ToDo: icon Pfad ändern für -jar
         ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icons\\nodeicon.png");
         this.setIconImage(img.getImage());
 
@@ -144,9 +141,9 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
-     * runs if a server node changes
+     * runs by a tree event
      *
-     * @param e
+     * @param e TreeSelectionEvent
      */
     @Override
     public void valueChanged(TreeSelectionEvent e) {
@@ -203,8 +200,7 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
     }
 
     /**
-     * close reference select window
-     *
+     * close select window
      */
     public void exit() {
         setVisible(false);
