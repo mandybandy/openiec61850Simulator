@@ -2,7 +2,12 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib"/>
-	
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/openiec61850-1.8.0.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/jasn1-1.11.0.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="lib" path="F:\diplomarbeit\console\openiec61850Simulator\lib/logback-core-1.2.3.jar"/>
+
 	<classpathentry kind="output" path="bin"/>
 </classpath>

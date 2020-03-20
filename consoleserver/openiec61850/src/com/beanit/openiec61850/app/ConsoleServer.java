@@ -60,36 +60,17 @@ public class ConsoleServer {
               "The port to listen on. On unix based systems you need root privilages for ports < 1000.")
           .buildIntParameter("port", 102);
 
-  private static final StringCliParameter modelFileParam =
-      new CliParameterBuilder("-m")
-          .setDescription("The SCL file that contains the server's information model.")
-          .setMandatory()
-          .buildStringParameter("model-file");
+
   private static final ActionProcessor actionProcessor = new ActionProcessor(new ActionExecutor());
   private static ServerModel serverModel;
   private static ServerSap serverSap = null;
 
   public static void main(String[] args) throws IOException {
 
-    List<CliParameter> cliParameters = new ArrayList<>();
-    cliParameters.add(modelFileParam);
-    cliParameters.add(portParam);
-
-    CliParser cliParser =
-        new CliParser("openiec61850-console-server", "An IEC 61850 MMS console server.");
-    cliParser.addParameters(cliParameters);
-
-    try {
-      cliParser.parseArguments(args);
-    } catch (CliParseException e1) {
-      System.err.println("Error parsing command line parameters: " + e1.getMessage());
-      System.out.println(cliParser.getUsageString());
-      System.exit(1);
-    }
 
     List<ServerModel> serverModels = null;
     try {
-      serverModels = SclParser.parse(modelFileParam.getValue());
+      serverModels = SclParser.parse("F:/diplomarbeit/project/openiec61850Simulator/guiIec61850/files/example.icd");
     } catch (SclParseException e) {
       System.out.println("Error parsing SCL/ICD file: " + e.getMessage());
       return;
