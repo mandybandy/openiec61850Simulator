@@ -41,9 +41,9 @@ public class Simulator {
      * @param referenceRamp string reference
      * @param fcString string fc
      * @param from int low value
-     * @param to int high value 
-     * @param time long time 
-     * @param steps int steps 
+     * @param to int high value
+     * @param time long time
+     * @param steps int steps
      * @throws InterruptedException interuption
      */
     public void rampSimulator(String referenceRamp, String fcString, int from, int to, long time, int steps) throws InterruptedException {
@@ -57,10 +57,10 @@ public class Simulator {
      *
      * @param referencePuls string reference
      * @param fcString string fc
-     * @param min int low value 
-     * @param max int high value 
+     * @param min int low value
+     * @param max int high value
      * @param onTime long on time
-     * @param offTime long off time 
+     * @param offTime long off time
      * @throws InterruptedException interuption
      */
     public void pulseSimulator(String referencePuls, String fcString, String min, String max, long onTime, long offTime) throws InterruptedException {
@@ -89,7 +89,8 @@ public class Simulator {
                 if ((bda == null) || bda.getChildren() != null) {
                     throw new ClassCastException();
                 }
-            } catch (ClassCastException e) {
+            }
+            catch (ClassCastException e) {
                 bda = null;
                 LOGGER_SIM.error("invalid reference or fc selected", e);
                 enabled = false;
@@ -107,12 +108,15 @@ public class Simulator {
                     server.writeValue(referencePuls, fcString, min);
                     //offtime
                     sleep(offTime);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     LOGGER_SIM.error("simulator interrupted", e);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     LOGGER_SIM.error("server not found");
                     return;
-                } catch (IllegalArgumentException e) {
+                }
+                catch (IllegalArgumentException e) {
                     LOGGER_SIM.error(e.getMessage());
                     return;
                 }
@@ -144,7 +148,8 @@ public class Simulator {
                 if ((bda == null) || bda.getChildren() != null) {
                     throw new ClassCastException();
                 }
-            } catch (ClassCastException e) {
+            }
+            catch (ClassCastException e) {
                 bda = null;
                 LOGGER_SIM.error("invalid reference or fc selected", e);
                 start = false;
@@ -164,12 +169,15 @@ public class Simulator {
                             try {
                                 //wait time/steps
                                 sleep(time / steps);
-                            } catch (InterruptedException e) {
+                            }
+                            catch (InterruptedException e) {
                                 LOGGER_SIM.error("simulator interrupted", e);
                             }
-                        } catch (IOException e) {
+                        }
+                        catch (IOException e) {
                             LOGGER_SIM.error("server not found");
-                        } catch (IllegalArgumentException e) {
+                        }
+                        catch (IllegalArgumentException e) {
                             LOGGER_SIM.error(e.getMessage());
                         }
                     }

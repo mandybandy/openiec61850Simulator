@@ -6,10 +6,13 @@
  */
 package guiIec61850.gui;
 
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import static java.lang.System.getProperty;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  * local help window
@@ -54,21 +57,40 @@ public class HelpWindow extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ImageIcon icon=new ImageIcon(getProperty("user.dir") + "\\files\\icons\\help\\connect.PNG");
+        Image image = icon.getImage();
+        Image newimg = image.getScaledInstance(icon.getIconWidth(), icon.getIconHeight() ,  java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newimg);
+        jLabel6 = new javax.swing.JLabel("",icon, JLabel.LEFT);
         jPanel2 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ImageIcon icon1=new ImageIcon(getProperty("user.dir") + "\\files\\icons\\help\\changeied.PNG");
+        Image image1 = icon1.getImage();
+        Image newimg1 = image1.getScaledInstance(icon1.getIconWidth(), icon1.getIconHeight(),  java.awt.Image.SCALE_SMOOTH);
+        icon1 = new ImageIcon(newimg1);
+        jLabel7 = new javax.swing.JLabel("",icon1, JLabel.LEFT);
         jPanel6 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ImageIcon icon2=new ImageIcon(getProperty("user.dir") + "\\files\\icons\\help\\simulate.PNG");
+        Image image2 = icon2.getImage();
+        Image newimg2 = image2.getScaledInstance(icon2.getIconWidth(), icon2.getIconHeight(),  java.awt.Image.SCALE_SMOOTH);
+        icon2 = new ImageIcon(newimg2);
+        jLabel8 = new javax.swing.JLabel("",icon2, JLabel.LEFT);
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ImageIcon icon3=new ImageIcon(getProperty("user.dir") + "\\files\\icons\\help\\changevalues.PNG");
+        Image image3 = icon3.getImage();
+        Image newimg3 = image3.getScaledInstance(icon3.getIconWidth(), icon3.getIconHeight(),  java.awt.Image.SCALE_SMOOTH);
+        icon3 = new ImageIcon(newimg3);
+        jLabel10 = new javax.swing.JLabel("",icon3, JLabel.LEFT);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.setAutoscrolls(true);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("reference: pfad, wo die Datei liegt");
 
@@ -113,120 +135,84 @@ public class HelpWindow extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(411, Short.MAX_VALUE))
+                .addContainerGap(462, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("general", jPanel7);
 
-        jLabel29.setText("client wird über ip und port verbunden");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setAutoscrolls(true);
 
-        jLabel28.setText("server wird immer lokal auf eingegebenen Port erstellt");
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("");
+        jScrollPane4.setViewportView(jLabel6);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28))
-                .addContainerGap(661, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jLabel28)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel29)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
-                .addContainerGap(460, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("connect", jPanel1);
 
-        jLabel10.setText("auf die genaue eigenschaft klicken um wert zu ändern");
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel12.setText("die Beschreibung wird nach und nach geladen");
-
-        jLabel13.setText("ST und MX Werte können geschrieben werden");
+        jLabel7.setText("");
+        jScrollPane3.setViewportView(jLabel7);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12))
-                .addContainerGap(682, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(432, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("changeIED", jPanel2);
 
-        jLabel14.setText("Pulssimulation");
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel15.setText("Rampensimulation");
-
-        jLabel16.setText("(bei Puls wechselt nur der Wert)");
-
-        jLabel17.setText("hier können nur Zahlenwerte simuliert werden");
-
-        jLabel18.setText("es kann jeder Wert geschrieben werden bei der Pulssimulation");
+        jLabel8.setText("");
+        jScrollPane2.setViewportView(jLabel8);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel15)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel17)))
-                .addContainerGap(446, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel14)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel16))
-                .addGap(26, 26, 26)
-                .addComponent(jLabel15)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel17)
-                .addContainerGap(410, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("simulate", jPanel6);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel10.setText("");
+        jScrollPane1.setViewportView(jLabel10);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("change values", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -238,7 +224,7 @@ public class HelpWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
@@ -249,24 +235,22 @@ public class HelpWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

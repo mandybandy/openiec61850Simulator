@@ -132,7 +132,8 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
             public void run() {
                 try {
                     NodeDescription adder = new NodeDescription((DefaultTreeModel) tree.getModel(), null, null);
-                } catch (IOException | ParserConfigurationException | SAXException e) {
+                }
+                catch (IOException | ParserConfigurationException | SAXException e) {
                 }
             }
         };
@@ -162,12 +163,14 @@ public final class RefSelect extends JFrame implements TreeSelectionListener {
         for (int fcCount = 0; fcCount < fcList.size(); fcCount++) {
             try {
                 fc = selectedNode.getNode().getBasicDataAttributes().get(0).getFc().toString();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 fc = null;
             }
             try {
                 reference = selectedNode.getNode().getReference().toString();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 reference = null;
             }
             if (reference != null) {

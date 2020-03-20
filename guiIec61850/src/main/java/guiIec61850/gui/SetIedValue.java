@@ -35,7 +35,8 @@ public class SetIedValue {
     private final Server server;
 
     /**
-     *sets values
+     * sets values
+     *
      * @param localtree server model
      * @param ied string ied
      * @param server server

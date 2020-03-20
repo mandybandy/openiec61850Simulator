@@ -20,6 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import static guiIec61850.gui.GuiTree.tree;
+import java.io.FileNotFoundException;
 import static java.lang.System.getProperty;
 import static java.util.Arrays.asList;
 import static javax.xml.parsers.DocumentBuilderFactory.newInstance;
@@ -56,11 +57,14 @@ public class NodeDescription {
             modEl(node);
             tree.setModel(this.localTree);
             tree.doLayout();
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        }
+        catch (ParserConfigurationException | SAXException | IOException e) {
             LOGGER_NODEDESCRIPTION.error("", e);
-        } catch (ClassCastException e) {
+        }
+        catch (ClassCastException e) {
             LOGGER_NODEDESCRIPTION.error("a wrong node detected", e);
         }
+
     }
 
     private void modEl(DataObjectTreeNode node) throws ParserConfigurationException, SAXException, IOException {
@@ -68,8 +72,13 @@ public class NodeDescription {
             for (int i = 0; i < node.getChildCount(); i++) {
                 try {
                     modEl((DataObjectTreeNode) node.getChildAt(i));
-                } catch (ClassCastException e) {
+                }
+                catch (ClassCastException e) {
                     LOGGER_NODEDESCRIPTION.debug("dataset found", e);
+                }
+                catch (FileNotFoundException e) {
+                    LOGGER_NODEDESCRIPTION.warn("file not found");
+                    return;
                 }
             }
         }
@@ -104,7 +113,7 @@ public class NodeDescription {
     /**
      * gets JTree
      *
-     * @return JTree tree 
+     * @return JTree tree
      */
     public DefaultTreeModel getTree() {
         return this.localTree;
@@ -113,107 +122,108 @@ public class NodeDescription {
     /**
      * gets description of node
      *
-     * @param name string node name 
-     * @return string description 
-     * @throws ParserConfigurationException parser error 
-     * @throws SAXException sax error 
-     * @throws IOException io error 
+     * @param name string node name
+     * @return string description
+     * @throws ParserConfigurationException parser error
+     * @throws SAXException sax error
+     * @throws IOException io error
+     * @throws java.io.FileNotFoundException file not found
      */
-    public String getDesc(String name) throws ParserConfigurationException, SAXException, IOException {
-        try {
-            DocumentBuilderFactory docFactory = newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            String filepath = getProperty("user.dir") + "\\files\\icd\\" + this.ied;
-            Document docdesc = docBuilder.parse(filepath);
+    public String getDesc(String name) throws ParserConfigurationException, SAXException, IOException, FileNotFoundException {
 
-            NodeList doiList = docdesc.getElementsByTagName("DOI");
-            NodeList lnList = docdesc.getElementsByTagName("LN");
-            NodeList ln0List = docdesc.getElementsByTagName("LN0");
-            NodeList reportList = docdesc.getElementsByTagName("ReportControl");
-            NodeList lDeviceList = docdesc.getElementsByTagName("LDevice");
+        DocumentBuilderFactory docFactory = newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        String filepath = getProperty("user.dir") + "\\files\\icd\\" + this.ied;
+        Document docdesc = docBuilder.parse(filepath);
 
-            //ldDevice
-            if (name.length() >= this.ied.length()) {
-                for (int i = 0; i < lDeviceList.getLength(); i++) {
-                    Node childNode = lDeviceList.item(i);
-                    if (childNode.getAttributes() != null) {
-                        Node nameAttribute = childNode.getAttributes().getNamedItem("inst");
-                        String newname = name.substring(this.ied.length(), name.length());
-                        if (nameAttribute != null && nameAttribute.getNodeValue().equals(newname)) {
-                            try {
-                                return childNode.getAttributes().getNamedItem("desc").getNodeValue();
-                            } catch (DOMException | NullPointerException e) {
-                            }
-                        }
-                    }
-                }
-            }
+        NodeList doiList = docdesc.getElementsByTagName("DOI");
+        NodeList ln0List = docdesc.getElementsByTagName("LN0");
+        NodeList reportList = docdesc.getElementsByTagName("ReportControl");
+        NodeList lDeviceList = docdesc.getElementsByTagName("LDevice");
 
-            //LN0
-            for (int i = 0; i < ln0List.getLength(); i++) {
-                Node childNode = ln0List.item(i);
+        //ldDevice
+        if (name.length() >= this.ied.length()) {
+            for (int i = 0; i < lDeviceList.getLength(); i++) {
+                Node childNode = lDeviceList.item(i);
                 if (childNode.getAttributes() != null) {
-                    String nameText = "";
-                    String instText = "";
-                    Node nameAttribute = childNode.getAttributes().getNamedItem("lnClass");
-                    if (nameAttribute != null) {
-                        nameText = childNode.getAttributes().getNamedItem("lnClass").getNodeValue();
-                    }
-                    childNode = ln0List.item(i);
-                    Node instAttribute = childNode.getAttributes().getNamedItem("inst");
-                    if (instAttribute != null) {
-                        instText = childNode.getAttributes().getNamedItem("inst").getNodeValue();
-                    }
-                    String nodeName = nameText + instText;
-
-                    if (nodeName.equals(name)) {
-                        childNode = ln0List.item(i);
-                        try {
-                            if (childNode.getAttributes().getNamedItem("desc").getNodeValue() != null) {
-                                return childNode.getAttributes().getNamedItem("desc").getNodeValue();
-                            }
-
-                        } catch (DOMException e) {
-                            return childNode.getAttributes().getNamedItem("type").getNodeValue();
-
-                        }
-                    }
-                }
-            }
-            //DOI
-            for (int i = 0; i < doiList.getLength(); i++) {
-                Node childNode = doiList.item(i);
-                if (childNode.getAttributes() != null) {
-                    Node nameAttribute = childNode.getAttributes().getNamedItem("name");
-                    if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
+                    Node nameAttribute = childNode.getAttributes().getNamedItem("inst");
+                    String newname = name.substring(this.ied.length(), name.length());
+                    if (nameAttribute != null && nameAttribute.getNodeValue().equals(newname)) {
                         try {
                             return childNode.getAttributes().getNamedItem("desc").getNodeValue();
-                        } catch (DOMException e) {
-                            childNode = doiList.item(i);
-                            return childNode.getAttributes().getNamedItem("type").getNodeValue();
-                        } catch (NullPointerException e) {
-
+                        }
+                        catch (DOMException | NullPointerException e) {
                         }
                     }
                 }
             }
-            //Report
-            for (int i = 0; i < reportList.getLength(); i++) {
-                Node childNode = reportList.item(i);
-                if (childNode.getAttributes() != null) {
-                    Node nameAttribute = childNode.getAttributes().getNamedItem("name");
-                    if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
-                        try {
-                            return childNode.getChildNodes().item(1).getAttributes().getNamedItem("type").getNodeValue();
-                        } catch (NullPointerException e) {
+        }
 
+        //LN0
+        for (int i = 0; i < ln0List.getLength(); i++) {
+            Node childNode = ln0List.item(i);
+            if (childNode.getAttributes() != null) {
+                String nameText = "";
+                String instText = "";
+                Node nameAttribute = childNode.getAttributes().getNamedItem("lnClass");
+                if (nameAttribute != null) {
+                    nameText = childNode.getAttributes().getNamedItem("lnClass").getNodeValue();
+                }
+                childNode = ln0List.item(i);
+                Node instAttribute = childNode.getAttributes().getNamedItem("inst");
+                if (instAttribute != null) {
+                    instText = childNode.getAttributes().getNamedItem("inst").getNodeValue();
+                }
+                String nodeName = nameText + instText;
+
+                if (nodeName.equals(name)) {
+                    childNode = ln0List.item(i);
+                    try {
+                        if (childNode.getAttributes().getNamedItem("desc").getNodeValue() != null) {
+                            return childNode.getAttributes().getNamedItem("desc").getNodeValue();
                         }
+
+                    }
+                    catch (DOMException e) {
+                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
+
                     }
                 }
             }
+        }
+        //DOI
+        for (int i = 0; i < doiList.getLength(); i++) {
+            Node childNode = doiList.item(i);
+            if (childNode.getAttributes() != null) {
+                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
+                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
+                    try {
+                        return childNode.getAttributes().getNamedItem("desc").getNodeValue();
+                    }
+                    catch (DOMException e) {
+                        childNode = doiList.item(i);
+                        return childNode.getAttributes().getNamedItem("type").getNodeValue();
+                    }
+                    catch (NullPointerException e) {
 
-        } catch (DOMException e) {
+                    }
+                }
+            }
+        }
+        //Report
+        for (int i = 0; i < reportList.getLength(); i++) {
+            Node childNode = reportList.item(i);
+            if (childNode.getAttributes() != null) {
+                Node nameAttribute = childNode.getAttributes().getNamedItem("name");
+                if (nameAttribute != null && nameAttribute.getNodeValue().equals(name)) {
+                    try {
+                        return childNode.getChildNodes().item(1).getAttributes().getNamedItem("type").getNodeValue();
+                    }
+                    catch (NullPointerException e) {
 
+                    }
+                }
+            }
         }
         return "";
     }

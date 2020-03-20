@@ -56,6 +56,7 @@ import static java.awt.GridBagConstraints.RELATIVE;
 import static java.awt.GridBagConstraints.REMAINDER;
 import static java.awt.GridBagConstraints.SOUTHEAST;
 import static java.awt.GridBagConstraints.SOUTHWEST;
+import java.io.FileNotFoundException;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.getProperty;
 import static java.net.InetAddress.getByName;
@@ -87,7 +88,7 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     private final String ied;
 
     /**
-     *controls GuiTree window
+     * controls GuiTree window
      */
     public boolean guiTreeEnabled;
 
@@ -95,8 +96,8 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
      * gui change values
      *
      * @param xml ModifyXmlFile
-     * @param ied string ied 
-     * @throws java.net.UnknownHostException unknown host 
+     * @param ied string ied
+     * @throws java.net.UnknownHostException unknown host
      * @throws com.beanit.openiec61850.ServiceError service error
      */
     public GuiTree(ModifyXmlFile xml, String ied) throws UnknownHostException, ServiceError, IOException {
@@ -196,55 +197,54 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
     public void valueChanged(TreeSelectionEvent e) {
         detailsPanel.removeAll();
         detailsPanel.repaint();
-        if (e.getNewLeadSelectionPath() != null) {
-            selectedNode = (DataTreeNode) e.getNewLeadSelectionPath().getLastPathComponent();
-            if (selectedNode.readable()) {
-                showDataDetails(selectedNode, new Counter());
 
-                JPanel filler = new JPanel();
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.fill = BOTH;
-                gbc.gridx = 0;
-                gbc.gridy = RELATIVE;
-                gbc.gridwidth = 3;
-                gbc.gridheight = 1;
-                gbc.weightx = 0;
-                gbc.weighty = 1;
-                detailsLayout.setConstraints(filler, gbc);
-                detailsPanel.add(filler);
+        selectedNode = (DataTreeNode) e.getNewLeadSelectionPath().getLastPathComponent();
+        if (selectedNode.readable()) {
+            showDataDetails(selectedNode, new Counter());
 
-                JButton button = new JButton("Reload values");
+            JPanel filler = new JPanel();
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = BOTH;
+            gbc.gridx = 0;
+            gbc.gridy = RELATIVE;
+            gbc.gridwidth = 3;
+            gbc.gridheight = 1;
+            gbc.weightx = 0;
+            gbc.weighty = 1;
+            detailsLayout.setConstraints(filler, gbc);
+            detailsPanel.add(filler);
+
+            JButton button = new JButton("Reload values");
+            button.addActionListener(this);
+            button.setActionCommand("reload");
+            gbc = new GridBagConstraints();
+            gbc.fill = NONE;
+            gbc.gridx = 0;
+            gbc.gridy = RELATIVE;
+            gbc.gridwidth = 2;
+            gbc.gridheight = 1;
+            gbc.weightx = 0;
+            gbc.weighty = 0;
+            gbc.anchor = SOUTHWEST;
+            gbc.insets = new Insets(0, 5, 5, 0);
+            detailsLayout.setConstraints(button, gbc);
+            detailsPanel.add(button);
+            if (selectedNode.getChildCount() == 0) {
+                button = new JButton("Write values");
                 button.addActionListener(this);
-                button.setActionCommand("reload");
+                button.setActionCommand("write");
                 gbc = new GridBagConstraints();
                 gbc.fill = NONE;
-                gbc.gridx = 0;
+                gbc.gridx = 2;
                 gbc.gridy = RELATIVE;
-                gbc.gridwidth = 2;
+                gbc.gridwidth = 1;
                 gbc.gridheight = 1;
                 gbc.weightx = 0;
                 gbc.weighty = 0;
-                gbc.anchor = SOUTHWEST;
-                gbc.insets = new Insets(0, 5, 5, 0);
+                gbc.anchor = SOUTHEAST;
+                gbc.insets = new Insets(0, 0, 5, 5);
                 detailsLayout.setConstraints(button, gbc);
                 detailsPanel.add(button);
-                if (selectedNode.getChildCount() == 0) {
-                    button = new JButton("Write values");
-                    button.addActionListener(this);
-                    button.setActionCommand("write");
-                    gbc = new GridBagConstraints();
-                    gbc.fill = NONE;
-                    gbc.gridx = 2;
-                    gbc.gridy = RELATIVE;
-                    gbc.gridwidth = 1;
-                    gbc.gridheight = 1;
-                    gbc.weightx = 0;
-                    gbc.weighty = 0;
-                    gbc.anchor = SOUTHEAST;
-                    gbc.insets = new Insets(0, 0, 5, 5);
-                    detailsLayout.setConstraints(button, gbc);
-                    detailsPanel.add(button);
-                }
             }
         }
 
@@ -271,10 +271,12 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         try {
             serverModel = association.retrieveModel();
             association.getAllDataValues();
-        } catch (ServiceError e) {
+        }
+        catch (ServiceError e) {
             LOGGER_GUITREE.error("Service Error requesting model.", e);
             return;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER_GUITREE.error("Fatal IOException requesting model.", e);
             return;
         }
@@ -288,9 +290,11 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
                     NodeDescription adder = new NodeDescription((DefaultTreeModel) tree.getModel(), xml, ied);
                     LOGGER_GUITREE.info("got server descriptions");
                     tree.treeDidChange();
-                } catch (IOException | ParserConfigurationException | SAXException e) {
+                }
+                catch (IOException | ParserConfigurationException | SAXException e) {
                     LOGGER_GUITREE.error("error", e);
                 }
+
             }
         };
         describtionThread.start();
@@ -305,10 +309,12 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         if (selectedNode.readable()) {
             try {
                 selectedNode.reset(association);
-            } catch (ServiceError e) {
+            }
+            catch (ServiceError e) {
                 LOGGER_GUITREE.error("ServiceError on reading", e);
                 return;
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 LOGGER_GUITREE.error("IOException on reading", e);
                 return;
             }
@@ -320,13 +326,16 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         try {
             selectedNode.writeValues(association);
             showMessageDialog(this, "wrote data sucessfully", "sucess", INFORMATION_MESSAGE);
-        } catch (ServiceError e) {
+        }
+        catch (ServiceError e) {
             LOGGER_GUITREE.error("ServiceError on write", e);
             return;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER_GUITREE.error("IOException on write", e);
             return;
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             LOGGER_GUITREE.error("invalid value, could not write data");
             return;
         }
@@ -405,12 +414,13 @@ public final class GuiTree extends JFrame implements ActionListener, TreeSelecti
         dispose();
         this.guiTreeEnabled = true;
     }
-    
+
     /**
-     *sets boolean that guitree is opened
+     * sets boolean that guitree is opened
+     *
      * @param ena state
      */
-    public void setEna(boolean ena){
-        this.guiTreeEnabled=ena;
+    public void setEna(boolean ena) {
+        this.guiTreeEnabled = ena;
     }
 }

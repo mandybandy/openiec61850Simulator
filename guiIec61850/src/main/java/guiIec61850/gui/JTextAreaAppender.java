@@ -54,8 +54,8 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
      * constructor for appender
      *
      * @param masterLog JTextPane log
-     * @param simulatorLog JTextPane simulator 
-     * @param reportdatasetLog JTextPane change ied 
+     * @param simulatorLog JTextPane simulator
+     * @param reportdatasetLog JTextPane change ied
      */
     public JTextAreaAppender(JTextPane masterLog, JTextPane simulatorLog, JTextPane reportdatasetLog) {
         LOGGER_SERVER.warn("Initialization of Server Console...");
@@ -129,7 +129,8 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
             SIMULATOR_LOG.select(SIMULATOR_LOG.getDocument().getLength(), SIMULATOR_LOG.getDocument().getLength());
             REPORT_DATASET_LOG.select(REPORT_DATASET_LOG.getDocument().getLength(), REPORT_DATASET_LOG.getDocument().getLength());
 
-        } catch (BadLocationException e) {
+        }
+        catch (BadLocationException e) {
             out.println("error append logger infos");
         }
 

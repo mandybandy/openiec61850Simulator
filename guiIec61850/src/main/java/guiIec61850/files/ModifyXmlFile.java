@@ -138,7 +138,7 @@ public class ModifyXmlFile {
     /**
      * returns a list consists of the network settings
      *
-     * @return networkinfo list 
+     * @return networkinfo list
      * @throws SAXException sax error
      * @throws IOException io error
      * @throws ParserConfigurationException parser error

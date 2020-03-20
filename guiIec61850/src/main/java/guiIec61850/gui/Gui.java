@@ -13,6 +13,7 @@ import guiIec61850.network.Client;
 import static guiIec61850.network.NetworkUtil.getNetDevice;
 import guiIec61850.network.Server;
 import static java.awt.Color.BLUE;
+import static java.awt.Color.GREEN;
 import static java.awt.Color.black;
 import static java.awt.Color.red;
 import static java.awt.Desktop.getDesktop;
@@ -62,7 +63,7 @@ public class Gui extends javax.swing.JFrame {
 
     private Server server;
     private Client client;
-    
+
     /**
      * simulator enable state
      */
@@ -83,7 +84,8 @@ public class Gui extends javax.swing.JFrame {
         try {
             // Set System L&F
             setLookAndFeel(getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             LOGGER_GUI.error("look and feel not avaible", e);
         }
         initComponents();
@@ -1226,23 +1228,28 @@ public class Gui extends javax.swing.JFrame {
                 changevalues = new GuiTree(xml, ied);
                 LOGGER_GUI.info("change values manual \n");
                 changevalues.setEna(false);
-            }else{
+            } else {
                 showMessageDialog(this, "GuiTree is already opened", "already opened", INFORMATION_MESSAGE);
             }
 
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             LOGGER_GUI.error("UnknownHostException", e);
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             try {
                 changevalues = new GuiTree(xml, ied);
                 LOGGER_GUI.info("change values manual \n");
                 changevalues.setEna(false);
-            } catch (ServiceError | IOException ex) {
+            }
+            catch (ServiceError | IOException ex) {
                 LOGGER_GUI.error("error", ex);
             }
-        } catch (ServiceError e) {
+        }
+        catch (ServiceError e) {
             LOGGER_GUI.error("ServiceError", e);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER_GUI.error("IOException", e);
         }
     }//GEN-LAST:event_changeValuesBTNActionPerformed
@@ -1262,7 +1269,8 @@ public class Gui extends javax.swing.JFrame {
         netInfosTA.setText(null);
         try {
             createNetInfoList(iedPathName);
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             LOGGER_GUI.error("no addressblock found");
         }
         IedLBL.setText(iedPathName);
@@ -1299,7 +1307,8 @@ public class Gui extends javax.swing.JFrame {
         xml = new ModifyXmlFile(iedPathTB.getText());
         try {
             xml.splitIed();
-        } catch (TransformerException | IOException | SAXException | ParserConfigurationException e) {
+        }
+        catch (TransformerException | IOException | SAXException | ParserConfigurationException e) {
             LOGGER_GUI.error("error", e);
         }
         changeIedBTNActionPerformed(null);
@@ -1311,7 +1320,8 @@ public class Gui extends javax.swing.JFrame {
             client.quit();
             try {
                 server.quit();
-            } catch (NullPointerException e) {
+            }
+            catch (NullPointerException e) {
 
             }
 
@@ -1325,7 +1335,8 @@ public class Gui extends javax.swing.JFrame {
             connectedLBL.setForeground(black);
 
             LOGGER_GUI.info("\n server stopped\n");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             connectedLBL.setText("error");
             connectedLBL.setForeground(red);
 
@@ -1338,7 +1349,8 @@ public class Gui extends javax.swing.JFrame {
         int remotePort;
         try {
             remotePort = parseInt(portTB.getText());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             connectedLBL.setText("port must be a number");
             connectedLBL.setForeground(red);
             return;
@@ -1361,8 +1373,6 @@ public class Gui extends javax.swing.JFrame {
                 server = new Server(iedPath, remotePort, IedLBL.getText());
                 mainFrame.setEnabledAt(2, true);
                 mainFrame.setEnabledAt(1, true);
-                connectedLBL.setText("server started");
-                connectedLBL.setForeground(BLUE);
                 LOGGER_GUI.info("server started\n");
             }
             try {
@@ -1371,7 +1381,17 @@ public class Gui extends javax.swing.JFrame {
                 stopBTN.setEnabled(true);
                 selectFileBTN.setEnabled(false);
                 changeIedBTN.setEnabled(false);
-            } catch (NullPointerException | ConnectException e) {
+                mainFrame.setEnabledAt(1, true);
+                if (createServer.isSelected()) {
+                    connectedLBL.setText("server started");
+                    connectedLBL.setForeground(BLUE);
+                } else {
+                    connectedLBL.setText("client connected");
+                    connectedLBL.setForeground(GREEN);
+                }
+
+            }
+            catch (NullPointerException | ConnectException e) {
                 try {
                     client = new Client(ipTB.getText(), parseInt(portTB.getText()), null);
                     connectedLBL.setText("client connected");
@@ -1382,37 +1402,47 @@ public class Gui extends javax.swing.JFrame {
                     selectFileBTN.setEnabled(false);
                     changeIedBTN.setEnabled(false);
                     mainFrame.setEnabledAt(1, true);
-                } catch (ConnectException ex) {
+                }
+                catch (ConnectException ex) {
                     connectedLBL.setText("no server avaible");
                     connectedLBL.setForeground(red);
                     LOGGER_GUI.error("no server found");
-                } catch (IOException ex) {
+                }
+                catch (IOException ex) {
                     LOGGER_GUI.error("error", ex);
-                } catch (SclParseException ex) {
+                }
+                catch (SclParseException ex) {
                     connectedLBL.setText("invalid scl file");
                     connectedLBL.setForeground(red);
                     LOGGER_GUI.error("no server found");
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 LOGGER_GUI.error("error", e);
             }
-        } catch (java.net.BindException | java.lang.NoSuchMethodError e) {
+        }
+        catch (java.net.BindException | java.lang.NoSuchMethodError e) {
             connectedLBL.setText("port already in use");
             connectedLBL.setForeground(red);
             LOGGER_GUI.error("port already in use");
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             connectedLBL.setText("invalid ip");
             connectedLBL.setForeground(red);
             LOGGER_GUI.error("invalid ip entered");
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             LOGGER_GUI.error("port is not a valid number");
-        } catch (SclParseException e) {
+        }
+        catch (SclParseException e) {
             LOGGER_GUI.error("scl parse exception");
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             connectedLBL.setText("no ied selected");
             connectedLBL.setForeground(red);
             LOGGER_GUI.error("no ied selected");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOGGER_GUI.error("error", e);
         }
 
@@ -1479,7 +1509,8 @@ public class Gui extends javax.swing.JFrame {
         short time;
         try {
             time = parseShort(reserveTimeTB.getText());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             //not a number
             time = 0;
             LOGGER_GUI.error("invalid number entered in report");
@@ -1505,7 +1536,8 @@ public class Gui extends javax.swing.JFrame {
             } else {
                 LOGGER_GUI.warn("no function selected\n");
             }
-        } catch (ServiceError | IOException e) {
+        }
+        catch (ServiceError | IOException e) {
             LOGGER_GUI.error("error on report control", e);
         }
     }//GEN-LAST:event_reportStartBTNActionPerformed
@@ -1525,7 +1557,8 @@ public class Gui extends javax.swing.JFrame {
             steps = parseInt(simulateRampStepsTB.getText());
             from = parseInt(simulateRampFromTB.getText());
             to = parseInt(simulateRampToTB.getText());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             time = 0;
             from = 0;
             to = 0;
@@ -1539,7 +1572,8 @@ public class Gui extends javax.swing.JFrame {
         try {
             Simulator sim = new Simulator(server);
             sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             LOGGER_GUI.error("error", e);
             // simulateRampStopBTNActionPerformed(null);
         }
@@ -1558,7 +1592,8 @@ public class Gui extends javax.swing.JFrame {
         try {
             offTime = parseLong(simulatePulsTimeOffTB.getText());
             onTime = parseLong(simulatePulsTimeOnTB.getText());
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             LOGGER_GUI.error("invalid number entered in pulse simulator", e);
             offTime = 0;
             onTime = 0;
@@ -1572,7 +1607,8 @@ public class Gui extends javax.swing.JFrame {
         Simulator sim = new Simulator(server);
         try {
             sim.pulseSimulator(referencePuls, fcString, min, max, onTime, offTime);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             LOGGER_GUI.error("error", e);
             //simulatePulsStopBTNActionPerformed(null);
         }
@@ -1590,7 +1626,8 @@ public class Gui extends javax.swing.JFrame {
     private void selectReferenceReportBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceReportBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, true);
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferenceReportBTNActionPerformed
@@ -1598,7 +1635,8 @@ public class Gui extends javax.swing.JFrame {
     private void selectReferenceRampBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceRampBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, false);
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferenceRampBTNActionPerformed
@@ -1606,7 +1644,8 @@ public class Gui extends javax.swing.JFrame {
     private void selectReferencePulsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferencePulsBTNActionPerformed
         try {
             RefSelect select = new RefSelect(server.serverModel, false);
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_selectReferencePulsBTNActionPerformed
@@ -1627,7 +1666,8 @@ public class Gui extends javax.swing.JFrame {
                 try ( FileWriter fw = new FileWriter(f)) {
                     fw.write(s);
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 LOGGER_GUI.error("Exception Caught : " + e.getMessage());
             }
         }
@@ -1651,7 +1691,8 @@ public class Gui extends javax.swing.JFrame {
                 help = new HelpWindow();
                 help.setVisible(true);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOGGER_GUI.error("error opening help window");
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -1659,9 +1700,11 @@ public class Gui extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         try {
             getDesktop().browse(new URL("https://github.com/mandybandy/openiec61850Simulator").toURI());
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             LOGGER_GUI.error("error", e);
-        } catch (URISyntaxException | IOException e) {
+        }
+        catch (URISyntaxException | IOException e) {
             LOGGER_GUI.error("error", e);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -1671,7 +1714,8 @@ public class Gui extends javax.swing.JFrame {
         try {
             netDevicesTA.setText(null);
             getNetDevice();
-        } catch (SocketException e) {
+        }
+        catch (SocketException e) {
             LOGGER_GUI.error("socket error");
         }
 
@@ -1685,7 +1729,8 @@ public class Gui extends javax.swing.JFrame {
                 netInfosTA.append(xml.getIp().get(i) + "\n");
             }
             netInfosTA.setCaretPosition(0);
-        } catch (SAXException | IOException | ParserConfigurationException e) {
+        }
+        catch (SAXException | IOException | ParserConfigurationException e) {
             LOGGER_GUI.error("error", e);
         }
     }

@@ -52,14 +52,16 @@ public class KeyListenerGui implements KeyListener {
                     help = new HelpWindow();
                     help.setVisible(true);
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 out.println("error opening help window");
             }
         }
     }
 
     /**
-     *runs by typing a btn
+     * runs by typing a btn
+     *
      * @param e keyEevent
      */
     @Override
@@ -67,7 +69,8 @@ public class KeyListenerGui implements KeyListener {
     }
 
     /**
-     *runs by pressing a btn
+     * runs by pressing a btn
+     *
      * @param e keyEevent
      */
     @Override
