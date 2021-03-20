@@ -19,44 +19,40 @@ package guiIec61850.files;
  *
  * @author Philipp
  */
-       
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class PowerShellCommand {
-    
-private static String command;
-    
-public PowerShellCommand(){
-}
- public void writeOnPowerShell(String command) throws IOException {
-   this.command = command;
-System.out.println(command);
-  //String command = "powershell.exe  your command";
-  //Getting the version
-    //command = "powershell.exe  $PSVersionTable.PSVersion";
-  // Executing the command
-  Process powerShellProcess = Runtime.getRuntime().exec(this.command);
-  // Getting the results
-  powerShellProcess.getOutputStream().close();
-  String line;
-  System.out.println("Standard Output:");
-  BufferedReader stdout = new BufferedReader(new InputStreamReader(
-    powerShellProcess.getInputStream()));
-  while ((line = stdout.readLine()) != null) {
-   System.out.println(line);
-  }
-  stdout.close();
-  System.out.println("Standard Error:");
-  BufferedReader stderr = new BufferedReader(new InputStreamReader(
-    powerShellProcess.getErrorStream()));
-  while ((line = stderr.readLine()) != null) {
-   System.out.println(line);
-  }
-  stderr.close();
-  System.out.println("Done");
 
- }
+    private static String command;
+
+    public PowerShellCommand() {
+    }
+
+    public void writeOnPowerShell(String command) throws IOException {
+        this.command = command;
+        System.out.println(command);
+        // Executing the command
+        Process powerShellProcess = Runtime.getRuntime().exec(this.command);
+        // Getting the results
+        powerShellProcess.getOutputStream().close();
+        String line;
+        System.out.println("Standard Output:");
+        BufferedReader stdout = new BufferedReader(new InputStreamReader(
+                powerShellProcess.getInputStream()));
+        while ((line = stdout.readLine()) != null) {
+            System.out.println(line);
+        }
+        stdout.close();
+        System.out.println("Standard Error:");
+        BufferedReader stderr = new BufferedReader(new InputStreamReader(
+                powerShellProcess.getErrorStream()));
+        while ((line = stderr.readLine()) != null) {
+            System.out.println(line);
+        }
+        stderr.close();
+        System.out.println("Done");
+
+    }
 }
-     

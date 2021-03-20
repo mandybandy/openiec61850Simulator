@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package guiIec61850.files;
+
 import java.io.IOException;
 import static java.lang.System.getProperty;
 
@@ -23,42 +24,34 @@ import static java.lang.System.getProperty;
  */
 public class CreateProject {
 
-public static String templateProPath = getProperty("user.dir") + "\\files\\template\\PrjTemplate\\TwinCATProject.tsproj";
-public static String proPath = getProperty("user.dir") + "\\files\\new";
-public static String proName = "testName.tsp";
+    public static String templateProPath = getProperty("user.dir") + "\\files\\template\\PrjTemplate\\TwinCATProject.tsproj";
+    public static String proPath = getProperty("user.dir") + "\\files\\new";
+    public static String proName = "testName.tsp";
 
-public static String command = " $targetDir = \""+proPath+"\"\n"+
-"$targetName = \""+proName+"\"\n"+
-"$template = \""+templateProPath+"\"\n "+
-"$dte = new-object -com TcXaeShell.DTE.15.0\n"+
-"$dte.SuppressUI = $false\n "+
-"$dte.MainWindow.Visible = $true\n "+
-"if(test-path $targetDir -pathtype container)\n "+
-"{\n "+
-"     Remove-Item $targetDir -Recurse -Force\n "+
-"}\n "+
-"New-Item $targetDir –type directory\n "+
-"$sln = $dte.Solution\n "+
-"$project = $sln.AddFromTemplate($template,$targetDir,$targetName)\n "+
-"$systemManager = $project.Object\n "+
-"$targetNetId = $systemManager.GetTargetNetId()\n "+
-"write-host $targetNetId\n "+
-"    public CreateProject() {\n "+
-"        this.command = ;\n "+
-"    }\n "+
-"$systemManager.ActivateConfiguration()\n "+
-"$systemManager.StartRestartTwinCAT()\n "+
-"$project.Save()\n "+
-"$solutionPath = $targetDir + \"/\" + $targetName\n "+
-"$sln.SaveAs($solutionPath) \n ";
+            public static String command = "powershell.exe " + "$targetDir = '" + proPath + "';\n"
+            + "$targetName = '" + proName + "';\n"
+            + "$template = '" + templateProPath + "';\n"
+            + "$dte = new-object -com TcXaeShell.DTE.15.0;\n"
+            + "$dte.SuppressUI = $true;\n"
+            + "$dte.MainWindow.visible = $false;\n"
+            + "if(test-path $targetDir -pathtype container)\n"
+            + "{\n"
+            + "     Remove-Item $targetDir -Recurse -Force;\n"
+            + "};\n"
+            + "New-Item $targetDir –type directory;\n"
+            + "$sln = $dte.Solution;\n"
+            + "$project = $sln.AddFromTemplate($template,$targetDir,$targetName);\n"
+            + "$systemManager = $project.Object;\n"
+            + "$project.Save();\n"
+            + "$solutionPath = $targetDir + '/' + $targetName;\n"
+            + "$sln.SaveAs($solutionPath);\n";
+    
+    static void createProject() throws IOException {
+        PowerShellCommand Proj = new PowerShellCommand();
+        Proj.writeOnPowerShell(command);
+    }
 
-static void createProject() throws IOException{
-    PowerShellCommand Proj = new PowerShellCommand();
-    Proj.writeOnPowerShell(command);
-}
-
- public static void main(String[] args) throws IOException
- {
-createProject() ;
- }
+    public static void main(String[] args) throws IOException {
+        createProject();
+    }
 }
