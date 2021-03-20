@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TargetSystemConfig Crc="925639005" Version="1.4">
+  <TargetSystemType>TSafetyPLC</TargetSystemType>
+  <TargetSystemSubType></TargetSystemSubType>
+  <TargetSystemObjectId/>
+  <TargetSystemObjectName/>
+  <TaskId/>
+  <TaskName/>
+  <SoftwareVersion/>
+  <Id/>
+  <ProjectCRC/>
+  <MapId>False</MapId>
+  <MapProjectCRC>False</MapProjectCRC>
+  <VersionNumber>1</VersionNumber>
+  <FSOEAddress>1</FSOEAddress>
+</TargetSystemConfig>

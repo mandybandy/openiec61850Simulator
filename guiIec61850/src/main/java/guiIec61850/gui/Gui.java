@@ -69,11 +69,9 @@ public class Gui extends javax.swing.JFrame {
      */
     public static boolean enabled = true;
 
-    HelpWindow help = null;
 
     ModifyXmlFile xml = null;
     private String ied;
-    private GuiTree changevalues = null;
 
     /**
      * creates new form gui
@@ -88,6 +86,7 @@ public class Gui extends javax.swing.JFrame {
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             LOGGER_GUI.error("look and feel not avaible", e);
         }
+        
         initComponents();
         ImageIcon img = new ImageIcon(getProperty("user.dir") + "\\files\\icons\\icon.png");
         this.setIconImage(img.getImage());
@@ -112,13 +111,6 @@ public class Gui extends javax.swing.JFrame {
         mainFrame = new javax.swing.JTabbedPane();
         connectTAB = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
-        jPanel3 = new javax.swing.JPanel();
-        iedPathTB = new javax.swing.JTextField();
-        icodersclLBL = new javax.swing.JLabel();
-        selectFileBTN = new javax.swing.JButton();
-        selectedIedLBL = new javax.swing.JLabel();
-        IedLBL = new javax.swing.JLabel();
-        changeIedBTN = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         netDevicesTA = new javax.swing.JTextArea();
@@ -136,6 +128,13 @@ public class Gui extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         createServer = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        iedPathTB = new javax.swing.JTextField();
+        icodersclLBL = new javax.swing.JLabel();
+        selectFileBTN = new javax.swing.JButton();
+        selectedIedLBL = new javax.swing.JLabel();
+        IedLBL = new javax.swing.JLabel();
+        changeIedBTN = new javax.swing.JButton();
         changeIedTAB = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel5 = new javax.swing.JPanel();
@@ -228,72 +227,6 @@ public class Gui extends javax.swing.JFrame {
 
         jSplitPane3.setBorder(null);
 
-        iedPathTB.setText("F:\\diplomarbeit\\project\\openiec61850Simulator\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files");
-
-        icodersclLBL.setText("ICD oder SCL file");
-
-        selectFileBTN.setText("select file");
-        selectFileBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectFileBTNActionPerformed(evt);
-            }
-        });
-
-        selectedIedLBL.setText("selected IED: ");
-
-        IedLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        IedLBL.setText("select IED");
-
-        changeIedBTN.setText("change");
-        changeIedBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeIedBTNActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(selectedIedLBL)
-                                .addGap(44, 44, 44)
-                                .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(changeIedBTN)
-                                .addGap(160, 160, 160))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addComponent(selectFileBTN))
-                    .addComponent(icodersclLBL))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(icodersclLBL)
-                .addGap(28, 28, 28)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectFileBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeIedBTN)
-                    .addComponent(selectedIedLBL))
-                .addContainerGap(531, Short.MAX_VALUE))
-        );
-
-        jSplitPane3.setLeftComponent(jPanel3);
-
         netDevicesTA.setEditable(false);
         netDevicesTA.setColumns(20);
         netDevicesTA.setRows(5);
@@ -344,12 +277,76 @@ public class Gui extends javax.swing.JFrame {
         createServer.setSelected(true);
         createServer.setText("create server");
 
+        iedPathTB.setText("F:\\diplomarbeit\\project\\openiec61850Simulator\\serverguiiec61850\\src\\main\\java\\serverguiiec61850\\files");
+
+        icodersclLBL.setText("ICD oder SCL file");
+
+        selectFileBTN.setText("select file");
+        selectFileBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectFileBTNActionPerformed(evt);
+            }
+        });
+
+        IedLBL.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        IedLBL.setText("select IED");
+
+        changeIedBTN.setText("change");
+        changeIedBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeIedBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(selectedIedLBL)
+                                .addGap(44, 44, 44)
+                                .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(changeIedBTN)
+                                .addGap(160, 160, 160))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(iedPathTB, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(selectFileBTN))
+                    .addComponent(icodersclLBL))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(icodersclLBL)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(iedPathTB, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectFileBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IedLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changeIedBTN)
+                    .addComponent(selectedIedLBL))
+                .addContainerGap(584, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -382,40 +379,45 @@ public class Gui extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addGap(124, 124, 124)))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
-                .addGap(7, 7, 7)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(portTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(startBTN)
+                            .addComponent(stopBTN)
+                            .addComponent(createServer))
+                        .addGap(18, 18, 18)
+                        .addComponent(connectedLBL)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ipTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startBTN)
-                    .addComponent(stopBTN)
-                    .addComponent(createServer))
-                .addGap(18, 18, 18)
-                .addComponent(connectedLBL)
-                .addGap(37, 37, 37)
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         jSplitPane3.setRightComponent(jPanel4);
@@ -426,8 +428,8 @@ public class Gui extends javax.swing.JFrame {
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectTABLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane3)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addComponent(jSplitPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1346, Short.MAX_VALUE)
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         connectTABLayout.setVerticalGroup(
             connectTABLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +509,7 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(valueLBL)
                 .addGap(42, 42, 42)
                 .addComponent(valueTB, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         valueReportPNLLayout.setVerticalGroup(
             valueReportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,7 +532,7 @@ public class Gui extends javax.swing.JFrame {
         referenceReportPNLLayout.setHorizontalGroup(
             referenceReportPNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, referenceReportPNLLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+                .addContainerGap(58, Short.MAX_VALUE)
                 .addComponent(referenceLBL)
                 .addGap(36, 36, 36)
                 .addComponent(referenceTB, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -559,7 +561,7 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(reserveTimeReportPNLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(reserveTimeLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(reserveTimeTB, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
@@ -608,7 +610,7 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(IntegrityReportPNLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(IntegrityLBL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(integrityPeriodTB, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         IntegrityReportPNLLayout.setVerticalGroup(
@@ -1223,35 +1225,7 @@ public class Gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeValuesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeValuesBTNActionPerformed
-        try {
-            if (changevalues.guiTreeEnabled) {
-                changevalues = new GuiTree(xml, ied);
-                LOGGER_GUI.info("change values manual \n");
-                changevalues.setEna(false);
-            } else {
-                showMessageDialog(this, "GuiTree is already opened", "already opened", INFORMATION_MESSAGE);
-            }
 
-        }
-        catch (UnknownHostException e) {
-            LOGGER_GUI.error("UnknownHostException", e);
-        }
-        catch (NullPointerException e) {
-            try {
-                changevalues = new GuiTree(xml, ied);
-                LOGGER_GUI.info("change values manual \n");
-                changevalues.setEna(false);
-            }
-            catch (ServiceError | IOException ex) {
-                LOGGER_GUI.error("error", ex);
-            }
-        }
-        catch (ServiceError e) {
-            LOGGER_GUI.error("ServiceError", e);
-        }
-        catch (IOException e) {
-            LOGGER_GUI.error("IOException", e);
-        }
     }//GEN-LAST:event_changeValuesBTNActionPerformed
 
     private void changeIedBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeIedBTNActionPerformed
@@ -1569,14 +1543,7 @@ public class Gui extends javax.swing.JFrame {
         enabled = true;
         simulateRampStartBTN.setEnabled(false);
         simulateRampStopBTN.setEnabled(true);
-        try {
-            Simulator sim = new Simulator(server);
-            sim.rampSimulator(referenceRamp, fcString, from, to, time, steps);
-        }
-        catch (InterruptedException e) {
-            LOGGER_GUI.error("error", e);
-            // simulateRampStopBTNActionPerformed(null);
-        }
+
 
     }//GEN-LAST:event_simulateRampStartBTNActionPerformed
 
@@ -1604,14 +1571,7 @@ public class Gui extends javax.swing.JFrame {
         simulatePulsStopBTN.setEnabled(true);
 
         LOGGER_GUI.info("started pulse simulator\n");
-        Simulator sim = new Simulator(server);
-        try {
-            sim.pulseSimulator(referencePuls, fcString, min, max, onTime, offTime);
-        }
-        catch (InterruptedException e) {
-            LOGGER_GUI.error("error", e);
-            //simulatePulsStopBTNActionPerformed(null);
-        }
+
 
     }//GEN-LAST:event_simulatePulsStartBTNActionPerformed
 
@@ -1624,30 +1584,15 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_simulatePulsStopBTNActionPerformed
 
     private void selectReferenceReportBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceReportBTNActionPerformed
-        try {
-            RefSelect select = new RefSelect(server.serverModel, true);
-        }
-        catch (UnknownHostException e) {
-            LOGGER_GUI.error("error", e);
-        }
+
     }//GEN-LAST:event_selectReferenceReportBTNActionPerformed
 
     private void selectReferenceRampBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferenceRampBTNActionPerformed
-        try {
-            RefSelect select = new RefSelect(server.serverModel, false);
-        }
-        catch (UnknownHostException e) {
-            LOGGER_GUI.error("error", e);
-        }
+
     }//GEN-LAST:event_selectReferenceRampBTNActionPerformed
 
     private void selectReferencePulsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectReferencePulsBTNActionPerformed
-        try {
-            RefSelect select = new RefSelect(server.serverModel, false);
-        }
-        catch (UnknownHostException e) {
-            LOGGER_GUI.error("error", e);
-        }
+
     }//GEN-LAST:event_selectReferencePulsBTNActionPerformed
 
     private void saveCsvBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCsvBTNActionPerformed
@@ -1683,18 +1628,6 @@ public class Gui extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-        try {
-            if (help == null) {
-                help = new HelpWindow();
-                help.setVisible(true);
-            } else if (!help.isActive()) {
-                help = new HelpWindow();
-                help.setVisible(true);
-            }
-        }
-        catch (Exception e) {
-            LOGGER_GUI.error("error opening help window");
-        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

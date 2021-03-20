@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SafetyDeviceDesc>
+  <Direction>input</Direction>
+  <NumberOfChannels>1</NumberOfChannels>
+  <Type>standard</Type>
+  <Values>
+      <Param>
+        <Name>SDSID</Name>
+        <Value>1</Value>
+      </Param>
+    </Values>
+</SafetyDeviceDesc>

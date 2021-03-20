@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectFileGeneratorConfig hideWizardWindow="false" useProjectInterface="false">
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\1 digital input (Standard).sds</SourceFile>
+    <TargetFile>TwinSafeGroup1\Alias Devices\ErrorAcknowledgement.sds</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Header Files\TwinSAFEIoData.h</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_IO_DATA_H">TwinSafeGroup1\Header Files\TwinSafeGroup1IoData.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Header Files\ProjectLUTS.h</SourceFile>
+    <TargetFile symbolName="TWIN_PROJECTLUTS_H">TwinSafeGroup1\Header Files\ProjectLUTS.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Header Files\ProjectDTS.h</SourceFile>
+    <TargetFile symbolName="TWIN_PROJECTDTS_H">TwinSafeGroup1\Header Files\ProjectDTS.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Header Files\SafeModuleHelper.h</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_HELPER_H">TwinSafeGroup1\Header Files\SafeModuleHelper.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Header Files\TwinSAFE.h</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_H">TwinSafeGroup1\Header Files\TwinSafeGroup1.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Source Files\TwinSAFE.cpp</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_CPP">TwinSafeGroup1\Source Files\TwinSafeGroup1.cpp</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\GroupConfig.grp</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_CONFIG">TwinSafeGroup1\TwinSafeGroup1Config.grp</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>DataTypes.pdts</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_DATATYPES">DataTypes.pdts</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>LUTS.pluts</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_LUTS">LookUpTables.pluts</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Analysis Files\ModuleDatabase.saxml</SourceFile>
+    <TargetFile>TwinSafeGroup1\Analysis Files\ModuleDatabase.saxml</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Test Files\ModuleTests.h</SourceFile>
+    <TargetFile>TwinSafeGroup1\Test Files\ModuleTests.h</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Test Files\ModuleTests.cpp</SourceFile>
+    <TargetFile>TwinSafeGroup1\Test Files\ModuleTests.cpp</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Test Files\main.cpp</SourceFile>
+    <TargetFile>TwinSafeGroup1\Test Files\main.cpp</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\Test Files\ModuleTests.vcxproj</SourceFile>
+    <TargetFile>TwinSafeGroup1\Test Files\ModuleTests.vcxproj</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TargetSystemConfig.xml</SourceFile>
+    <TargetFile>TargetSystemConfig.xml</TargetFile>
+  </FileDescription>
+  <!--Doxygen Configuration-->
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>Doxyfile</SourceFile>
+    <TargetFile>Doxyfile</TargetFile>
+  </FileDescription>
+  <!--Project Files-->
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TcTemplateDrv.splcproj</SourceFile>
+    <TargetFile>[!output PROJECT_NAME].splcproj</TargetFile>
+  </FileDescription>
+</ProjectFileGeneratorConfig>

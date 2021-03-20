@@ -1,0 +1,9 @@
+VSWIZARD 7.0
+Wizard={38F0FBE5-C9FE-471A-BD45-8DC54E4CF8A5}
+
+Param="HSafetyPLC"
+Param="GraphicalEditor"
+
+Param="HSafetyPLC"
+Param="GraphicalEditor"
+Param="%TWINCAT3DIR%Components\Base\SafetyTemplate\Templates\1.1.0.0\DefaultExt_HardwareSafetyPLC_GraphicalEditor\TcSafetyDefaultProjectConfig.xml"

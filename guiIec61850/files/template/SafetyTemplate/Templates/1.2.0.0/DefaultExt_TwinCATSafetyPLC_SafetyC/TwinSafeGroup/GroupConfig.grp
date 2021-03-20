@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GroupConfig Crc="2288277920" Version="1.0">
+  <GroupGeneralConfig>
+    <GroupOrderId>0</GroupOrderId>
+    <MapDiag>False</MapDiag>
+    <MapState>False</MapState>
+  </GroupGeneralConfig>
+  <GroupPortsConfig>
+    <ErrAck>
+      <Mapping>
+        <GroupName>TwinSafeGroup1</GroupName>
+        <SdsId>1</SdsId>
+        <Direction>In</Direction>
+        <FunctionId>1131179973</FunctionId>
+        <ChannelId>1</ChannelId>
+      </Mapping>
+    </ErrAck>
+    <RunStop>
+      <Mapping>
+        <GroupName>TwinSafeGroup1</GroupName>
+        <SdsId>2</SdsId>
+        <Direction>In</Direction>
+        <FunctionId>1131179973</FunctionId>
+        <ChannelId>1</ChannelId>
+      </Mapping>
+    </RunStop>
+    <ComErr />
+    <FbErr />
+    <OutErr />
+  </GroupPortsConfig>
+  <GroupInputsConfig />
+  <GroupOutputsConfig />
+</GroupConfig>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectFileGeneratorConfig hideWizardWindow="false" useProjectInterface="false">
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TargetSystemConfig.xml</SourceFile>
+    <TargetFile>TargetSystemConfig.xml</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TcTemplateDrv.splcproj</SourceFile>
+    <TargetFile>[!output PROJECT_NAME].splcproj</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>DataTypes.pdts</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_DATATYPES">DataTypes.pdts</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>LUTS.pluts</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_LUTS">LookUpTables.pluts</TargetFile>
+  </FileDescription>
+</ProjectFileGeneratorConfig>

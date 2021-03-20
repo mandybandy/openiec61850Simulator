@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This database file is maintained by TwinCAT3 Safety Editor. Do not edit manually as modifications will lead to rewriting the complete file! -->
+<SafeModuleDatabase format="" date="">
+  <ModuleInfo>
+    <ModuleType/>
+    <ModuleName/>
+    <CreatorName/>
+    <CreationDate/>
+    <ProjectName/>
+    <ProjectCrc/>
+  </ModuleInfo>
+  <CommInfo>
+    <StandardInputs/>
+    <StandardOutputs/>
+    <SafetyInputs/>
+    <SafetyOutputs/>
+    <TSGData/>
+  </CommInfo>
+  <CodeInfo>
+    <HeaderFile>
+      <FileInfo>
+        <FileName/>
+        <FileDate/>
+        <FileCrc/>
+      </FileInfo>
+      <UserDeclaration>
+        <UserIncludes/>
+        <UserDefines/>
+        <UserTypes/>
+        <UserVariables/>
+        <UserFunctions/>
+      </UserDeclaration>
+    </HeaderFile>
+    <SourceFile>
+      <FileInfo>
+        <FileName/>
+        <FileDate/>
+        <FileCrc/>
+      </FileInfo>
+      <UserImplementation/>
+    </SourceFile>
+    <CodeMetrics/>
+  </CodeInfo>
+  <BuildInfo/>
+  <TestInfo>
+    <TestBench/>
+    <TestResults>
+      <TestExecution/>
+      <TestMetrics/>
+    </TestResults>
+  </TestInfo>
+</SafeModuleDatabase>

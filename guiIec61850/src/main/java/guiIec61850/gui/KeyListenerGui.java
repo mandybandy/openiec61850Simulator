@@ -19,7 +19,6 @@ import javax.swing.JFrame;
  */
 public class KeyListenerGui implements KeyListener {
 
-    private HelpWindow help = null;
 
     /**
      * KeyListener
@@ -44,18 +43,6 @@ public class KeyListenerGui implements KeyListener {
         //wenn f1 ausgelassen wird
         if (e.getKeyCode() == VK_F1) {
             out.println("f1");
-            try {
-                if (help == null) {
-                    help = new HelpWindow();
-                    help.setVisible(true);
-                } else if (!help.isActive()) {
-                    help = new HelpWindow();
-                    help.setVisible(true);
-                }
-            }
-            catch (Exception ex) {
-                out.println("error opening help window");
-            }
         }
     }
 

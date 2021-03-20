@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectFileGeneratorConfig hideWizardWindow="false" useProjectInterface="false">
+	<FileDescription copyOnly="false" openFile="false">
+		<SourceFile>TwinSafeGroup\TwinSAFE.sal</SourceFile>
+		<TargetFile symbolName="TWIN_SAFE_SAL">TwinSafeGroup1\TwinSafeGroup1.sal</TargetFile>
+	</FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\TwinSAFE.sal.diagram</SourceFile>
+    <TargetFile symbolName="TWIN_SAFE_SAL_DIAGRAM">TwinSafeGroup1\TwinSafeGroup1.sal.diagram</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\1 digital input (Standard).sds</SourceFile>
+    <TargetFile>TwinSafeGroup1\Alias Devices\ErrorAcknowledgement.sds</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TwinSafeGroup\2 digital input (Standard).sds</SourceFile>
+    <TargetFile>TwinSafeGroup1\Alias Devices\Run.sds</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TargetSystemConfig.xml</SourceFile>
+    <TargetFile>TargetSystemConfig.xml</TargetFile>
+  </FileDescription>
+  <!--Project Files-->
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TcTemplateDrv.splcproj</SourceFile>
+    <TargetFile>[!output PROJECT_NAME].splcproj</TargetFile>
+  </FileDescription>
+  <!--Dummy-->
+  <!--<FileDescription copyOnly="false" openFile="false">
+		<SourceFile></SourceFile>
+		<TargetFile>[!output PROJECT_NAME]</TargetFile>
+		<Filter>XP Files</Filter>
+	</FileDescription>-->
+</ProjectFileGeneratorConfig>

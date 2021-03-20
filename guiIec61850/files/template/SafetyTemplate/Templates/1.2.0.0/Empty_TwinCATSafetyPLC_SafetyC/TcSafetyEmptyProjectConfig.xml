@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectFileGeneratorConfig hideWizardWindow="false" useProjectInterface="false">
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TargetSystemConfig.xml</SourceFile>
+    <TargetFile>TargetSystemConfig.xml</TargetFile>
+  </FileDescription>
+  <FileDescription copyOnly="false" openFile="false">
+    <SourceFile>TcTemplateDrv.splcproj</SourceFile>
+    <TargetFile>[!output PROJECT_NAME].splcproj</TargetFile>
+  </FileDescription>
+</ProjectFileGeneratorConfig>

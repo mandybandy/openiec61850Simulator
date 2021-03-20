@@ -13,9 +13,7 @@ import ch.qos.logback.core.AppenderBase;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import ch.qos.logback.core.encoder.Encoder;
 import com.beanit.openiec61850.ServerAssociation;
-import guiIec61850.files.NodeDescription;
 import static guiIec61850.gui.Gui.mainFrame;
-import static guiIec61850.gui.Simulator.simulate;
 import static guiIec61850.gui.StyleConstant.BLACK;
 import static guiIec61850.gui.StyleConstant.GREW;
 import static guiIec61850.gui.StyleConstant.ORANGE;
@@ -40,9 +38,6 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
     private static final Logger LOGGER_SERVER_FRONTEND = getLogger(Server.class);
     private static final Logger LOGGER_GUI = getLogger(Gui.class);
     private static final Logger LOGGER_CLIENT = getLogger(Client.class);
-    private static final Logger LOGGER_SIM = getLogger(Simulator.class);
-    private static final Logger LOGGER_GUITREE = getLogger(GuiTree.class);
-    private static final Logger LOGGER_NODEDESCRIPTION = getLogger(NodeDescription.class);
     private static final Logger LOGGER_NETWORKUTIL = getLogger(NetworkUtil.class);
 
     private final Encoder<ILoggingEvent> ENCODER = new EchoEncoder<ILoggingEvent>();
@@ -62,9 +57,6 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         LOGGER_GUI.warn("Initialization of GUI Console...");
         LOGGER_SERVER_FRONTEND.warn("Initialization of Server Console...");
         LOGGER_CLIENT.warn("Initialization of Client Console...");
-        LOGGER_SIM.warn("Initialization of Client Console...");
-        LOGGER_GUITREE.warn("Initialization of Client Console...");
-        LOGGER_NODEDESCRIPTION.warn("Initialization of Client Console...");
         LOGGER_NETWORKUTIL.warn("Initialization of Client Console...");
 
         this.MASTER_LOG = masterLog;
@@ -114,25 +106,5 @@ public final class JTextAreaAppender extends AppenderBase<ILoggingEvent> {
         } else if (line.contains("DEBUG")) {
             color = GREW;
         }
-
-        try {
-            MASTER_LOG.getDocument().insertString(MASTER_LOG.getDocument().getLength(), line, color);
-            if (simulate) {//simulator page
-                if (!line.contains("DEBUG")) {
-                    SIMULATOR_LOG.getDocument().insertString(SIMULATOR_LOG.getDocument().getLength(), line, color);
-                }
-
-            } else if (mainFrame.getSelectedIndex() == 1) {//report dataset manipulation
-                REPORT_DATASET_LOG.getDocument().insertString(REPORT_DATASET_LOG.getDocument().getLength(), line, color);
-            }
-            MASTER_LOG.select(MASTER_LOG.getDocument().getLength(), MASTER_LOG.getDocument().getLength());
-            SIMULATOR_LOG.select(SIMULATOR_LOG.getDocument().getLength(), SIMULATOR_LOG.getDocument().getLength());
-            REPORT_DATASET_LOG.select(REPORT_DATASET_LOG.getDocument().getLength(), REPORT_DATASET_LOG.getDocument().getLength());
-
-        }
-        catch (BadLocationException e) {
-            out.println("error append logger infos");
-        }
-
     }
 }

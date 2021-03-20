@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<TcUserDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2014/04/TcUserDB">
+	<OpLevel>
+		<Name>OPL_OEMDev</Name>
+		<GUID>{F18742DB-E293-4FA8-8E35-7DD09C6E17E5}</GUID>
+		<View>GRP_OEMDev</View>
+		<Delete>GRP_OEMDev</Delete>
+		<Modify>GRP_OEMDev</Modify>
+		<AddRemoveChild>GRP_OEMDev</AddRemoveChild>
+	</OpLevel>
+	<Right>
+		<Name>Project Rights</Name>
+		<GUID>{7C3B4EB4-CC82-49ED-AFA4-CC72AE03B274}</GUID>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>I/O Mangement</Name>
+		<GUID>{E7D3031E-EF85-4BC3-8081-C7B8BC62AF9E}</GUID>
+	</Right>
+	<Right>
+		<Name>EtherCAT</Name>
+		<GUID>{0034B3E3-FECF-4151-8A2E-03E673A44092}</GUID>
+		<Folder>I/O Mangement</Folder>
+	</Right>
+	<Right>
+		<Name>Change Security Settings</Name>
+		<GUID>{32C42E96-BB93-4FE4-8F30-6C4F7644A204}</GUID>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>License Management</Name>
+		<GUID>{59F7E9C3-34B9-4360-AE24-57B13C8C9A77}</GUID>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>User DB Management</Name>
+		<GUID>{261CDAD4-567A-4EDA-B6FD-B2CC69574288}</GUID>
+		<UserGrp>GRP_Administrators</UserGrp>
+	</Right>
+	<Right>
+		<Name>Load Unsigned Project Files</Name>
+		<GUID>{8DCD954A-BDED-4F21-A523-F976E0DCE1EF}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>SaveAs Project Files</Name>
+		<GUID>{E4F2487E-1CCB-49A9-886A-6245BEEC7B0A}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Sign Project Files</Name>
+		<GUID>{30E74A79-5DF0-4229-89F6-84BBB5FF635F}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Encrypt Project Files</Name>
+		<GUID>{827A2249-5AAA-4810-9EE0-DECFEA93C3A4}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Decrypt Project Files</Name>
+		<GUID>{BE4121B5-B1F8-42D6-A20F-3967272D3352}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Change Project Files</Name>
+		<GUID>{BB9B22D3-8A34-4911-8877-82F6F328D1A6}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Activate Configuration</Name>
+		<GUID>{67619B56-B00D-42BE-8541-E4ED4E1093DF}</GUID>
+		<Folder>Project Rights</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Advanced Settings</Name>
+		<GUID>{28E1E3EC-03EC-4899-942C-4E2B35C71C5F}</GUID>
+		<Folder>EtherCAT</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Show EtherCAT Adapter</Name>
+		<GUID>{FE747756-12DE-48E6-B13D-738B53A521D5}</GUID>
+		<Folder>EtherCAT</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Manage Licenses</Name>
+		<GUID>{AD1140EC-BFB7-468F-99CB-8F3BFFAFFA22}</GUID>
+		<Folder>License Management</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Activate 7 Day Trial License</Name>
+		<GUID>{79BA3D67-E007-4EFB-80CA-F2E801F06FF5}</GUID>
+		<Folder>License Management</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<Right>
+		<Name>Activate License Response File</Name>
+		<GUID>{BD37CC7E-46A8-40D3-BC28-FD1AD2A9E929}</GUID>
+		<Folder>License Management</Folder>
+		<UserGrp>GRP_OEMDev</UserGrp>
+	</Right>
+	<UserGrp>
+		<Name>GRP_Guests</Name>
+		<GUID>{B69C9143-A453-448B-9FFC-96271EFAB6D0}</GUID>
+	</UserGrp>
+	<UserGrp>
+		<Name>GRP_OEMDev</Name>
+		<GUID>{2BEF589A-C8C0-478A-B01E-3E598A9C836C}</GUID>
+	</UserGrp>
+	<UserGrp>
+		<Name>GRP_Administrators</Name>
+		<GUID>{8A75BFA5-4CE9-414F-8B2B-80203191CF9A}</GUID>
+		<Parent>GRP_OEMDev</Parent>
+	</UserGrp>
+	<User>
+		<Name>Guest</Name>
+		<GUID>{00000000-0000-0000-0000-000000000000}</GUID>
+		<Group>GRP_Guests</Group>
+	</User>
+	<User>
+		<Name>$Admin$</Name>
+		<Display/>
+		<Hash/>
+		<Group>GRP_Administrators</Group>
+	</User>
+</TcUserDB>

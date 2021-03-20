@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TargetSystemConfig>
+  <IsExternalDevice>
+    False
+  </IsExternalDevice>
+  <ItemId>
+
+  </ItemId>
+  <FSOEAddress>
+    1
+  </FSOEAddress>
+  <VersionNumber>
+    1
+  </VersionNumber>
+  <SerialNumber>
+    not available
+  </SerialNumber>
+  <ProjectCRC>
+    not available
+  </ProjectCRC>
+  <MapProjectCRC>
+    False
+  </MapProjectCRC>
+  <MapSerialNumber>
+    False
+  </MapSerialNumber>
+  <AmsNetID>
+
+  </AmsNetID>
+  <AmsPort>
+
+  </AmsPort>
+  <DeviceName>
+    not available
+  </DeviceName>
+  <DipSwitch>
+    not available
+  </DipSwitch>
+  <FieldBusAdress>
+
+  </FieldBusAdress>
+  <SoftwareVersion>
+    not available
+  </SoftwareVersion>
+</TargetSystemConfig>
